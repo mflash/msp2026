@@ -112,6 +112,7 @@ Construindo scripts executáveis em Bash para automatizar rotinas, pipelines de 
 
 Identificando gargalos de CPU e vazamentos de memória usando ferramentas gratuitas e de código aberto para C/C++, Python e Java.
 
+- **Depuração & Logging:** Do "print debugging" ao logging estruturado, níveis de severidade, macros em C, `logging` nativo em Python e SLF4J/Logback em Java.
 - **Conceitos de Profiling:** Tracing vs. Sampling e anatomia dos Flame Graphs.
 - **Ecossistema C/C++:** `perf` (hardware counters), `Valgrind` (Memory Leaks com Memcheck) e `Callgrind`.
 - **Ecossistema Python:** `cProfile` (nativo), `py-spy` (Flame Graphs e top ao vivo) e `line_profiler`.
