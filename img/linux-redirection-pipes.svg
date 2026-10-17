@@ -1,0 +1,155 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" width="100%" height="100%">
+  <defs>
+    <style>
+      .bg { fill: #ffffff; }
+      .title { font-family: system-ui, -apple-system, sans-serif; font-size: 20px; font-weight: 700; fill: #1e293b; }
+      .subtitle { font-family: system-ui, -apple-system, sans-serif; font-size: 13px; fill: #64748b; }
+      .section-hdr { font-family: system-ui, -apple-system, sans-serif; font-size: 14px; font-weight: 700; fill: #334155; }
+      .box-label { font-family: system-ui, -apple-system, sans-serif; font-size: 12px; font-weight: 600; }
+      .text-sub { font-family: system-ui, -apple-system, sans-serif; font-size: 11px; fill: #64748b; }
+      .code-mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; font-weight: 700; }
+      .code-sm { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 11px; }
+      .arrow { stroke-width: 2; marker-end: url(#arrowhead); }
+    </style>
+    <marker id="arrowhead" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#64748b" />
+    </marker>
+    <marker id="arr-green" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#059669" />
+    </marker>
+    <marker id="arr-blue" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#2563eb" />
+    </marker>
+    <marker id="arr-red" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#dc2626" />
+    </marker>
+    <marker id="arr-purple" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#7c3aed" />
+    </marker>
+  </defs>
+
+  <!-- Background Card -->
+  <rect width="960" height="540" rx="14" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5" />
+
+  <!-- Header -->
+  <text x="32" y="40" class="title">Redirecionamento de Fluxos (Streams) e Pipes no Linux</text>
+  <text x="32" y="60" class="subtitle">Como processos manipulam entrada, saída, erros e se comunicam em tempo real</text>
+
+  <!-- ======================================================== -->
+  <!-- PAINEL 1: OS TRÊS FLUXOS PADRÃO (STREAMS) -->
+  <!-- ======================================================== -->
+  <rect x="30" y="80" width="435" height="225" rx="10" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1" />
+  <text x="46" y="106" class="section-hdr">1. Os Três Descritores de Arquivo Padrão (FD)</text>
+
+  <!-- Entrada stdin -->
+  <rect x="46" y="125" width="95" height="44" rx="6" fill="#ecfdf5" stroke="#059669" stroke-width="1.2" />
+  <text x="93" y="143" text-anchor="middle" class="box-label" fill="#065f46">stdin (FD 0)</text>
+  <text x="93" y="158" text-anchor="middle" class="text-sub">Teclado</text>
+
+  <!-- Processo Central -->
+  <rect x="180" y="120" width="130" height="120" rx="8" fill="#1e293b" stroke="#0f172a" />
+  <text x="245" y="150" text-anchor="middle" font-family="sans-serif" font-size="14px" font-weight="bold" fill="#ffffff">PROCESSO</text>
+  <text x="245" y="172" text-anchor="middle" class="code-sm" fill="#94a3b8">(qualquer comando)</text>
+  <text x="245" y="195" text-anchor="middle" class="code-mono" fill="#38bdf8">cat, grep, ls</text>
+  <text x="245" y="225" text-anchor="middle" font-size="10px" fill="#cbd5e1">Memória RAM / CPU</text>
+
+  <!-- Saída stdout -->
+  <rect x="348" y="125" width="102" height="44" rx="6" fill="#eff6ff" stroke="#2563eb" stroke-width="1.2" />
+  <text x="399" y="143" text-anchor="middle" class="box-label" fill="#1e40af">stdout (FD 1)</text>
+  <text x="399" y="158" text-anchor="middle" class="text-sub">Tela (Terminal)</text>
+
+  <!-- Saída stderr -->
+  <rect x="348" y="195" width="102" height="44" rx="6" fill="#fef2f2" stroke="#dc2626" stroke-width="1.2" />
+  <text x="399" y="213" text-anchor="middle" class="box-label" fill="#991b1b">stderr (FD 2)</text>
+  <text x="399" y="228" text-anchor="middle" class="text-sub">Tela (Erros)</text>
+
+  <!-- Setas Painel 1 -->
+  <line x1="141" y1="147" x2="178" y2="147" stroke="#059669" stroke-width="2" marker-end="url(#arr-green)" />
+  <line x1="310" y1="147" x2="346" y2="147" stroke="#2563eb" stroke-width="2" marker-end="url(#arr-blue)" />
+  <line x1="310" y1="217" x2="346" y2="217" stroke="#dc2626" stroke-width="2" marker-end="url(#arr-red)" />
+
+  <text x="46" y="285" class="text-sub" font-size="11px">No Linux, fluxos de sucesso (FD 1) e de erro (FD 2) são transmitidos separadamente!</text>
+
+  <!-- ======================================================== -->
+  <!-- PAINEL 2: OPERADORES DE REDIRECIONAMENTO -->
+  <!-- ======================================================== -->
+  <rect x="495" y="80" width="435" height="225" rx="10" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1" />
+  <text x="511" y="106" class="section-hdr">2. Operadores de Redirecionamento em Arquivo</text>
+
+  <!-- Tabela de operadores -->
+  <!-- Operador > -->
+  <rect x="511" y="122" width="40" height="24" rx="4" fill="#dbeafe" stroke="#3b82f6" />
+  <text x="531" y="138" text-anchor="middle" class="code-mono" fill="#1e40af">&gt;</text>
+  <text x="562" y="138" font-family="sans-serif" font-size="12px" fill="#1e293b"><tspan font-weight="bold">Sobrescreve stdout:</tspan> cria ou trunca arquivo destino</text>
+
+  <!-- Operador >> -->
+  <rect x="511" y="154" width="40" height="24" rx="4" fill="#dbeafe" stroke="#3b82f6" />
+  <text x="531" y="170" text-anchor="middle" class="code-mono" fill="#1e40af">&gt;&gt;</text>
+  <text x="562" y="170" font-family="sans-serif" font-size="12px" fill="#1e293b"><tspan font-weight="bold">Anexa (Append):</tspan> adiciona texto ao final do arquivo</text>
+
+  <!-- Operador < -->
+  <rect x="511" y="186" width="40" height="24" rx="4" fill="#d1fae5" stroke="#10b981" />
+  <text x="531" y="202" text-anchor="middle" class="code-mono" fill="#065f46">&lt;</text>
+  <text x="562" y="202" font-family="sans-serif" font-size="12px" fill="#1e293b"><tspan font-weight="bold">Redireciona stdin:</tspan> lê conteúdo de arquivo como entrada</text>
+
+  <!-- Operador 2> -->
+  <rect x="511" y="218" width="40" height="24" rx="4" fill="#fee2e2" stroke="#ef4444" />
+  <text x="531" y="234" text-anchor="middle" class="code-mono" fill="#991b1b">2&gt;</text>
+  <text x="562" y="234" font-family="sans-serif" font-size="12px" fill="#1e293b"><tspan font-weight="bold">Redireciona stderr:</tspan> salva apenas erros (<tspan fill="#dc2626">2&gt; /dev/null</tspan>)</text>
+
+  <!-- Operador 2>&1 / &> -->
+  <rect x="511" y="250" width="40" height="24" rx="4" fill="#f3e8ff" stroke="#a855f7" />
+  <text x="531" y="266" text-anchor="middle" class="code-mono" fill="#6b21a8">&amp;&gt;</text>
+  <text x="562" y="266" font-family="sans-serif" font-size="12px" fill="#1e293b"><tspan font-weight="bold">Unifica stdout + stderr:</tspan> grava tudo no mesmo arquivo</text>
+
+  <!-- ======================================================== -->
+  <!-- PAINEL 3: O OPERADOR PIPE ( | ) -->
+  <!-- ======================================================== -->
+  <rect x="30" y="320" width="900" height="195" rx="10" fill="#faf5ff" stroke="#e9d5ff" stroke-width="1" />
+  <text x="46" y="346" class="section-hdr" fill="#6b21a8">3. O Operador Pipe ( | ): Ligando a Saída de um Programa à Entrada de Outro</text>
+
+  <!-- Processo A -->
+  <rect x="46" y="365" width="170" height="90" rx="8" fill="#ffffff" stroke="#2563eb" stroke-width="1.5" />
+  <text x="131" y="392" text-anchor="middle" font-family="sans-serif" font-size="13px" font-weight="bold" fill="#1e40af">Comando 1 (Origem)</text>
+  <text x="131" y="414" text-anchor="middle" class="code-mono" fill="#2563eb">cat /etc/passwd</text>
+  <text x="131" y="438" text-anchor="middle" class="text-sub">Gera fluxo em stdout</text>
+
+  <!-- Seta A -> Pipe -->
+  <line x1="216" y1="410" x2="265" y2="410" stroke="#2563eb" stroke-width="2.5" marker-end="url(#arr-blue)" />
+
+  <!-- PIPE CENTRAL -->
+  <rect x="270" y="360" width="95" height="100" rx="8" fill="#7c3aed" stroke="#5b21b6" stroke-width="1.5" />
+  <text x="317" y="395" text-anchor="middle" font-family="monospace" font-size="32px" font-weight="bold" fill="#ffffff">|</text>
+  <text x="317" y="422" text-anchor="middle" font-family="sans-serif" font-size="12px" font-weight="bold" fill="#ffffff">PIPE</text>
+  <text x="317" y="442" text-anchor="middle" font-size="10px" fill="#e9d5ff">Buffer em RAM</text>
+
+  <!-- Seta Pipe -> Processo B -->
+  <line x1="365" y1="410" x2="415" y2="410" stroke="#7c3aed" stroke-width="2.5" marker-end="url(#arr-purple)" />
+
+  <!-- Processo B -->
+  <rect x="420" y="365" width="170" height="90" rx="8" fill="#ffffff" stroke="#7c3aed" stroke-width="1.5" />
+  <text x="505" y="392" text-anchor="middle" font-family="sans-serif" font-size="13px" font-weight="bold" fill="#6b21a8">Comando 2 (Filtro)</text>
+  <text x="505" y="414" text-anchor="middle" class="code-mono" fill="#7c3aed">grep bash</text>
+  <text x="505" y="438" text-anchor="middle" class="text-sub">Lê stdin do pipe</text>
+
+  <!-- Seta Processo B -> Pipe 2 -->
+  <line x1="590" y1="410" x2="630" y2="410" stroke="#7c3aed" stroke-width="2.5" marker-end="url(#arr-purple)" />
+
+  <!-- PIPE 2 -->
+  <rect x="635" y="375" width="45" height="70" rx="6" fill="#7c3aed" stroke="#5b21b6" />
+  <text x="657" y="418" text-anchor="middle" font-family="monospace" font-size="24px" font-weight="bold" fill="#ffffff">|</text>
+
+  <!-- Seta Pipe 2 -> Processo C -->
+  <line x1="680" y1="410" x2="715" y2="410" stroke="#7c3aed" stroke-width="2.5" marker-end="url(#arr-purple)" />
+
+  <!-- Processo C (Destino / Formatador) -->
+  <rect x="720" y="365" width="185" height="90" rx="8" fill="#ffffff" stroke="#059669" stroke-width="1.5" />
+  <text x="812" y="392" text-anchor="middle" font-family="sans-serif" font-size="13px" font-weight="bold" fill="#065f46">Comando 3 (Final)</text>
+  <text x="812" y="414" text-anchor="middle" class="code-mono" fill="#059669">wc -l</text>
+  <text x="812" y="438" text-anchor="middle" class="text-sub">Exibe resultado final na tela</text>
+
+  <!-- Legenda inferior do Pipe -->
+  <text x="46" y="485" font-family="sans-serif" font-size="12px" fill="#475569">
+    <tspan font-weight="bold" fill="#6b21a8">Vantagem fundamental:</tspan> Nenhum arquivo temporário é gravado no disco! Os dados transitam direto pela memória entre processos concorrentes.
+  </text>
+</svg>

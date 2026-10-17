@@ -60,9 +60,9 @@ Fundamentos históricos do Unix/Linux, arquitetura do sistema de arquivos, coman
 :::
 
 ::: module-card
-[Em Breve]{.module-badge .upcoming}
+[Disponível]{.module-badge .available}
 
-### 02. Redirecionamento, Pipes e Filtros de Texto
+### [02. Redirecionamento, Pipes e Filtros de Texto](02_redirecionamento_pipes.html)
 
 A filosofia Unix em ação: combinando programas pequenos através de canais e manipulando grandes volumes de texto no terminal.
 
@@ -72,7 +72,7 @@ A filosofia Unix em ação: combinando programas pequenos através de canais e m
 - **Filtros essenciais:** `grep`, `sort`, `uniq`, `wc`, `head`, `tail`, `cut` e `tr`.
 - **Busca de arquivos:** Localização rápida e flexível com `find`.
 
-[Próxima Etapa]{.module-btn .secondary}
+[Acessar Módulo 02 →](02_redirecionamento_pipes.html){.module-btn}
 :::
 
 ::: module-card

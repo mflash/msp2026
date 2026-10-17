@@ -589,8 +589,9 @@ $ chmod -R 755 public_html/
 
 ---
 
-<p class="nav-footer">
-  <a href="index.html" class="module-btn">← Voltar ao Índice Principal</a>
+<p class="nav-footer" style="display: flex; justify-content: space-between; align-items: center; max-width: 600px; margin: 3rem auto 1.5rem auto;">
+  <a href="index.html" class="module-btn secondary">← Voltar ao Índice Principal</a>
+  <a href="02_redirecionamento_pipes.html" class="module-btn">Próximo Módulo: Redirecionamento e Pipes →</a>
 </p>
 
 <script>
