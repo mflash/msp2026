@@ -9,7 +9,7 @@ PYTHON      := python3
 # Directories
 SRC_DIR     := docs
 DIST_DIR    := dist
-ASSETS_DIR  := assets
+ASSETS_DIR  := img
 
 # Assets & Config
 CSS_FILE    := style.css
