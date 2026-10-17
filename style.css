@@ -19,10 +19,19 @@
   --table-alt: #f6f8fa;
   --quote-border: #0969da;
   --max-width: 80rem; /* ~1280px para maior área útil de diagramas e leitura */
+
+  /* Heading colors (Light Mode) */
+  --h1-color: #1a56db; /* Azul Royal */
+  --h2-color: #0e7490; /* Ciano/Petróleo */
+  --h3-color: #6d28d9; /* Roxo/Violeta */
+  --h4-color: #b45309; /* Âmbar/Laranja queimado */
+  --h5-color: #047857; /* Verde Esmeralda */
+  --h6-color: #475569; /* Cinza Ardósia */
 }
 
+/* System preference dark */
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme="light"]) {
     --bg: #0d1117;
     --text: #e6edf3;
     --muted: #848d97;
@@ -32,8 +41,158 @@
     --pre-bg: #161b22;
     --table-alt: #161b22;
     --quote-border: #4493f8;
+
+    /* Heading colors (Dark Mode) */
+    --h1-color: #58a6ff; /* Azul celeste luminoso */
+    --h2-color: #38bdf8; /* Azul claro ciano */
+    --h3-color: #bc8cff; /* Lilás/Violeta suave */
+    --h4-color: #fbbf24; /* Âmbar dourado quente */
+    --h5-color: #34d399; /* Verde menta vibrante */
+    --h6-color: #94a3b8; /* Cinza claro */
   }
 }
+
+/* Explicit dark theme */
+[data-theme="dark"] {
+  --bg: #0d1117;
+  --text: #e6edf3;
+  --muted: #848d97;
+  --border: #30363d;
+  --accent: #4493f8;
+  --code-bg: #161b22;
+  --pre-bg: #161b22;
+  --table-alt: #161b22;
+  --quote-border: #4493f8;
+
+  /* Heading colors (Dark Mode) */
+  --h1-color: #58a6ff;
+  --h2-color: #38bdf8;
+  --h3-color: #bc8cff;
+  --h4-color: #fbbf24;
+  --h5-color: #34d399;
+  --h6-color: #94a3b8;
+}
+
+/* Explicit light theme */
+[data-theme="light"] {
+  --bg: #ffffff;
+  --text: #1f2328;
+  --muted: #656d76;
+  --border: #d0d7de;
+  --accent: #0969da;
+  --code-bg: #f6f8fa;
+  --pre-bg: #f6f8fa;
+  --table-alt: #f6f8fa;
+  --quote-border: #0969da;
+
+  /* Heading colors (Light Mode) */
+  --h1-color: #1a56db;
+  --h2-color: #0e7490;
+  --h3-color: #6d28d9;
+  --h4-color: #b45309;
+  --h5-color: #047857;
+  --h6-color: #475569;
+}
+
+/* Syntax Highlighting adjustments for Dark Mode (fix for dark blue variables with $) */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) code span.va { color: #79c0ff !important; font-weight: 600; } /* Variables ($PATH, $USER, $HOME) */
+  :root:not([data-theme="light"]) code span.fu { color: #d2a8ff !important; } /* Functions */
+  :root:not([data-theme="light"]) code span.st,
+  :root:not([data-theme="light"]) code span.sc,
+  :root:not([data-theme="light"]) code span.vs { color: #a5d6ff !important; } /* Strings */
+  :root:not([data-theme="light"]) code span.co,
+  :root:not([data-theme="light"]) code span.cv,
+  :root:not([data-theme="light"]) code span.an,
+  :root:not([data-theme="light"]) code span.in { color: #8b949e !important; } /* Comments */
+  :root:not([data-theme="light"]) code span.kw,
+  :root:not([data-theme="light"]) code span.cf { color: #ff7b72 !important; } /* Keywords */
+  :root:not([data-theme="light"]) code span.bu { color: #7ee787 !important; } /* Built-ins */
+  :root:not([data-theme="light"]) code span.cn,
+  :root:not([data-theme="light"]) code span.dt { color: #ffa657 !important; } /* Constants & Types */
+  :root:not([data-theme="light"]) code span.dv,
+  :root:not([data-theme="light"]) code span.bn,
+  :root:not([data-theme="light"]) code span.fl { color: #79c0ff !important; } /* Numbers */
+  :root:not([data-theme="light"]) code span.op { color: #c9d1d9 !important; } /* Operators */
+  :root:not([data-theme="light"]) code span.ex { color: #e6edf3 !important; } /* Commands/Extensions */
+}
+
+[data-theme="dark"] code span.va { color: #79c0ff !important; font-weight: 600; }
+[data-theme="dark"] code span.fu { color: #d2a8ff !important; }
+[data-theme="dark"] code span.st,
+[data-theme="dark"] code span.sc,
+[data-theme="dark"] code span.vs { color: #a5d6ff !important; }
+[data-theme="dark"] code span.co,
+[data-theme="dark"] code span.cv,
+[data-theme="dark"] code span.an,
+[data-theme="dark"] code span.in { color: #8b949e !important; }
+[data-theme="dark"] code span.kw,
+[data-theme="dark"] code span.cf { color: #ff7b72 !important; }
+[data-theme="dark"] code span.bu { color: #7ee787 !important; }
+[data-theme="dark"] code span.cn,
+[data-theme="dark"] code span.dt { color: #ffa657 !important; }
+[data-theme="dark"] code span.dv,
+[data-theme="dark"] code span.bn,
+[data-theme="dark"] code span.fl { color: #79c0ff !important; }
+[data-theme="dark"] code span.op { color: #c9d1d9 !important; }
+[data-theme="dark"] code span.ex { color: #e6edf3 !important; }
+
+/* Theme Toggle Button */
+.theme-toggle-wrapper {
+  position: fixed;
+  top: 1rem;
+  right: 1.5rem;
+  z-index: 1000;
+}
+
+.theme-toggle-wrapper p {
+  margin: 0;
+}
+
+
+.theme-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.45rem 0.85rem;
+  background-color: var(--code-bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  cursor: pointer;
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  font-weight: 500;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.theme-toggle-btn:hover {
+  background-color: var(--border);
+  transform: translateY(-1px);
+}
+
+.theme-toggle-btn .icon {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+/* Icon visibility based on active theme */
+.icon-sun { display: none; }
+.icon-moon { display: inline-block; }
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .icon-sun { display: inline-block; }
+  :root:not([data-theme="light"]) .icon-moon { display: none; }
+}
+
+[data-theme="dark"] .icon-sun { display: inline-block; }
+[data-theme="dark"] .icon-moon { display: none; }
+
+[data-theme="light"] .icon-sun { display: none; }
+[data-theme="light"] .icon-moon { display: inline-block; }
+
 
 /* Base resets & document setup */
 *, *::before, *::after {
@@ -63,7 +222,6 @@ main, article {
 
 /* Headings */
 h1, h2, h3, h4, h5, h6 {
-  color: var(--text);
   font-weight: 600;
   line-height: 1.25;
   margin-top: 2rem;
@@ -71,20 +229,40 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 h1 {
+  color: var(--h1-color);
   font-size: 2rem;
   padding-bottom: 0.4rem;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 2px solid var(--border);
   margin-top: 0;
 }
 
 h2 {
+  color: var(--h2-color);
   font-size: 1.5rem;
   padding-bottom: 0.3rem;
   border-bottom: 1px solid var(--border);
 }
 
-h3 { font-size: 1.25rem; }
-h4 { font-size: 1rem; }
+h3 {
+  color: var(--h3-color);
+  font-size: 1.25rem;
+}
+
+h4 {
+  color: var(--h4-color);
+  font-size: 1.05rem;
+}
+
+h5 {
+  color: var(--h5-color);
+  font-size: 0.95rem;
+}
+
+h6 {
+  color: var(--h6-color);
+  font-size: 0.875rem;
+}
+
 
 /* Text & Inline Elements */
 p {

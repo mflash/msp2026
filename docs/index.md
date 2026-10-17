@@ -1,3 +1,20 @@
+<div class="theme-toggle-wrapper">
+  <button id="theme-toggle" class="theme-toggle-btn" aria-label="Alternar modo claro e escuro" title="Alternar modo claro e escuro">
+    <span class="icon icon-moon">🌙</span>
+    <span class="icon icon-sun">☀️</span>
+    <span class="theme-label">Tema</span>
+  </button>
+</div>
+
+<script>
+  (function() {
+    var saved = localStorage.getItem('theme');
+    if (saved) {
+      document.documentElement.setAttribute('data-theme', saved);
+    }
+  })();
+</script>
+
 ![](img/mgp.jpg)
 
 ## Semana Acadêmica Integrada - PUCRS/Escola Politécnica - 2026
@@ -83,4 +100,237 @@ A organização das pastas no Linux segue a norma **FHS** (*Filesystem Hierarchy
 - **`/usr` (Unix System Resources):** Concentra a maior parte dos programas, bibliotecas e utilitários instalados para os usuários, contendo subpastas como `/usr/bin`, `/usr/lib`, `/usr/share` e `/usr/local`.
 - **`/opt` (Optional Software):** Destinado à instalação manual de pacotes de softwares de terceiros e programas adicionais mantidos de forma isolada e independente.
 - **`/media` e `/mnt` (Mount Points):** Locais usados para montagem de sistemas de arquivos. `/media` é tradicionalmente usado para pontos de montagem automáticos de mídias removíveis (pendrives, discos externos), enquanto `/mnt` serve para montagens manuais e temporárias feitas pelo administrador.
+
+---
+
+### Primeiros Passos no Shell: Comandos Essenciais
+
+Para quem está acompanhando uma demonstração prática ou iniciando no terminal, alguns comandos funcionam como blocos de construção diários para navegar, inspecionar o sistema e entender o funcionamento do ambiente.
+
+#### 1. `date` — Data e Hora do Sistema
+
+O comando `date` exibe ou formata a data e hora do sistema operacional.
+
+```bash
+# Exibe data, horário e fuso horário atuais
+$ date
+Sat Oct 17 18:00:00 -03 2026
+
+# Formatação personalizada (Ano-Mês-Dia e Hora:Minuto:Segundo)
+$ date "+%Y-%m-%d %H:%M:%S"
+2026-10-17 18:00:00
+
+# Exibe o horário no padrão universal (UTC)
+$ date -u
+Sat Oct 17 21:00:00 UTC 2026
+```
+
+#### 2. `echo` — Impressão de Texto e Dados
+
+O `echo` imprime argumentos na saída padrão (geralmente o terminal). É essencial para scripts, depuração e inspeção de variáveis.
+
+```bash
+# Imprime uma mensagem simples na tela
+$ echo "Bem-vindo ao minicurso de Shell!"
+Bem-vindo ao minicurso de Shell!
+
+# Com a opção -e, interpreta caracteres de escape como quebra de linha (\n) ou tabulação (\t)
+$ echo -e "Primeira linha\nSegunda linha\t(com tab)"
+Primeira linha
+Segunda linha	(com tab)
+
+# Redireciona a saída para criar ou sobrescrever um arquivo texto
+$ echo "Primeira anotação" > notas.txt
+```
+
+#### 3. `man` — Manual Oficial do Sistema
+
+O `man` (*manual*) abre a documentação oficial e detalhada de utilitários, programas e arquivos do sistema Unix/Linux.
+
+```bash
+# Abre o manual de instruções do comando 'ls'
+$ man ls
+
+# Comandos de navegação dentro do visualizador (pager):
+#   Setas ou Espaço : rolar o texto
+#   /palavra        : pesquisar por um termo no texto
+#   n               : avançar para a próxima ocorrência da busca
+#   q               : sair (quit) e voltar ao terminal
+```
+
+> **Curiosidade:** O manual é dividido em seções numeradas. Por exemplo, `man 1 printf` consulta o comando de terminal do usuário, enquanto `man 3 printf` consulta a função da biblioteca padrão da linguagem C.
+
+#### 4. `tldr` — Consulta Prática e Rápida
+
+Enquanto as páginas do `man` são completas e exaustivas, a ferramenta comunitária **`tldr`** (*Too Long; Didn't Read*) foca exclusivamente nos exemplos mais comuns do dia a dia.
+
+```bash
+# Exibe os exemplos práticos mais frequentes de uso do 'ls'
+$ tldr ls
+
+# Exibe exemplos diretos de como compactar e descompactar arquivos com 'tar'
+$ tldr tar
+```
+
+> Se o utilitário `tldr` não estiver pré-instalado em sua distribuição, ele pode ser instalado via gerenciador de pacotes (ex.: `sudo apt install tldr` ou `brew install tldr`).
+
+#### 5. `ls` — Listagem de Conteúdo de Diretórios
+
+O comando `ls` (*list*) lista os arquivos e subpastas do diretório informado (ou do diretório atual, se nenhum for passado).
+
+```bash
+# Listagem simples de arquivos e pastas visíveis
+$ ls
+Makefile  README.md  dist  docs  img  style.css
+
+# -l : formato detalhado (permissões, links, proprietário, grupo, tamanho em bytes e data)
+$ ls -l
+
+# -a : inclui arquivos e diretórios ocultos (que iniciam com '.')
+$ ls -a
+.  ..  .git  .gitignore  Makefile  docs
+
+# -lh : combina formato longo com tamanhos em unidades legíveis para humanos (K, M, G)
+$ ls -lh
+-rw-r--r--  1 marcelo  staff   2.1K Oct 17 17:00 Makefile
+-rw-r--r--  1 marcelo  staff   3.8K Oct 17 17:39 style.css
+
+# -lt : ordena os arquivos pela data da última modificação (mais recentes primeiro)
+$ ls -lt
+```
+
+#### 6. `which` — Localização de Executáveis
+
+O `which` mostra o caminho absoluto do executável que o shell executará quando você invocar um comando.
+
+```bash
+# Descobrir onde está instalado o binário do comando 'ls'
+$ which ls
+/bin/ls
+
+# Descobrir qual interpretador Python está sendo invocado
+$ which python3
+/usr/bin/python3
+
+# Descobrir a localização do shell Bash no sistema
+$ which bash
+/bin/bash
+```
+
+#### 7. Variáveis de Ambiente e a Variável `$PATH`
+
+As **variáveis de ambiente** são valores dinâmicos globais mantidos pelo sistema e pelo shell para configurar parâmetros e caminhos compartilhados entre programas e processos.
+
+Para inspecionar o valor de qualquer variável, basta anteceder seu nome com o símbolo de cifrão (`$`):
+
+```bash
+# Nome do usuário atualmente conectado
+$ echo $USER
+marcelo
+
+# Caminho do diretório pessoal do usuário
+$ echo $HOME
+/home/marcelo
+
+# Qual shell está configurado como padrão para o usuário
+$ echo $SHELL
+/bin/zsh
+```
+
+##### O que é a variável `$PATH` e como o Shell acha os comandos?
+
+Quando você digita `date` ou `python3`, você não precisa digitar `/bin/date` ou `/usr/bin/python3`. Como o shell sabe em qual pasta procurar o executável?
+
+A resposta é a variável **`$PATH`**:
+
+```bash
+$ echo $PATH
+/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+```
+
+A variável `$PATH` contém uma sequência de caminhos de diretórios separados por dois pontos (`:`). A cada comando digitado:
+
+1. O shell percorre a lista de diretórios do `$PATH` da esquerda para a direita.
+2. Procura um arquivo executável com aquele nome em `/usr/local/bin`. Se não encontrar, tenta `/usr/bin`, depois `/bin`, etc.
+3. Se encontrar, executa-o imediatamente.
+4. Se percorrer todos os diretórios sem encontrar o executável, exibe a mensagem de erro clássica: `command not found`.
+
+> É exatamente essa busca pelo `$PATH` que o comando `which` realiza para nos mostrar onde um programa está instalado!
+
+##### Variáveis Locais vs. Variáveis de Ambiente: `set` e `export`
+
+No shell, existem dois níveis distintos de variáveis:
+
+1. **Variáveis Locais (do Shell):** Ficam restritas exclusivamente ao processo do shell atual onde foram criadas. Qualquer novo script, programa ou subshell executado a partir dele **não** terá acesso a essas variáveis.
+2. **Variáveis de Ambiente:** São marcadas para exportação. Qualquer comando, script ou processo filho iniciado a partir do shell herda uma cópia dessas variáveis em sua própria tabela de ambiente.
+
+###### O comando `set`
+
+O comando embutido `set` (quando executado sem argumentos) exibe **todas** as variáveis e funções atualmente definidas no shell — incluindo tanto as variáveis locais quanto as variáveis de ambiente exportadas.
+
+```bash
+# Lista todas as variáveis e funções do shell atual (saída longa!)
+$ set
+
+# Filtrar para conferir se uma variável específica está definida no shell:
+$ set | grep DISCIPLINA
+```
+
+> **Diferença importante:** Enquanto os comandos `env` e `printenv` listam **apenas** as variáveis de ambiente (exportadas), o comando `set` lista **todas** as variáveis do shell (locais + exportadas) e também funções definidas.
+
+###### O comando `export` e sua relação com o `set`
+
+O comando `export` funciona como um mecanismo de promoção: ele pega uma variável que existe localmente no shell e a promove a **variável de ambiente**, fazendo com que ela passe a ser automaticamente herdada por qualquer processo ou comando filho.
+
+A demonstração prática abaixo ilustra essa diferença com clareza:
+
+```bash
+# 1. Definindo uma variável apenas LOCAL no shell:
+$ DISCIPLINA="Sistemas Operacionais"
+$ echo $DISCIPLINA
+Sistemas Operacionais
+
+# Ao disparar um novo processo (um subshell), a variável local NÃO existe lá dentro:
+$ bash -c 'echo "No subshell: $DISCIPLINA"'
+No subshell: 
+
+# 2. Promovendo a variável a AMBIENTE com 'export':
+$ export DISCIPLINA
+
+# Agora qualquer comando ou script filho passa a enxergá-la:
+$ bash -c 'echo "No subshell: $DISCIPLINA"'
+No subshell: Sistemas Operacionais
+
+# Você também pode criar e exportar em um único comando:
+$ export PROFESSOR="Marcelo Cohen"
+```
+
+###### Resumo da Relação entre `set`, `export` e `env`
+
+| Comando / Sintaxe | O que faz no ambiente | Quem tem acesso ao valor? |
+| :--- | :--- | :--- |
+| `VAR="valor"` | Cria ou altera uma **variável local** no shell | Somente a sessão atual do shell. |
+| `set` | Lista **todas** as variáveis (locais e exportadas) e funções | Inspeciona o estado completo do interpretador atual. |
+| `export VAR` | Promove uma variável local existente a **variável de ambiente** | O shell atual e todos os processos/scripts filhos criados por ele. |
+| `export VAR="valor"` | Cria e já exporta a variável em uma única instrução | O shell atual e todos os processos/scripts filhos criados por ele. |
+| `env` / `printenv` | Lista exclusivamente as **variáveis de ambiente** | Inspeciona apenas o que é herdado pelos programas filhos. |
+
+
+<script>
+  (function() {
+    var btn = document.getElementById('theme-toggle');
+    if (!btn) return;
+    function currentTheme() {
+      var attr = document.documentElement.getAttribute('data-theme');
+      if (attr) return attr;
+      return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    btn.addEventListener('click', function() {
+      var next = currentTheme() === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+    });
+  })();
+</script>
+
 
