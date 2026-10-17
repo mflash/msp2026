@@ -1,0 +1,55 @@
+name: Compile Markdown and Deploy
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build-and-deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Source
+        uses: actions/checkout@v4
+
+      - name: Install Pandoc
+        run: sudo apt-get update && sudo apt-get install -y pandoc
+
+      - name: Build HTML
+        run: |
+          mkdir -p public
+          for file in docs/*.md; do
+            base=$(basename "$file" .md)
+            pandoc "$file" \
+              --standalone \
+              --css=style.css \
+              --to=html5 \
+              -o "public/${base}.html"
+          done
+          # Copy stylesheets or assets if present
+          cp -r templates/*.css public/ 2>/dev/null || true
+          touch public/.nojekyll
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: 'public'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
