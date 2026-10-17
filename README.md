@@ -1,6 +1,6 @@
-# mgp2026
+# msp2026
 
-## Manual de Guerrilha da Programação
+## Manual de Sobrevivência de Programação
 
 ### Oficina apresentada na Semana Acadêmica Integrada - PUCRS / 2026
 
