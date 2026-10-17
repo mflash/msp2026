@@ -1,0 +1,194 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" width="100%" height="auto" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+
+  <defs>
+    <filter id="perm-shadow" x="-5%" y="-5%" width="110%" height="115%" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#000000" flood-opacity="0.08" />
+    </filter>
+  </defs>
+
+  <rect width="100%" height="100%" fill="#ffffff" rx="12" />
+
+  <!-- Header -->
+  <g text-anchor="middle">
+    <rect x="340" y="18" width="280" height="24" rx="12" fill="#eff6ff" stroke="#bfdbfe" stroke-width="1" />
+    <text x="480" y="34" font-size="11" font-weight="700" fill="#1d4ed8" letter-spacing="1">SISTEMA DE PERMISSÕES LINUX</text>
+    <text x="480" y="70" font-size="22" font-weight="700" fill="#1f2328">Anatomia das Permissões e o Comando chmod</text>
+  </g>
+
+
+    <g filter="url(#perm-shadow)">
+      <rect x="270" y="110" width="42" height="46" rx="6" fill="#f1f5f9" stroke="#94a3b8" stroke-width="2" />
+      <text x="291" y="140" font-family="ui-monospace, monospace" font-size="22" font-weight="700" fill="#475569" text-anchor="middle">-</text>
+    </g>
+
+    <g filter="url(#perm-shadow)">
+      <rect x="317" y="110" width="42" height="46" rx="6" fill="#dbeafe" stroke="#3b82f6" stroke-width="2" />
+      <text x="338" y="140" font-family="ui-monospace, monospace" font-size="22" font-weight="700" fill="#1d4ed8" text-anchor="middle">r</text>
+    </g>
+
+    <g filter="url(#perm-shadow)">
+      <rect x="364" y="110" width="42" height="46" rx="6" fill="#dbeafe" stroke="#3b82f6" stroke-width="2" />
+      <text x="385" y="140" font-family="ui-monospace, monospace" font-size="22" font-weight="700" fill="#1d4ed8" text-anchor="middle">w</text>
+    </g>
+
+    <g filter="url(#perm-shadow)">
+      <rect x="411" y="110" width="42" height="46" rx="6" fill="#dbeafe" stroke="#3b82f6" stroke-width="2" />
+      <text x="432" y="140" font-family="ui-monospace, monospace" font-size="22" font-weight="700" fill="#1d4ed8" text-anchor="middle">x</text>
+    </g>
+
+    <g filter="url(#perm-shadow)">
+      <rect x="458" y="110" width="42" height="46" rx="6" fill="#dcfce7" stroke="#22c55e" stroke-width="2" />
+      <text x="479" y="140" font-family="ui-monospace, monospace" font-size="22" font-weight="700" fill="#15803d" text-anchor="middle">r</text>
+    </g>
+
+    <g filter="url(#perm-shadow)">
+      <rect x="505" y="110" width="42" height="46" rx="6" fill="#f1f5f9" stroke="#22c55e" stroke-width="2" />
+      <text x="526" y="140" font-family="ui-monospace, monospace" font-size="22" font-weight="700" fill="#94a3b8" text-anchor="middle">-</text>
+    </g>
+
+    <g filter="url(#perm-shadow)">
+      <rect x="552" y="110" width="42" height="46" rx="6" fill="#dcfce7" stroke="#22c55e" stroke-width="2" />
+      <text x="573" y="140" font-family="ui-monospace, monospace" font-size="22" font-weight="700" fill="#15803d" text-anchor="middle">x</text>
+    </g>
+
+    <g filter="url(#perm-shadow)">
+      <rect x="599" y="110" width="42" height="46" rx="6" fill="#fef3c7" stroke="#f59e0b" stroke-width="2" />
+      <text x="620" y="140" font-family="ui-monospace, monospace" font-size="22" font-weight="700" fill="#b45309" text-anchor="middle">r</text>
+    </g>
+
+    <g filter="url(#perm-shadow)">
+      <rect x="646" y="110" width="42" height="46" rx="6" fill="#f1f5f9" stroke="#f59e0b" stroke-width="2" />
+      <text x="667" y="140" font-family="ui-monospace, monospace" font-size="22" font-weight="700" fill="#94a3b8" text-anchor="middle">-</text>
+    </g>
+
+    <g filter="url(#perm-shadow)">
+      <rect x="693" y="110" width="42" height="46" rx="6" fill="#fef3c7" stroke="#f59e0b" stroke-width="2" />
+      <text x="714" y="140" font-family="ui-monospace, monospace" font-size="22" font-weight="700" fill="#b45309" text-anchor="middle">x</text>
+    </g>
+
+  <path d="M 291 162 L 291 172" stroke="#64748b" stroke-width="1.5" />
+  <text x="291" y="186" font-size="12" font-weight="700" fill="#475569" text-anchor="middle">Tipo</text>
+  <text x="291" y="200" font-size="10" fill="#64748b" text-anchor="middle">(- ou d)</text>
+
+
+  <path d="M 317 162 L 317 172 L 453 172 L 453 162" fill="none" stroke="#2563eb" stroke-width="1.5" />
+  <path d="M 385 172 L 385 180" stroke="#2563eb" stroke-width="1.5" />
+  <rect x="330" y="182" width="110" height="22" rx="4" fill="#2563eb" />
+  <text x="385" y="197" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle">DONO (u)</text>
+  <text x="385" y="218" font-size="13" font-weight="700" fill="#1d4ed8" text-anchor="middle">4 + 2 + 1 = 7</text>
+
+
+  <path d="M 458 162 L 458 172 L 594 172 L 594 162" fill="none" stroke="#16a34a" stroke-width="1.5" />
+  <path d="M 526 172 L 526 180" stroke="#16a34a" stroke-width="1.5" />
+  <rect x="471" y="182" width="110" height="22" rx="4" fill="#16a34a" />
+  <text x="526" y="197" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle">GRUPO (g)</text>
+  <text x="526" y="218" font-size="13" font-weight="700" fill="#15803d" text-anchor="middle">4 + 0 + 1 = 5</text>
+
+
+  <path d="M 599 162 L 599 172 L 735 172 L 735 162" fill="none" stroke="#d97706" stroke-width="1.5" />
+  <path d="M 667 172 L 667 180" stroke="#d97706" stroke-width="1.5" />
+  <rect x="612" y="182" width="110" height="22" rx="4" fill="#d97706" />
+  <text x="667" y="197" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle">OUTROS (o)</text>
+  <text x="667" y="218" font-size="13" font-weight="700" fill="#b45309" text-anchor="middle">4 + 0 + 1 = 5</text>
+
+
+  <g filter="url(#perm-shadow)">
+    <rect x="790" y="112" width="120" height="85" rx="8" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5" />
+    <text x="850" y="132" font-size="10" font-weight="700" fill="#64748b" text-anchor="middle">MODO OCTAL</text>
+    <text x="850" y="165" font-family="ui-monospace, monospace" font-size="32" font-weight="800" fill="#0f172a" text-anchor="middle">755</text>
+    <text x="850" y="184" font-size="11" font-weight="600" fill="#2563eb" text-anchor="middle">chmod 755</text>
+  </g>
+
+  <line x1="50" y1="210" x2="910" y2="210" stroke="#e2e8f0" stroke-width="1" />
+
+  <g filter="url(#perm-shadow)">
+    <rect x="55" y="230" width="270" height="280" rx="8" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1" />
+    <rect x="55" y="230" width="270" height="36" rx="8" fill="#eff6ff" />
+    <line x1="55" y1="266" x2="325" y2="266" stroke="#bfdbfe" stroke-width="1" />
+    <text x="71" y="254" font-size="13" font-weight="700" fill="#1e40af">1. Valores Octais (Binário)</text>
+
+    <!-- r = 4 -->
+    <rect x="71" y="282" width="28" height="24" rx="4" fill="#dbeafe" />
+    <text x="85" y="299" font-family="ui-monospace, monospace" font-size="14" font-weight="700" fill="#1d4ed8" text-anchor="middle">r</text>
+    <text x="110" y="299" font-size="14" font-weight="700" fill="#0f172a">= 4</text>
+    <text x="150" y="299" font-size="12" fill="#64748b">Leitura (Read)</text>
+
+    <!-- w = 2 -->
+    <rect x="71" y="316" width="28" height="24" rx="4" fill="#dbeafe" />
+    <text x="85" y="333" font-family="ui-monospace, monospace" font-size="14" font-weight="700" fill="#1d4ed8" text-anchor="middle">w</text>
+    <text x="110" y="333" font-size="14" font-weight="700" fill="#0f172a">= 2</text>
+    <text x="150" y="333" font-size="12" fill="#64748b">Escrita (Write)</text>
+
+    <!-- x = 1 -->
+    <rect x="71" y="350" width="28" height="24" rx="4" fill="#dbeafe" />
+    <text x="85" y="367" font-family="ui-monospace, monospace" font-size="14" font-weight="700" fill="#1d4ed8" text-anchor="middle">x</text>
+    <text x="110" y="367" font-size="14" font-weight="700" fill="#0f172a">= 1</text>
+    <text x="150" y="367" font-size="12" fill="#64748b">Execução (Execute)</text>
+
+    <!-- - = 0 -->
+    <rect x="71" y="384" width="28" height="24" rx="4" fill="#f1f5f9" />
+    <text x="85" y="401" font-family="ui-monospace, monospace" font-size="14" font-weight="700" fill="#64748b" text-anchor="middle">-</text>
+    <text x="110" y="401" font-size="14" font-weight="700" fill="#0f172a">= 0</text>
+    <text x="150" y="401" font-size="12" fill="#64748b">Sem permissão</text>
+
+    <!-- Exemplos comuns -->
+    <rect x="67" y="422" width="246" height="72" rx="6" fill="#f1f5f9" />
+    <text x="77" y="442" font-size="11" font-weight="700" fill="#334155">Combinações Comuns:</text>
+    <text x="77" y="460" font-family="ui-monospace, monospace" font-size="11" font-weight="600" fill="#0f172a">755 (rwxr-xr-x) <tspan font-weight="400" fill="#64748b">Scripts/Pastas</tspan></text>
+    <text x="77" y="478" font-family="ui-monospace, monospace" font-size="11" font-weight="600" fill="#0f172a">644 (rw-r--r--) <tspan font-weight="400" fill="#64748b">Arquivos padrão</tspan></text>
+  </g>
+
+
+  <g filter="url(#perm-shadow)">
+    <rect x="345" y="230" width="270" height="280" rx="8" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1" />
+    <rect x="345" y="230" width="270" height="36" rx="8" fill="#f0fdf4" />
+    <line x1="345" y1="266" x2="615" y2="266" stroke="#bbf7d0" stroke-width="1" />
+    <text x="361" y="254" font-size="13" font-weight="700" fill="#15803d">2. Modo Simbólico (chmod)</text>
+
+    <!-- Quem -->
+    <text x="361" y="292" font-size="12" font-weight="700" fill="#1e293b">Quem recebe:</text>
+    <text x="361" y="312" font-family="ui-monospace, monospace" font-size="11" fill="#0f172a"><b>u</b> = Usuário / Dono</text>
+    <text x="361" y="328" font-family="ui-monospace, monospace" font-size="11" fill="#0f172a"><b>g</b> = Grupo do arquivo</text>
+    <text x="361" y="344" font-family="ui-monospace, monospace" font-size="11" fill="#0f172a"><b>o</b> = Outros usuários</text>
+    <text x="361" y="360" font-family="ui-monospace, monospace" font-size="11" fill="#0f172a"><b>a</b> = Todos (all = u+g+o)</text>
+
+    <!-- Operadores -->
+    <text x="361" y="386" font-size="12" font-weight="700" fill="#1e293b">Operadores:</text>
+    <text x="361" y="404" font-size="11" fill="#0f172a"><tspan font-family="ui-monospace, monospace" font-weight="700" fill="#16a34a">+</tspan> Adiciona permissão</text>
+    <text x="361" y="420" font-size="11" fill="#0f172a"><tspan font-family="ui-monospace, monospace" font-weight="700" fill="#dc2626">-</tspan> Remove permissão</text>
+    <text x="361" y="436" font-size="11" fill="#0f172a"><tspan font-family="ui-monospace, monospace" font-weight="700" fill="#2563eb">=</tspan> Define exatamente</text>
+
+    <!-- Exemplo -->
+    <rect x="357" y="450" width="246" height="46" rx="6" fill="#f1f5f9" />
+    <text x="365" y="468" font-family="ui-monospace, monospace" font-size="11" font-weight="700" fill="#0f172a">chmod +x script.sh</text>
+    <text x="365" y="484" font-size="10" fill="#64748b">Torna executável para todos</text>
+  </g>
+
+
+  <g filter="url(#perm-shadow)">
+    <rect x="635" y="230" width="270" height="280" rx="8" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1" />
+    <rect x="635" y="230" width="270" height="36" rx="8" fill="#fffbeb" />
+    <line x1="635" y1="266" x2="905" y2="266" stroke="#fde68a" stroke-width="1" />
+    <text x="651" y="254" font-size="13" font-weight="700" fill="#b45309">3. Arquivos vs. Diretórios</text>
+
+    <!-- Em Arquivos -->
+    <text x="651" y="290" font-size="12" font-weight="700" fill="#1e293b">📄 Em Arquivos:</text>
+    <text x="651" y="308" font-size="11" fill="#334155"><tspan font-family="ui-monospace, monospace" font-weight="700" fill="#2563eb">r</tspan> : Ler conteúdo do arquivo</text>
+    <text x="651" y="326" font-size="11" fill="#334155"><tspan font-family="ui-monospace, monospace" font-weight="700" fill="#2563eb">w</tspan> : Modificar e gravar arquivo</text>
+    <text x="651" y="344" font-size="11" fill="#334155"><tspan font-family="ui-monospace, monospace" font-weight="700" fill="#2563eb">x</tspan> : Executar como programa</text>
+
+    <line x1="651" y1="360" x2="889" y2="360" stroke="#e2e8f0" stroke-width="1" />
+
+    <!-- Em Diretórios -->
+    <text x="651" y="382" font-size="12" font-weight="700" fill="#1e293b">📁 Em Diretórios (Pastas):</text>
+    <text x="651" y="400" font-size="11" fill="#334155"><tspan font-family="ui-monospace, monospace" font-weight="700" fill="#d97706">r</tspan> : Listar arquivos (usar ls)</text>
+    <text x="651" y="418" font-size="11" fill="#334155"><tspan font-family="ui-monospace, monospace" font-weight="700" fill="#d97706">w</tspan> : Criar e apagar arquivos</text>
+    <text x="651" y="436" font-size="11" fill="#334155"><tspan font-family="ui-monospace, monospace" font-weight="700" fill="#d97706">x</tspan> : <b>Entrar</b> na pasta (usar cd)</text>
+
+    <!-- Regra de ouro da pasta -->
+    <rect x="647" y="452" width="246" height="44" rx="6" fill="#fff7ed" stroke="#fed7aa" stroke-width="1" />
+    <text x="655" y="468" font-size="10" font-weight="700" fill="#c2410c">💡 Regra de ouro das pastas:</text>
+    <text x="655" y="484" font-size="10" fill="#7c2d12">Sem permissão 'x', você não dá cd!</text>
+  </g>
+
+</svg>

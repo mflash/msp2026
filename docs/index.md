@@ -315,8 +315,276 @@ $ export PROFESSOR="Marcelo Cohen"
 | `export VAR="valor"` | Cria e já exporta a variável em uma única instrução | O shell atual e todos os processos/scripts filhos criados por ele. |
 | `env` / `printenv` | Lista exclusivamente as **variáveis de ambiente** | Inspeciona apenas o que é herdado pelos programas filhos. |
 
+---
+
+### Navegação e Manipulação no Sistema de Arquivos
+
+Além de consultar variáveis e inspecionar o sistema, a rotina essencial no terminal envolve mover-se entre pastas, criar, copiar, renomear, visualizar e editar arquivos.
+
+#### 1. Navegação Básica: `pwd` e `cd`
+
+Antes de manipular arquivos, é fundamental saber onde você está e como transitar pela árvore de diretórios:
+
+- **`pwd`** (*Print Working Directory*): Exibe o caminho absoluto do diretório atual.
+- **`cd`** (*Change Directory*): Altera o diretório de trabalho corrente.
+
+```bash
+# Onde estou agora?
+$ pwd
+/home/marcelo/msp2026
+
+# Entrar em um subdiretório (caminho relativo)
+$ cd docs
+$ pwd
+/home/marcelo/msp2026/docs
+
+# Subir um nível na hierarquia (para o diretório pai: '..')
+$ cd ..
+$ pwd
+/home/marcelo/msp2026
+
+# Ir diretamente para a sua pasta pessoal (home) usando '~' ou apenas 'cd'
+$ cd ~
+$ pwd
+/home/marcelo
+
+# Voltar rapidamente para o último diretório onde você estava ('-')
+$ cd -
+/home/marcelo/msp2026
+```
+
+#### 2. `cp` — Copiando Arquivos e Pastas
+
+O comando `cp` (*copy*) cria uma cópia de arquivos ou diretórios de uma origem para um destino:
+
+```bash
+# Copia 'Makefile' criando uma cópia com novo nome no mesmo diretório
+$ cp Makefile Makefile.backup
+
+# Copia um arquivo para dentro de outro diretório existente
+$ cp style.css docs/
+
+# Modo interativo (-i): solicita confirmação antes de sobrescrever se o arquivo de destino já existir
+$ cp -i style.css docs/
+overwrite docs/style.css? (y/n [n]) y
+
+# Copiar uma pasta inteira e todo seu conteúdo recursivamente (-r ou -R)
+$ cp -r img/ img_backup/
+```
+
+> **Atenção:** Para copiar diretórios, a flag `-r` (recursivo) é **obrigatória**; caso contrário, o comando retornará um erro avisando que o item é um diretório.
+
+#### 3. `mv` — Movendo e Renomeando
+
+O `mv` (*move*) serve para duas funções idênticas no nível do sistema de arquivos: **renomear** itens ou **movê-los** entre diretórios.
+
+```bash
+# Renomear um arquivo (origem e destino no mesmo diretório)
+$ mv rascunho.txt relatorio_final.txt
+
+# Mover um arquivo para outro diretório existente
+$ mv relatorio_final.txt docs/
+
+# Mover e renomear ao mesmo tempo
+$ mv notas.txt docs/anotacoes_aula.txt
+
+# Mover uma pasta inteira (o mv não requer flag -r para diretórios)
+$ mv img_backup/ arquivos_antigos/
+
+# Evitar sobrescrever acidentalmente com a flag interativa (-i)
+$ mv -i novo.txt docs/relatorio_final.txt
+overwrite docs/relatorio_final.txt? (y/n [n]) n
+```
+
+#### 4. `rm` — Removendo Arquivos e Diretórios
+
+O comando `rm` (*remove*) apaga arquivos e diretórios permanentemente do disco.
+
+```bash
+# Remove um único arquivo
+$ rm Makefile.backup
+
+# Remove múltiplos arquivos de uma só vez
+$ rm teste1.txt teste2.txt
+
+# Modo interativo (-i): pede confirmação antes de cada exclusão (muito recomendado!)
+$ rm -i documento.pdf
+remove documento.pdf? y
+
+# Remover uma pasta e todo o seu conteúdo recursivamente (-r)
+$ rm -r arquivos_antigos/
+
+# Forçar remoção sem pedir confirmações nem alertar sobre arquivos inexistentes (-f)
+$ rm -rf cache_temporario/
+```
+
+> **Cuidado Crítico no Linux:** No terminal, **não existe Lixeira**. Um arquivo removido com `rm` é desvinculado imediatamente do sistema de arquivos e não pode ser facilmente recuperado. Tenha atenção redobrada ao usar comandos como `rm -rf`.
+
+#### 5. `cat` — Exibição Rápida e Concatenação
+
+O `cat` (*concatenate*) lê arquivos sequencialmente e imprime todo o seu conteúdo diretamente no terminal. É ideal para arquivos pequenos e médios.
+
+```bash
+# Exibe todo o conteúdo de um arquivo texto
+$ cat Makefile
+
+# Exibe o conteúdo numerando todas as linhas (-n), ótimo para códigos e scripts
+$ cat -n Makefile
+     1  # Executables
+     2  PANDOC      := pandoc
+     3  PYTHON      := python3
+
+# Concatenar dois arquivos gerando um terceiro combinado:
+$ cat intro.txt conclusao.txt > documento_completo.txt
+```
+
+#### 6. `less` — Visualização Paginada de Arquivos Longos
+
+Quando um arquivo tem centenas de linhas (como logs de sistema ou códigos extensos), o `cat` rola tudo de uma vez, tornando impossível a leitura. O utilitário **`less`** abre o arquivo em um visualizador interativo em tela cheia (*pager*), sem carregar todo o arquivo na memória de uma só vez.
+
+```bash
+# Abre o arquivo no visualizador paginado
+$ less style.css
+```
+
+##### Comandos de Teclado Essenciais no `less`:
+
+| Tecla / Atalho | Ação de Navegação |
+| :--- | :--- |
+| **`Espaço`** ou **`f`** | Avançar uma tela inteira para frente (*page down*). |
+| **`b`** | Voltar uma tela inteira para trás (*page up*). |
+| **`↓`** ou **`j`** | Descer uma linha. |
+| **`↑`** ou **`k`** | Subir uma linha. |
+| **`/texto`** | Pesquisar por uma palavra para frente a partir do ponto atual. |
+| **`?texto`** | Pesquisar por uma palavra para trás. |
+| **`n`** | Ir para o próximo resultado da pesquisa. |
+| **`N`** | Ir para o resultado anterior da pesquisa. |
+| **`g`** | Pular para o início do arquivo (linha 1). |
+| **`G`** | Pular para o final do arquivo. |
+| **`q`** | Sair do visualizador (*quit*) e voltar ao prompt do terminal. |
+
+#### 7. Edição Simples no Terminal: `nano` / `pico`
+
+Muitas vezes precisamos fazer alterações rápidas em arquivos de configuração (`.conf`), notas ou scripts diretamente no terminal, sem abrir uma IDE pesada. O **`nano`** (evolução em software livre do clássico editor **`pico`**) é o editor em modo texto mais intuitivo e amigável para iniciantes, pois exibe um guia permanente de atalhos no rodapé da tela.
+
+```bash
+# Abre um arquivo existente para edição (ou cria um novo com esse nome caso não exista)
+$ nano notas_aula.txt
+```
+
+##### Como Usar o `nano`:
+
+Ao abrir o `nano`, você pode digitar o texto normalmente como em um bloco de notas. Na parte inferior da tela, os comandos utilizam o símbolo de circunflexo (`^`), que representa a tecla **`Ctrl`**:
+
+| Atalho | Nome do Comando | O que faz no editor |
+| :--- | :--- | :--- |
+| **`Ctrl + O`** | *WriteOut* | **Salva** o arquivo no disco (pressione Enter para confirmar o nome). |
+| **`Ctrl + X`** | *Exit* | **Sai** do editor. Se houver alterações não salvas, pergunta se deseja gravar (`Y`/`N`). |
+| **`Ctrl + W`** | *Where Is* | **Pesquisa** por uma palavra ou expressão no texto. |
+| **`Ctrl + K`** | *Cut Text* | **Corta** a linha inteira onde o cursor está posicionado. |
+| **`Ctrl + U`** | *Uncut Text* | **Cola** a linha que foi cortada com `Ctrl + K`. |
+| **`Ctrl + C`** | *Cur Pos* | Mostra a posição atual do cursor (número da linha e coluna). |
+| **`Ctrl + G`** | *Get Help* | Abre o painel completo de ajuda do editor. |
+
+##### Dica de Fluxo de Trabalho no `nano`:
+1. Abra o arquivo com `nano script.sh`.
+2. Escreva ou edite o texto desejado.
+3. Pressione **`Ctrl + O`** e depois tecle **`Enter`** para salvar.
+4. Pressione **`Ctrl + X`** para fechar o editor e voltar ao shell.
+
+#### 8. Permissões de Arquivos e o Comando `chmod`
+
+No Linux, a segurança e o controle de acesso são estruturados no nível do próprio sistema de arquivos. Cada arquivo e pasta possui permissões explícitas que determinam **quem** pode ler, alterar ou executar seu conteúdo.
+
+Ao executar `ls -l`, a primeira coluna exibe 10 caracteres que descrevem essas permissões (por exemplo, `-rwxr-xr-x`):
+
+[![Anatomia das Permissões no Linux e o Comando chmod (clique para ampliar)](img/linux-permissions.svg)](img/linux-permissions.svg)
+
+##### Como as Permissões se Dividem:
+
+1. **Tipo de Arquivo (1º caractere):**
+   - `-` : Arquivo comum (texto, imagem, código, binário).
+   - `d` : Diretório (pasta).
+   - `l` : Link simbólico (*atalho* apontando para outro arquivo).
+2. **Os Três Grupos de Usuários (3 caracteres cada):**
+   - **`u` (User / Dono):** O usuário proprietário que criou o arquivo.
+   - **`g` (Group / Grupo):** Usuários que pertencem ao grupo associado ao arquivo.
+   - **`o` (Others / Outros):** Todos os demais usuários do sistema ("o mundo").
+   - **`a` (All / Todos):** Representa os três grupos simultaneamente (`u + g + o`).
+3. **Os Três Tipos Básicos de Permissão:**
+   - **`r` (Read / Leitura - valor 4):** Permite abrir e ler o arquivo. Em pastas, permite listar seu conteúdo com `ls`.
+   - **`w` (Write / Escrita - valor 2):** Permite alterar ou gravar o arquivo. Em pastas, permite criar, renomear ou excluir arquivos internos.
+   - **`x` (Execute / Execução - valor 1):** Permite executar o arquivo como programa ou script. Em pastas, **é indispensável para entrar na pasta** usando `cd` ou acessar seus arquivos!
+
+---
+
+##### O Comando `chmod`: Alterando Permissões
+
+O comando `chmod` (*Change Mode*) permite modificar as permissões de arquivos e diretórios de duas maneiras: **Modo Simbólico** ou **Modo Octal (Numérico)**.
+
+###### A. Modo Simbólico (Letras e Operadores)
+
+Neste formato, você especifica **para quem** (`u`, `g`, `o`, `a`), um **operador** (`+`, `-`, `=`) e a **permissão** (`r`, `w`, `x`):
+
+```bash
+# Adiciona permissão de execução (+x) para todos os usuários (caso mais comum para scripts!)
+$ chmod +x script.sh
+
+# Adiciona execução (+x) apenas para o dono (u)
+$ chmod u+x deploy.sh
+
+# Remove permissão de escrita (-w) do grupo (g) e de outros (o)
+$ chmod go-w documento_importante.txt
+
+# Define exatamente as permissões: dono lê e escreve; grupo e outros apenas leem
+$ chmod u=rw,go=r config.json
+```
+
+###### B. Modo Octal / Numérico (Soma de Valores)
+
+No modo numérico, calculamos uma soma de dígitos de 0 a 7 para cada um dos 3 grupos (Dono, Grupo, Outros), usando os valores:
+
+> **Leitura (`r`) = 4** &nbsp;|&nbsp; **Escrita (`w`) = 2** &nbsp;|&nbsp; **Execução (`x`) = 1** &nbsp;|&nbsp; **Sem permissão (`-`) = 0**
+
+| Dígito | Permissão Simbólica | Significado |
+| :---: | :---: | :--- |
+| **7** | `rwx` | Leitura (4) + Escrita (2) + Execução (1) = Acesso Total |
+| **6** | `rw-` | Leitura (4) + Escrita (2) = Ler e Gravar (sem executar) |
+| **5** | `r-x` | Leitura (4) + Execução (1) = Ler e Executar / Entrar na pasta |
+| **4** | `r--` | Leitura (4) = Apenas leitura |
+| **0** | `---` | Nenhuma permissão de acesso |
+
+###### Exemplos Práticos Mais Usados no Dia a Dia:
+
+```bash
+# 755 (rwxr-xr-x): Dono faz tudo; grupo e outros apenas leem e executam
+# Padrão recomendado para scripts executáveis, binários e pastas públicas
+$ chmod 755 script.sh
+$ ls -l script.sh
+-rwxr-xr-x  1 marcelo  staff  420 Oct 17 18:20 script.sh
+
+# 644 (rw-r--r--): Dono lê e grava; grupo e outros apenas leem
+# Padrão seguro recomendado para a grande maioria de arquivos de texto, código e documentos
+$ chmod 644 index.html
+$ ls -l index.html
+-rw-r--r--  1 marcelo  staff  1024 Oct 17 18:20 index.html
+
+# 700 (rwx------): Acesso total exclusivo do dono; ninguém mais acessa
+# Padrão obrigatório para pastas privadas de alta segurança (como ~/.ssh)
+$ chmod 700 ~/.ssh
+
+# 600 (rw-------): Leitura e gravação exclusivas do dono
+# Padrão obrigatório para chaves privadas SSH e certificados sensíveis
+$ chmod 600 ~/.ssh/id_rsa
+
+# Aplicar permissões recursivamente a uma pasta e todos os seus subarquivos (-R)
+$ chmod -R 755 public_html/
+```
+
 
 <script>
+
+
   (function() {
     var btn = document.getElementById('theme-toggle');
     if (!btn) return;
