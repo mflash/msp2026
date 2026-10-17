@@ -1,0 +1,120 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" width="100%" height="100%">
+  <defs>
+    <style>
+      .title { font-family: system-ui, -apple-system, sans-serif; font-size: 20px; font-weight: 700; fill: #1e293b; }
+      .subtitle { font-family: system-ui, -apple-system, sans-serif; font-size: 13px; fill: #64748b; }
+      .section-hdr { font-family: system-ui, -apple-system, sans-serif; font-size: 14px; font-weight: 700; }
+      .box-label { font-family: system-ui, -apple-system, sans-serif; font-size: 12px; font-weight: 600; }
+      .text-sub { font-family: system-ui, -apple-system, sans-serif; font-size: 11px; fill: #64748b; }
+      .code-mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; font-weight: 700; }
+      .code-sm { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 11px; }
+    </style>
+    <marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#64748b" />
+    </marker>
+    <marker id="arr-blue" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#2563eb" />
+    </marker>
+    <marker id="arr-green" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#16a34a" />
+    </marker>
+  </defs>
+
+  <!-- Background Card -->
+  <rect width="960" height="540" rx="14" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5" />
+
+  <!-- Header -->
+  <text x="32" y="40" class="title">Anatomia, Parâmetros e Estruturas do Shell Scripting</text>
+  <text x="32" y="60" class="subtitle">Como construir scripts robustos, receber argumentos e controlar o fluxo de execução</text>
+
+  <!-- ======================================================== -->
+  <!-- PAINEL 1: ANATOMIA E EXECUÇÃO DE UM SCRIPT -->
+  <!-- ======================================================== -->
+  <rect x="30" y="80" width="435" height="225" rx="10" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1" />
+  <text x="46" y="106" class="section-hdr" fill="#1e40af">1. Anatomia e Execução de um Script</text>
+
+  <!-- Janela de Código / Arquivo script.sh -->
+  <rect x="46" y="120" width="395" height="135" rx="6" fill="#1e293b" stroke="#0f172a" />
+  
+  <text x="60" y="145" class="code-mono" fill="#38bdf8">#!/bin/bash</text>
+  <text x="165" y="145" font-family="sans-serif" font-size="11px" fill="#94a3b8">← Shebang: define o interpretador</text>
+
+  <text x="60" y="172" class="code-mono" fill="#f59e0b">set -euo pipefail</text>
+  <text x="210" y="172" font-family="sans-serif" font-size="11px" fill="#94a3b8">← Modo estrito: interrompe em erros</text>
+
+  <text x="60" y="199" class="code-mono" fill="#e2e8f0">echo "Processando: "</text>
+  
+  <text x="60" y="226" class="code-mono" fill="#4ade80">exit 0</text>
+  <text x="130" y="226" font-family="sans-serif" font-size="11px" fill="#94a3b8">← Código de saída (0 = sucesso absoluto)</text>
+
+  <text x="46" y="280" class="code-mono" font-size="11px" fill="#0f172a">$ chmod +x script.sh &amp;&amp; ./script.sh arquivo.txt</text>
+
+  <!-- ======================================================== -->
+  <!-- PAINEL 2: PARÂMETROS E VARIÁVEIS ESPECIAIS -->
+  <!-- ======================================================== -->
+  <rect x="495" y="80" width="435" height="225" rx="10" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1" />
+  <text x="511" y="106" class="section-hdr" fill="#d97706">2. Argumentos e Variáveis Especiais</text>
+
+  <!-- Linha de comando exemplo -->
+  <rect x="511" y="120" width="403" height="32" rx="6" fill="#f1f5f9" stroke="#cbd5e1" />
+  <text x="521" y="141" class="code-mono" font-size="12px" fill="#0f172a">$ ./deploy.sh  producao  v2.4.0</text>
+  
+  <text x="545" y="170" text-anchor="middle" class="code-mono" fill="#2563eb">zsh</text>
+  <text x="545" y="186" text-anchor="middle" font-size="10px" fill="#64748b">Nome script</text>
+
+  <text x="635" y="170" text-anchor="middle" class="code-mono" fill="#16a34a"></text>
+  <text x="635" y="186" text-anchor="middle" font-size="10px" fill="#64748b">1º arg</text>
+
+  <text x="725" y="170" text-anchor="middle" class="code-mono" fill="#16a34a"></text>
+  <text x="725" y="186" text-anchor="middle" font-size="10px" fill="#64748b">2º arg</text>
+
+  <text x="511" y="215" class="code-mono" fill="#7c3aed">0</text>
+  <text x="545" y="215" font-family="sans-serif" font-size="11px" fill="#334155"><tspan font-weight="bold">Total de argumentos passados</tspan> (neste caso: 2)</text>
+
+  <text x="511" y="240" class="code-mono" fill="#7c3aed"></text>
+  <text x="545" y="240" font-family="sans-serif" font-size="11px" fill="#334155"><tspan font-weight="bold">Todos os argumentos</tspan> como lista iterável individualmente</text>
+
+  <text x="511" y="265" class="code-mono" fill="#dc2626">0</text>
+  <text x="545" y="265" font-family="sans-serif" font-size="11px" fill="#334155"><tspan font-weight="bold">Exit status do último comando</tspan> (0 = ok, 1 a 255 = erro)</text>
+
+  <text x="511" y="290" class="code-mono" fill="#475569">45265</text>
+  <text x="545" y="290" font-family="sans-serif" font-size="11px" fill="#334155"><tspan font-weight="bold">PID do processo atual</tspan> (útil para criar arquivos temporários únicos)</text>
+
+  <!-- ======================================================== -->
+  <!-- PAINEL 3: ESTRUTURAS DE CONTROLE (IF, FOR, WHILE) -->
+  <!-- ======================================================== -->
+  <rect x="30" y="320" width="900" height="195" rx="10" fill="#faf5ff" stroke="#e9d5ff" stroke-width="1" />
+  <text x="46" y="346" class="section-hdr" fill="#6b21a8">3. Estruturas Fundamentais de Controle e Repetição</text>
+
+  <!-- Box IF -->
+  <g transform="translate(46, 360)">
+    <rect width="270" height="135" rx="6" fill="#ffffff" stroke="#d8b4fe" />
+    <text x="16" y="24" font-family="sans-serif" font-size="12px" font-weight="bold" fill="#6b21a8">Condicional if / else</text>
+    <text x="16" y="48" class="code-mono" font-size="11px" fill="#0f172a">if [[ -f "" ]]; then</text>
+    <text x="28" y="70" class="code-mono" font-size="11px" fill="#16a34a">  echo "Arquivo existe!"</text>
+    <text x="16" y="92" class="code-mono" font-size="11px" fill="#0f172a">else</text>
+    <text x="28" y="114" class="code-mono" font-size="11px" fill="#dc2626">  echo "Não encontrado!"</text>
+    <text x="16" y="130" class="code-mono" font-size="11px" fill="#0f172a">fi</text>
+  </g>
+
+  <!-- Box FOR -->
+  <g transform="translate(345, 360)">
+    <rect width="270" height="135" rx="6" fill="#ffffff" stroke="#d8b4fe" />
+    <text x="16" y="24" font-family="sans-serif" font-size="12px" font-weight="bold" fill="#6b21a8">Laço for (Lista / Globbing)</text>
+    <text x="16" y="48" class="code-mono" font-size="11px" fill="#0f172a">for arq in *.log; do</text>
+    <text x="28" y="75" class="code-mono" font-size="11px" fill="#2563eb">  gzip ""</text>
+    <text x="28" y="100" class="code-mono" font-size="11px" fill="#16a34a">  echo "Compactado: "</text>
+    <text x="16" y="126" class="code-mono" font-size="11px" fill="#0f172a">done</text>
+  </g>
+
+  <!-- Box WHILE -->
+  <g transform="translate(645, 360)">
+    <rect width="270" height="135" rx="6" fill="#ffffff" stroke="#d8b4fe" />
+    <text x="16" y="24" font-family="sans-serif" font-size="12px" font-weight="bold" fill="#6b21a8">Laço while (Lendo Arquivo)</text>
+    <text x="16" y="48" class="code-mono" font-size="11px" fill="#0f172a">while IFS= read -r linha; do</text>
+    <text x="28" y="75" class="code-mono" font-size="11px" fill="#7c3aed">  processar ""</text>
+    <text x="16" y="102" class="code-mono" font-size="11px" fill="#0f172a">done &lt; lista.txt</text>
+    <text x="16" y="125" font-family="sans-serif" font-size="10px" fill="#64748b">Processa linha a linha de forma segura</text>
+  </g>
+
+</svg>

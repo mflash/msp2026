@@ -76,9 +76,9 @@ A filosofia Unix em ação: combinando programas pequenos através de canais e m
 :::
 
 ::: module-card
-[Em Breve]{.module-badge .upcoming}
+[Disponível]{.module-badge .available}
 
-### 03. Gerenciamento de Processos e Monitoramento
+### [03. Gerenciamento de Processos e Monitoramento](03_processos_monitoramento.html)
 
 Como o sistema operacional gerencia recursos, memória e CPU, e como inspecionar e controlar processos ativos pelo shell.
 
@@ -88,13 +88,13 @@ Como o sistema operacional gerencia recursos, memória e CPU, e como inspecionar
 - **Sinais de encerramento:** Finalizando processos com `kill` e `killall`.
 - **Uso de memória e disco:** Diagnóstico com `free`, `df` e `du`.
 
-[Próxima Etapa]{.module-btn .secondary}
+[Acessar Módulo 03 →](03_processos_monitoramento.html){.module-btn}
 :::
 
 ::: module-card
-[Em Breve]{.module-badge .upcoming}
+[Disponível]{.module-badge .available}
 
-### 04. Automação e Shell Scripting
+### [04. Automação e Shell Scripting](04_automacao_shell_scripting.html)
 
 Construindo scripts executáveis em Bash para automatizar rotinas, pipelines de compilação e tarefas de administração.
 
@@ -104,7 +104,37 @@ Construindo scripts executáveis em Bash para automatizar rotinas, pipelines de 
 - **Laços de repetição:** Estruturas com `for` e `while`.
 - **Códigos de retorno:** Códigos de saída com `$?`.
 
-[Próxima Etapa]{.module-btn .secondary}
+[Acessar Módulo 04 →](04_automacao_shell_scripting.html){.module-btn}
+:::
+
+::: module-card
+[Disponível]{.module-badge .available}
+
+### [05. Depuração e Profiling (Java, Python e C)](05_depuracao_profiling.html)
+
+Identificando gargalos de CPU e vazamentos de memória usando ferramentas gratuitas e de código aberto para C/C++, Python e Java.
+
+- **Conceitos de Profiling:** Tracing vs. Sampling e anatomia dos Flame Graphs.
+- **Ecossistema C/C++:** `perf` (hardware counters), `Valgrind` (Memory Leaks com Memcheck) e `Callgrind`.
+- **Ecossistema Python:** `cProfile` (nativo), `py-spy` (Flame Graphs e top ao vivo) e `line_profiler`.
+- **Ecossistema Java / JVM:** `JFR` + `JMC` (Flight Recorder oficial), `VisualVM`, `async-profiler` e ferramentas CLI (`jps`, `jstack`, `jstat`).
+
+[Acessar Módulo 05 →](05_depuracao_profiling.html){.module-btn}
+:::
+
+::: module-card
+[Disponível]{.module-badge .available}
+
+### [06. Git e Controle de Versão Colaborativo](06_git_colaborativo.html)
+
+Filosofia e princípios do Git distribuído, os três estados de arquivos, ramificações (branches) e resolução prática de conflitos em equipe.
+
+- **Filosofia do Git:** Linus Torvalds, sistemas distribuídos vs. centralizados, snapshots e hashes criptográficos.
+- **As Quatro Áreas:** Working Directory, Staging Area (Index), Repositório Local (.git) e Remoto.
+- **Ciclo de Vida:** `git status`, `git diff`, `git add`, `git commit`, `git log` e o arquivo `.gitignore`.
+- **Branches & Integração:** `git switch -c`, `git merge`, sincronização (`git fetch` vs `git pull`) e resolução passo a passo de conflitos de merge.
+
+[Acessar Módulo 06 →](06_git_colaborativo.html){.module-btn}
 :::
 
 :::

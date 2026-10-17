@@ -1,0 +1,136 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" width="100%" height="100%">
+  <defs>
+    <style>
+      .title { font-family: system-ui, -apple-system, sans-serif; font-size: 20px; font-weight: 700; fill: #1e293b; }
+      .subtitle { font-family: system-ui, -apple-system, sans-serif; font-size: 13px; fill: #64748b; }
+      .section-hdr { font-family: system-ui, -apple-system, sans-serif; font-size: 14px; font-weight: 700; }
+      .box-label { font-family: system-ui, -apple-system, sans-serif; font-size: 12px; font-weight: 600; }
+      .text-sub { font-family: system-ui, -apple-system, sans-serif; font-size: 11px; fill: #64748b; }
+      .code-mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; font-weight: 700; }
+      .code-sm { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 11px; }
+      .flame-txt { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 11px; font-weight: 600; fill: #ffffff; text-anchor: middle; }
+    </style>
+  </defs>
+
+  <!-- Background Card -->
+  <rect width="960" height="540" rx="14" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5" />
+
+  <!-- Header -->
+  <text x="32" y="40" class="title">Ecossistema de Profiling e Anatomia de um Flame Graph</text>
+  <text x="32" y="60" class="subtitle">Identificando gargalos de CPU e memória em aplicações C, Python e Java</text>
+
+  <!-- ======================================================== -->
+  <!-- PAINEL 1: ANATOMIA DE UM FLAME GRAPH -->
+  <!-- ======================================================== -->
+  <rect x="30" y="80" width="540" height="225" rx="10" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1" />
+  <text x="46" y="106" class="section-hdr" fill="#c2410c">1. Anatomia de um Flame Graph (Gráfico de Chama)</text>
+
+  <!-- Flame Graph Layers (Bottom-up: main at bottom, deeper stacks at top) -->
+  <!-- Base: main() -->
+  <rect x="50" y="230" width="490" height="28" rx="4" fill="#ea580c" stroke="#c2410c" />
+  <text x="295" y="248" class="flame-txt">main() [100%]</text>
+
+  <!-- Level 1: process_requests() (65%) e init_database() (30%) -->
+  <rect x="50" y="196" width="320" height="28" rx="4" fill="#f97316" stroke="#ea580c" />
+  <text x="210" y="214" class="flame-txt">process_requests() [65%]</text>
+
+  <rect x="380" y="196" width="160" height="28" rx="4" fill="#fb923c" stroke="#f97316" />
+  <text x="460" y="214" class="flame-txt">init_database() [30%]</text>
+
+  <!-- Level 2: parse_json() (45%) e send_response() (18%) -->
+  <rect x="50" y="162" width="220" height="28" rx="4" fill="#f59e0b" stroke="#d97706" />
+  <text x="160" y="180" class="flame-txt">parse_json() [45% Gargalo!]</text>
+
+  <rect x="280" y="162" width="90" height="28" rx="4" fill="#fbbf24" stroke="#f59e0b" />
+  <text x="325" y="180" class="flame-txt" fill="#78350f">send() [18%]</text>
+
+  <!-- Level 3: regex_match() (38%) -->
+  <rect x="50" y="128" width="180" height="28" rx="4" fill="#e11d48" stroke="#be123c" />
+  <text x="140" y="146" class="flame-txt">regex_match() [38% HOT!]</text>
+
+  <text x="50" y="285" class="text-sub">
+    <tspan font-weight="bold">Como ler:</tspan> O eixo <tspan font-weight="bold">X</tspan> representa a proporção de tempo gasto na CPU. O eixo <tspan font-weight="bold">Y</tspan> é a pilha de chamadas. Blocos mais largos são os maiores gargalos!
+  </text>
+
+  <!-- ======================================================== -->
+  <!-- PAINEL 2: MÉTODOS DE PROFILING -->
+  <!-- ======================================================== -->
+  <rect x="600" y="80" width="330" height="225" rx="10" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1" />
+  <text x="616" y="106" class="section-hdr" fill="#1e40af">2. Abordagens de Profiling</text>
+
+  <rect x="616" y="125" width="298" height="75" rx="6" fill="#eff6ff" stroke="#93c5fd" />
+  <text x="628" y="145" font-family="sans-serif" font-size="12px" font-weight="bold" fill="#1e40af">Amostragem (Sampling - Baixo Overhead)</text>
+  <text x="628" y="163" font-family="sans-serif" font-size="11px" fill="#334155">Interrompe o programa centenas de vezes por</text>
+  <text x="628" y="178" font-family="sans-serif" font-size="11px" fill="#334155">segundo para coletar a pilha. Seguro em produção!</text>
+  <text x="628" y="192" class="code-mono" font-size="10px" fill="#2563eb">Ex.: perf, py-spy, async-profiler</text>
+
+  <rect x="616" y="215" width="298" height="75" rx="6" fill="#fef2f2" stroke="#fca5a5" />
+  <text x="628" y="235" font-family="sans-serif" font-size="12px" font-weight="bold" fill="#991b1b">Instrumentação (Tracing - Alto Overhead)</text>
+  <text x="628" y="253" font-family="sans-serif" font-size="11px" fill="#334155">Insere contadores em cada entrada/saída de</text>
+  <text x="628" y="268" font-family="sans-serif" font-size="11px" fill="#334155">função. Mede 100% das chamadas, mas desacelera.</text>
+  <text x="628" y="282" class="code-mono" font-size="10px" fill="#dc2626">Ex.: cProfile, Valgrind/Callgrind</text>
+
+  <!-- ======================================================== -->
+  <!-- PAINEL 3: MATRIZ DE FERRAMENTAS GRATUITAS (C, PYTHON, JAVA) -->
+  <!-- ======================================================== -->
+  <rect x="30" y="320" width="900" height="195" rx="10" fill="#faf5ff" stroke="#e9d5ff" stroke-width="1" />
+  <text x="46" y="346" class="section-hdr" fill="#6b21a8">3. Ferramentas Gratuitas e de Código Aberto por Ecossistema</text>
+
+  <!-- Card C/C++ -->
+  <g transform="translate(46, 360)">
+    <rect width="270" height="135" rx="6" fill="#ffffff" stroke="#cbd5e1" />
+    <rect width="270" height="28" rx="6" fill="#0284c7" />
+    <text x="135" y="19" text-anchor="middle" font-family="sans-serif" font-size="12px" font-weight="bold" fill="#ffffff">C / C++</text>
+    
+    <text x="14" y="50" class="code-mono" fill="#0284c7">perf</text>
+    <text x="50" y="50" font-family="sans-serif" font-size="11px" fill="#334155">: Profiler nativo do Linux kernel</text>
+
+    <text x="14" y="74" class="code-mono" fill="#0284c7">Valgrind</text>
+    <text x="75" y="74" font-family="sans-serif" font-size="11px" fill="#334155">: Detecção de vazamento de memória</text>
+
+    <text x="14" y="98" class="code-mono" fill="#0284c7">gprof</text>
+    <text x="55" y="98" font-family="sans-serif" font-size="11px" fill="#334155">: Análise de chamadas do GCC</text>
+
+    <text x="14" y="122" class="code-mono" fill="#0284c7">Callgrind</text>
+    <text x="80" y="122" font-family="sans-serif" font-size="11px" fill="#334155">: Mapeamento de grafos de função</text>
+  </g>
+
+  <!-- Card Python -->
+  <g transform="translate(345, 360)">
+    <rect width="270" height="135" rx="6" fill="#ffffff" stroke="#cbd5e1" />
+    <rect width="270" height="28" rx="6" fill="#16a34a" />
+    <text x="135" y="19" text-anchor="middle" font-family="sans-serif" font-size="12px" font-weight="bold" fill="#ffffff">Python</text>
+    
+    <text x="14" y="50" class="code-mono" fill="#16a34a">cProfile</text>
+    <text x="70" y="50" font-family="sans-serif" font-size="11px" fill="#334155">: Embutido na biblioteca padrão</text>
+
+    <text x="14" y="74" class="code-mono" fill="#16a34a">py-spy</text>
+    <text x="65" y="74" font-family="sans-serif" font-size="11px" fill="#334155">: Sampling sem reiniciar o app</text>
+
+    <text x="14" y="98" class="code-mono" fill="#16a34a">memory_profiler</text>
+    <text x="125" y="98" font-family="sans-serif" font-size="11px" fill="#334155">: RAM linha a linha</text>
+
+    <text x="14" y="122" class="code-mono" fill="#16a34a">line_profiler</text>
+    <text x="100" y="122" font-family="sans-serif" font-size="11px" fill="#334155">: Tempo linha a linha</text>
+  </g>
+
+  <!-- Card Java -->
+  <g transform="translate(645, 360)">
+    <rect width="270" height="135" rx="6" fill="#ffffff" stroke="#cbd5e1" />
+    <rect width="270" height="28" rx="6" fill="#b45309" />
+    <text x="135" y="19" text-anchor="middle" font-family="sans-serif" font-size="12px" font-weight="bold" fill="#ffffff">Java / JVM</text>
+    
+    <text x="14" y="50" class="code-mono" fill="#b45309">JFR &amp; JMC</text>
+    <text x="80" y="50" font-family="sans-serif" font-size="11px" fill="#334155">: Flight Recorder nativo (&lt;1% overhead)</text>
+
+    <text x="14" y="74" class="code-mono" fill="#b45309">async-profiler</text>
+    <text x="105" y="74" font-family="sans-serif" font-size="11px" fill="#334155">: Flame Graphs sem safepoint bias</text>
+
+    <text x="14" y="98" class="code-mono" fill="#b45309">VisualVM</text>
+    <text x="75" y="98" font-family="sans-serif" font-size="11px" fill="#334155">: Interface visual para Heap e CPU</text>
+
+    <text x="14" y="122" class="code-mono" fill="#b45309">jcmd / jstat</text>
+    <text x="95" y="122" font-family="sans-serif" font-size="11px" fill="#334155">: Comandos CLI embutidos no JDK</text>
+  </g>
+
+</svg>

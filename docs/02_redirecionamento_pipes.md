@@ -538,9 +538,10 @@ $ cat artigo.txt | tr '[:upper:]' '[:lower:]' | tr -cs '[:alnum:]' '\n' | sort |
 
 ---
 
-<p class="nav-footer" style="display: flex; justify-content: space-between; align-items: center; max-width: 600px; margin: 3rem auto 1.5rem auto;">
-  <a href="01_shell.html" class="module-btn secondary">← Módulo Anterior: Shell Básico</a>
-  <a href="index.html" class="module-btn">Voltar ao Índice Principal</a>
+<p class="nav-footer" style="display: flex; justify-content: space-between; align-items: center; max-width: 650px; margin: 3rem auto 1.5rem auto;">
+  <a href="01_shell.html" class="module-btn secondary">← Módulo 01: Shell Básico</a>
+  <a href="index.html" class="module-btn secondary">Índice</a>
+  <a href="03_processos_monitoramento.html" class="module-btn">Próximo: Módulo 03 (Processos) →</a>
 </p>
 
 <script>
