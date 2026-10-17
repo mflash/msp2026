@@ -1,5 +1,3 @@
-# Minicurso: Sistemas Operacionais e Shell Linux
-
 <div class="theme-toggle-wrapper">
   <button id="theme-toggle" class="theme-toggle-btn" aria-label="Alternar modo claro e escuro" title="Alternar modo claro e escuro">
     <span class="icon icon-moon">🌙</span>
@@ -28,9 +26,9 @@
 
 ### Apresentação
 
-Bem-vindo ao portal do tutorial prático de **Sistemas Operacionais e Shell Linux**, desenvolvido para a Semana Acadêmica Integrada da Escola Politécnica da PUCRS.
+Bem-vindo ao **Manual de Sobrevivência de Programação**, desenvolvido para a Semana Acadêmica Integrada da Escola Politécnica da PUCRS - 2026.
 
-O objetivo deste material é capacitar estudantes e profissionais no uso produtivo da linha de comando em ambientes Unix/Linux — competência indispensável para o desenvolvimento de software moderno, engenharia de dados, computação em nuvem, segurança da informação e computação científica.
+O objetivo deste material é capacitar estudantes no uso produtivo da linha de comando e recursos do sistema e de programação em ambientes Unix/Linux — competência indispensável para o desenvolvimento de software moderno, engenharia de dados, computação em nuvem, segurança da informação e computação científica.
 
 ---
 

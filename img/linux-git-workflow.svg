@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" width="100%" height="100%">
   <defs>
     <style>
@@ -10,137 +11,86 @@
       .code-sm { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 11px; }
     </style>
     <marker id="arr-gray" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
-      <polygon points="0 0, 8 3, 0 6" fill="#64748b" />
+      <polygon points="0 0, 8 3, 0 6" fill="#64748b"/>
     </marker>
     <marker id="arr-blue" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
-      <polygon points="0 0, 8 3, 0 6" fill="#2563eb" />
+      <polygon points="0 0, 8 3, 0 6" fill="#2563eb"/>
     </marker>
     <marker id="arr-green" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
-      <polygon points="0 0, 8 3, 0 6" fill="#16a34a" />
+      <polygon points="0 0, 8 3, 0 6" fill="#16a34a"/>
     </marker>
     <marker id="arr-purple" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
-      <polygon points="0 0, 8 3, 0 6" fill="#7c3aed" />
+      <polygon points="0 0, 8 3, 0 6" fill="#7c3aed"/>
     </marker>
   </defs>
-
-  <!-- Background Card -->
-  <rect width="960" height="540" rx="14" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5" />
-
-  <!-- Header -->
-  <text x="32" y="40" class="title">As Quatro Áreas do Git e o Fluxo de Trabalho Colaborativo</text>
-  <text x="32" y="60" class="subtitle">Como alterações transitam entre seu disco local, a área de preparação e o servidor remoto</text>
-
-  <!-- ======================================================== -->
-  <!-- PAINEL 1: AS 4 ÁREAS DO GIT (WORKTREE, STAGING, LOCAL, REMOTE) -->
-  <!-- ======================================================== -->
-  <rect x="30" y="80" width="900" height="225" rx="10" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1" />
-  <text x="46" y="106" class="section-hdr" fill="#1e40af">1. Os Estados do Arquivo e Transição de Comandos</text>
-
-  <!-- Coluna 1: Working Directory -->
-  <rect x="46" y="125" width="185" height="95" rx="8" fill="#ffffff" stroke="#f59e0b" stroke-width="1.5" />
-  <text x="138" y="150" text-anchor="middle" class="box-label" fill="#b45309">Working Directory</text>
-  <text x="138" y="170" text-anchor="middle" class="text-sub">Arquivos em edição no disco</text>
-  <text x="138" y="195" text-anchor="middle" class="code-mono" fill="#d97706">Estado: Modified / Untracked</text>
-
-  <!-- Seta 1: git add -->
-  <line x1="231" y1="155" x2="275" y2="155" stroke="#16a34a" stroke-width="2.5" marker-end="url(#arr-green)" />
-  <text x="253" y="145" text-anchor="middle" class="code-mono" fill="#16a34a">git add</text>
-
-  <!-- Seta reversa: git restore -->
-  <line x1="275" y1="185" x2="235" y2="185" stroke="#64748b" stroke-width="1.5" marker-end="url(#arr-gray)" />
-  <text x="255" y="202" text-anchor="middle" class="code-sm" fill="#64748b">restore</text>
-
-  <!-- Coluna 2: Staging Area (Index) -->
-  <rect x="280" y="125" width="185" height="95" rx="8" fill="#ffffff" stroke="#16a34a" stroke-width="1.5" />
-  <text x="372" y="150" text-anchor="middle" class="box-label" fill="#15803d">Staging Area (Index)</text>
-  <text x="372" y="170" text-anchor="middle" class="text-sub">Preparação para o snapshot</text>
-  <text x="372" y="195" text-anchor="middle" class="code-mono" fill="#16a34a">Estado: Staged</text>
-
-  <!-- Seta 2: git commit -->
-  <line x1="465" y1="155" x2="505" y2="155" stroke="#2563eb" stroke-width="2.5" marker-end="url(#arr-blue)" />
-  <text x="485" y="145" text-anchor="middle" class="code-mono" fill="#2563eb">commit</text>
-
-  <!-- Coluna 3: Repositório Local (.git) -->
-  <rect x="510" y="125" width="185" height="95" rx="8" fill="#ffffff" stroke="#2563eb" stroke-width="1.5" />
-  <text x="602" y="150" text-anchor="middle" class="box-label" fill="#1e40af">Repositório Local (.git)</text>
-  <text x="602" y="170" text-anchor="middle" class="text-sub">Histórico imutável de commits</text>
-  <text x="602" y="195" text-anchor="middle" class="code-mono" fill="#2563eb">Estado: Committed</text>
-
-  <!-- Seta 3: git push -->
-  <line x1="695" y1="155" x2="735" y2="155" stroke="#7c3aed" stroke-width="2.5" marker-end="url(#arr-purple)" />
-  <text x="715" y="145" text-anchor="middle" class="code-mono" fill="#7c3aed">push</text>
-
-  <!-- Seta reversa: git pull / fetch -->
-  <line x1="735" y1="185" x2="698" y2="185" stroke="#7c3aed" stroke-width="1.5" marker-end="url(#arr-purple)" />
-  <text x="717" y="202" text-anchor="middle" class="code-sm" fill="#7c3aed">pull / fetch</text>
-
-  <!-- Coluna 4: Repositório Remoto -->
-  <rect x="740" y="125" width="175" height="95" rx="8" fill="#ffffff" stroke="#7c3aed" stroke-width="1.5" />
-  <text x="827" y="150" text-anchor="middle" class="box-label" fill="#6b21a8">Remoto (GitHub/GitLab)</text>
-  <text x="827" y="170" text-anchor="middle" class="text-sub">Servidor central da equipe</text>
-  <text x="827" y="195" text-anchor="middle" class="code-mono" fill="#7c3aed">origin/main</text>
-
-  <!-- Legenda inferior do Painel 1 -->
-  <text x="46" y="255" class="code-mono" font-size="12px" fill="#334155">
+  <rect width="960" height="540" rx="14" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/>
+  <text x="32" y="40" class="title" style="white-space: pre;">As Quatro Áreas do Git e o Fluxo de Trabalho Colaborativo</text>
+  <text x="32" y="60" class="subtitle" style="white-space: pre;">Como alterações transitam entre seu disco local, a área de preparação e o servidor remoto</text>
+  <rect x="30" y="80" width="900" height="225" rx="10" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="46" y="106" class="section-hdr" fill="#1e40af" style="white-space: pre;">1. Os Estados do Arquivo e Transição de Comandos</text>
+  <rect x="46" y="125" width="185" height="95" rx="8" fill="#ffffff" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="138" y="150" text-anchor="middle" class="box-label" fill="#b45309" style="white-space: pre;">Working Directory</text>
+  <text x="138" y="170" text-anchor="middle" class="text-sub" style="white-space: pre;">Arquivos em edição no disco</text>
+  <text x="138" y="195" text-anchor="middle" class="code-mono" fill="#d97706" style="white-space: pre;">Estado: Modified /<tspan x="138" dy="1em">​</tspan>Untracked</text>
+  <line x1="231" y1="155" x2="275" y2="155" stroke="#16a34a" stroke-width="2.5" marker-end="url(#arr-green)"/>
+  <text x="254.969" y="142.969" text-anchor="middle" class="code-mono" fill="#16a34a" style="white-space: pre; font-size: 9.7px;">git add</text>
+  <line x1="275" y1="185" x2="235" y2="185" stroke="#64748b" stroke-width="1.5" marker-end="url(#arr-gray)"/>
+  <text x="255.447" y="199.782" text-anchor="middle" class="code-sm" fill="#64748b" style="white-space: pre; font-size: 8.7px;">restore</text>
+  <rect x="280" y="125" width="185" height="95" rx="8" fill="#ffffff" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="372" y="150" text-anchor="middle" class="box-label" fill="#15803d" style="white-space: pre;">Staging Area (Index)</text>
+  <text x="372" y="170" text-anchor="middle" class="text-sub" style="white-space: pre;">Preparação para o snapshot</text>
+  <text x="372" y="195" text-anchor="middle" class="code-mono" fill="#16a34a" style="white-space: pre;">Estado: Staged</text>
+  <line x1="465" y1="155" x2="505" y2="155" stroke="#2563eb" stroke-width="2.5" marker-end="url(#arr-blue)"/>
+  <text x="487.514" y="143.711" text-anchor="middle" class="code-mono" fill="#2563eb" style="white-space: pre; font-size: 10.6px;">commit</text>
+  <rect x="510" y="125" width="185" height="95" rx="8" fill="#ffffff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="602" y="150" text-anchor="middle" class="box-label" fill="#1e40af" style="white-space: pre;">Repositório Local (.git)</text>
+  <text x="602" y="170" text-anchor="middle" class="text-sub" style="white-space: pre;">Histórico imutável de commits</text>
+  <text x="602" y="195" text-anchor="middle" class="code-mono" fill="#2563eb" style="white-space: pre;">Estado: Committed</text>
+  <line x1="695" y1="155" x2="735" y2="155" stroke="#7c3aed" stroke-width="2.5" marker-end="url(#arr-purple)"/>
+  <text x="718" y="145" text-anchor="middle" class="code-mono" fill="#7c3aed" style="white-space: pre; font-size: 12px;">push</text>
+  <line x1="735" y1="185" x2="698" y2="185" stroke="#7c3aed" stroke-width="1.5" marker-end="url(#arr-purple)"/>
+  <text x="717" y="202" text-anchor="middle" class="code-sm" fill="#7c3aed" style="white-space: pre;">pull/<tspan x="717" dy="1em">​</tspan>fetch</text>
+  <rect x="740" y="125" width="175" height="95" rx="8" fill="#ffffff" stroke="#7c3aed" stroke-width="1.5"/>
+  <text x="827" y="150" text-anchor="middle" class="box-label" fill="#6b21a8" style="white-space: pre;">Remoto (GitHub/GitLab)</text>
+  <text x="827" y="170" text-anchor="middle" class="text-sub" style="white-space: pre;">Servidor central da equipe</text>
+  <text x="827" y="195" text-anchor="middle" class="code-mono" fill="#7c3aed" style="white-space: pre;">origin/main</text>
+  <text x="46" y="255" class="code-mono" font-size="12px" fill="#334155" style="white-space: pre;">
     $ git status <tspan font-family="sans-serif" font-weight="normal" fill="#64748b">→ Verifica o estado de cada arquivo em relação ao Staging e ao último commit</tspan>
   </text>
-  <text x="46" y="280" class="code-mono" font-size="12px" fill="#334155">
+  <text x="46" y="280" class="code-mono" font-size="12px" fill="#334155" style="white-space: pre;">
     $ git diff   <tspan font-family="sans-serif" font-weight="normal" fill="#64748b">→ Mostra as alterações linha a linha que ainda NÃO foram preparadas (não estão em Staging)</tspan>
   </text>
-
-  <!-- ======================================================== -->
-  <!-- PAINEL 2: RAMIFICAÇÃO (BRANCHES) E INTEGRAÇÃO (MERGE) -->
-  <!-- ======================================================== -->
-  <rect x="30" y="320" width="900" height="195" rx="10" fill="#faf5ff" stroke="#e9d5ff" stroke-width="1" />
-  <text x="46" y="346" class="section-hdr" fill="#6b21a8">2. Ramificações (Branches) e Resolução de Conflitos</text>
-
-  <!-- Linha Main / Master -->
-  <circle cx="80" cy="420" r="12" fill="#2563eb" />
-  <text x="80" y="424" text-anchor="middle" fill="#ffffff" font-size="9px" font-weight="bold">C1</text>
-
-  <line x1="92" y1="420" x2="178" y2="420" stroke="#2563eb" stroke-width="3" />
-
-  <circle cx="190" cy="420" r="12" fill="#2563eb" />
-  <text x="190" y="424" text-anchor="middle" fill="#ffffff" font-size="9px" font-weight="bold">C2</text>
-
-  <!-- Bifurcação Feature Branch -->
-  <path d="M 198 412 C 240 370, 260 370, 300 370" fill="none" stroke="#16a34a" stroke-width="3" />
-
-  <circle cx="312" cy="370" r="12" fill="#16a34a" />
-  <text x="312" y="374" text-anchor="middle" fill="#ffffff" font-size="9px" font-weight="bold">F1</text>
-
-  <line x1="324" y1="370" x2="438" y2="370" stroke="#16a34a" stroke-width="3" />
-
-  <circle cx="450" cy="370" r="12" fill="#16a34a" />
-  <text x="450" y="374" text-anchor="middle" fill="#ffffff" font-size="9px" font-weight="bold">F2</text>
-  <text x="450" y="350" text-anchor="middle" class="code-mono" font-size="11px" fill="#15803d">feature/login</text>
-
-  <!-- Main continua em paralelo -->
-  <line x1="202" y1="420" x2="378" y2="420" stroke="#2563eb" stroke-width="3" />
-
-  <circle cx="390" cy="420" r="12" fill="#2563eb" />
-  <text x="390" y="424" text-anchor="middle" fill="#ffffff" font-size="9px" font-weight="bold">C3</text>
-
-  <!-- Convergência / Merge -->
-  <path d="M 460 375 C 500 390, 520 420, 568 420" fill="none" stroke="#16a34a" stroke-width="3" />
-  <line x1="402" y1="420" x2="568" y2="420" stroke="#2563eb" stroke-width="3" />
-
-  <circle cx="580" cy="420" r="14" fill="#7c3aed" stroke="#5b21b6" stroke-width="2" />
-  <text x="580" y="424" text-anchor="middle" fill="#ffffff" font-size="9px" font-weight="bold">M1</text>
-  <text x="580" y="450" text-anchor="middle" class="code-mono" font-size="11px" fill="#7c3aed">git merge</text>
-
-  <!-- Continuação da Main -->
-  <line x1="594" y1="420" x2="650" y2="420" stroke="#2563eb" stroke-width="3" />
-  <circle cx="662" cy="420" r="12" fill="#2563eb" />
-  <text x="662" y="424" text-anchor="middle" fill="#ffffff" font-size="9px" font-weight="bold">C4</text>
-  <text x="662" y="445" text-anchor="middle" class="code-mono" font-size="11px" fill="#1e40af">main</text>
-
-  <!-- Box Resumo Lateral à direita -->
-  <rect x="710" y="350" width="205" height="145" rx="6" fill="#ffffff" stroke="#cbd5e1" />
-  <text x="725" y="372" font-family="sans-serif" font-size="11px" font-weight="bold" fill="#1e293b">Comandos de Branching:</text>
-  <text x="725" y="395" class="code-mono" font-size="10px" fill="#15803d">$ git switch -c feat</text>
-  <text x="725" y="412" class="text-sub">Cria e entra na nova branch</text>
-  <text x="725" y="434" class="code-mono" font-size="10px" fill="#1e40af">$ git switch main</text>
-  <text x="725" y="450" class="code-mono" font-size="10px" fill="#7c3aed">$ git merge feat</text>
-  <text x="725" y="470" class="text-sub">Integra as alterações na main</text>
+  <rect x="30" y="320" width="900" height="195" rx="10" fill="#faf5ff" stroke="#e9d5ff" stroke-width="1"/>
+  <text x="46" y="346" class="section-hdr" fill="#6b21a8" style="white-space: pre;">2. Ramificações (Branches) e Resolução de Conflitos</text>
+  <circle cx="80" cy="420" r="12" fill="#2563eb"/>
+  <text x="80" y="424" text-anchor="middle" fill="#ffffff" font-size="9px" font-weight="bold" style="white-space: pre;">C1</text>
+  <line x1="92" y1="420" x2="178" y2="420" stroke="#2563eb" stroke-width="3"/>
+  <circle cx="190" cy="420" r="12" fill="#2563eb"/>
+  <text x="190" y="424" text-anchor="middle" fill="#ffffff" font-size="9px" font-weight="bold" style="white-space: pre;">C2</text>
+  <path d="M 198 412 C 240 370, 260 370, 300 370" fill="none" stroke="#16a34a" stroke-width="3"/>
+  <circle cx="312" cy="370" r="12" fill="#16a34a"/>
+  <text x="312" y="374" text-anchor="middle" fill="#ffffff" font-size="9px" font-weight="bold" style="white-space: pre;">F1</text>
+  <line x1="324" y1="370" x2="438" y2="370" stroke="#16a34a" stroke-width="3"/>
+  <circle cx="450" cy="370" r="12" fill="#16a34a"/>
+  <text x="450" y="374" text-anchor="middle" fill="#ffffff" font-size="9px" font-weight="bold" style="white-space: pre;">F2</text>
+  <text x="473.525" y="350.738" text-anchor="middle" class="code-mono" font-size="11px" fill="#15803d" style="white-space: pre; font-size: 12px;">feature/login</text>
+  <line x1="202" y1="420" x2="378" y2="420" stroke="#2563eb" stroke-width="3"/>
+  <circle cx="390" cy="420" r="12" fill="#2563eb"/>
+  <text x="390" y="424" text-anchor="middle" fill="#ffffff" font-size="9px" font-weight="bold" style="white-space: pre;">C3</text>
+  <path d="M 460 375 C 500 390, 520 420, 568 420" fill="none" stroke="#16a34a" stroke-width="3"/>
+  <line x1="402" y1="420" x2="568" y2="420" stroke="#2563eb" stroke-width="3"/>
+  <circle cx="580" cy="420" r="14" fill="#7c3aed" stroke="#5b21b6" stroke-width="2"/>
+  <text x="580" y="424" text-anchor="middle" fill="#ffffff" font-size="9px" font-weight="bold" style="white-space: pre;">M1</text>
+  <text x="580" y="450" text-anchor="middle" class="code-mono" font-size="11px" fill="#7c3aed" style="white-space: pre;">git merge</text>
+  <line x1="594" y1="420" x2="650" y2="420" stroke="#2563eb" stroke-width="3"/>
+  <circle cx="662" cy="420" r="12" fill="#2563eb"/>
+  <text x="662" y="424" text-anchor="middle" fill="#ffffff" font-size="9px" font-weight="bold" style="white-space: pre;">C4</text>
+  <text x="662" y="445" text-anchor="middle" class="code-mono" font-size="11px" fill="#1e40af" style="white-space: pre;">main</text>
+  <rect x="710" y="350" width="205" height="145" rx="6" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="725" y="372" font-family="sans-serif" font-size="11px" font-weight="bold" fill="#1e293b" style="white-space: pre;">Comandos de Branching:</text>
+  <text x="725" y="395" class="code-mono" font-size="10px" fill="#15803d" style="white-space: pre;">$ git switch -c feat</text>
+  <text x="725" y="412" class="text-sub" style="white-space: pre;">Cria e entra na nova branch</text>
+  <text x="725" y="434" class="code-mono" font-size="10px" fill="#1e40af" style="white-space: pre;">$ git switch main</text>
+  <text x="725" y="450" class="code-mono" font-size="10px" fill="#7c3aed" style="white-space: pre;">$ git merge feat</text>
+  <text x="725" y="470" class="text-sub" style="white-space: pre;">Integra as alterações na main</text>
 </svg>
