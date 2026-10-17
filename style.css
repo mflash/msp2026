@@ -18,7 +18,7 @@
   --pre-bg: #f6f8fa;
   --table-alt: #f6f8fa;
   --quote-border: #0969da;
-  --max-width: 48rem; /* ~768px for optimal reading line length */
+  --max-width: 80rem; /* ~1280px para maior área útil de diagramas e leitura */
 }
 
 @media (prefers-color-scheme: dark) {
@@ -49,7 +49,7 @@ body {
   box-sizing: border-box;
   max-width: var(--max-width);
   margin: 0 auto;
-  padding: 2.5rem 1.25rem;
+  padding: 1.5rem 1.25rem;
   background-color: var(--bg);
   color: var(--text);
   font-family: var(--font-sans);
@@ -201,8 +201,14 @@ tr:nth-child(even) td {
 
 /* Media elements */
 figure {
-  margin: 1.5rem 0;
+  margin: 1.75rem 0;
   text-align: center;
+}
+
+figure a,
+a:has(> img) {
+  display: block;
+  cursor: zoom-in;
 }
 
 img, svg, video {
@@ -211,9 +217,15 @@ img, svg, video {
   border-radius: 6px;
 }
 
+img[src$=".svg"] {
+  width: 100%;
+}
+
 figcaption {
   margin-top: 0.5rem;
   font-size: 0.875rem;
   color: var(--muted);
 }
+
+
 
