@@ -39,7 +39,8 @@ jobs:
               -o "public/${base}.html"
           done
           # Copy stylesheets or assets if present
-          cp -r templates/*.css public/ 2>/dev/null || true
+          cp style.css public/ 2>/dev/null || true
+          cp -r img public/ 2>/dev/null || true
           touch public/.nojekyll
 
       - name: Setup Pages
