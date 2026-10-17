@@ -177,7 +177,9 @@ O caractere barra vertical (`|`), chamado de **Pipe** (tubo ou canalizador), é 
 
 Ele conecta a saída padrão (`stdout`) do comando à esquerda diretamente na entrada padrão (`stdin`) do comando à direita:
 > **Comando A** `(stdout)` ───▶ **`|`** *(Pipe em memória)* ───▶ `(stdin)` **Comando B**
+
 #### Por que o Pipe é tão rápido e eficiente?
+
 1. **Sem arquivos em disco:** O dado não precisa ser salvo em um arquivo temporário intermediário no SSD/HD.
 2. **Buffer em RAM:** O kernel cria um buffer circular na memória e transfere os bytes em tempo real.
 3. **Concorrência:** Ambos os programas rodam **ao mesmo tempo**. Assim que o Comando A cospe os primeiros bytes, o Comando B já começa a processá-los.
@@ -406,7 +408,69 @@ $ echo "Nova etapa concluída" | tee -a auditoria.log
 
 Agora que você conhece as peças do tabuleiro, veja exemplos práticos de como administradores e desenvolvedores combinam esses comandos para realizar análises poderosas:
 
-#### Exemplo 1: Descobrir quais são os shells mais utilizados no servidor
+#### Exemplo 1: Consumindo uma API Web Pública com `curl` e Encadeando Múltiplos Pipes
+
+O comando **`curl`** (*Client URL*) é a ferramenta universal de linha de comando para realizar requisições de rede (HTTP, HTTPS, FTP, etc.) diretamente pelo terminal. Ao usá-lo com a opção `-s` (*silent*, que oculta medidores de progresso de download), ele envia o corpo da resposta HTTP diretamente para `stdout`.
+
+Isso nos permite criar um pipeline completo de extração, limpeza, ordenação e armazenamento de dados em nuvem usando exclusivamente filtros padrão do Unix.
+
+Neste exemplo, vamos consultar o serviço web público [JSONPlaceholder](https://jsonplaceholder.typicode.com/) (uma API REST pública gratuita muito usada em testes), filtrar e higienizar a lista de e-mails dos usuários cadastrados:
+
+```bash
+# Pipeline completo com 6 pipes em uma única instrução:
+$ curl -s https://jsonplaceholder.typicode.com/users | grep '"email"' | cut -d':' -f2 | tr -d '", ' | sort | head -n 5 | tee emails_top5.txt
+Chaim_McDermott@dana.io
+Julianne.OConner@kory.org
+Karley_Dach@jasper.info
+Lucio_Hettinger@annie.ca
+Nathan@yesenia.net
+```
+
+##### Passo a Passo: O que Acontece em Cada Pipe (`|`):
+
+1. **`curl -s https://jsonplaceholder.typicode.com/users`**  
+   Faz a requisição `GET` ao serviço web e transmite o JSON com a lista completa de usuários para a saída padrão (`stdout`).
+2. **`| grep '"email"'`**  
+   Filtra o JSON recebido pelo canal, mantendo somente as linhas que possuem a chave de e-mail (ex.: `"email": "Sincere@april.biz",`).
+3. **`| cut -d':' -f2`**  
+   Fatia a linha nos dois-pontos (`:`) e extrai apenas a segunda coluna (o valor do e-mail, descartando o rótulo `"email"`).
+4. **`| tr -d '", '`**  
+   Remove (*delete* `-d`) aspas duplas, vírgulas e espaços em branco excedentes da formatação original do JSON.
+5. **`| sort`**  
+   Ordena os e-mails alfabeticamente de A a Z.
+6. **`| head -n 5`**  
+   Filtra e seleciona apenas os 5 primeiros e-mails da lista ordenada.
+7. **`| tee emails_top5.txt`**  
+   Exibe o resultado final na tela do terminal e, **simultaneamente**, salva uma cópia no arquivo `emails_top5.txt`.
+
+##### Variação Analítica: Extraindo Domínios e Contando Provedores
+
+Alterando o delimitador do `cut` para `@` e agrupando com `uniq -c`, podemos descobrir a frequência de cada provedor de e-mail retornado pela API:
+
+```bash
+# Extrai o domínio de cada e-mail, agrupa com sort, conta com uniq -c e ordena decrescente:
+$ curl -s https://jsonplaceholder.typicode.com/users \
+    | grep '"email"' \
+    | cut -d'@' -f2 \
+    | tr -d '",' \
+    | sort \
+    | uniq -c \
+    | sort -nr
+      1 yesenia.net
+      1 rosamond.me
+      1 melissa.tv
+      1 kory.org
+      1 karina.biz
+      1 jasper.info
+      1 dana.io
+      1 billy.biz
+      1 april.biz
+      1 annie.ca
+```
+
+---
+
+#### Exemplo 2: Descobrir quais são os shells mais utilizados no servidor
 ```bash
 # Passo a passo da mágica:
 # 1. cut extrai o shell (7º campo do /etc/passwd)
@@ -422,7 +486,7 @@ $ cut -d':' -f7 /etc/passwd | sort | uniq -c | sort -nr
 
 ---
 
-#### Exemplo 2: Descobrir os 5 endereços IP com maior número de requisições em um log web
+#### Exemplo 3: Descobrir os 5 endereços IP com maior número de requisições em um log web
 ```bash
 # Em logs do Nginx/Apache, o 1º campo geralmente é o endereço IP do visitante:
 $ cut -d' ' -f1 /var/log/nginx/access.log | sort | uniq -c | sort -nr | head -n 5
@@ -435,7 +499,7 @@ $ cut -d' ' -f1 /var/log/nginx/access.log | sort | uniq -c | sort -nr | head -n 
 
 ---
 
-#### Exemplo 3: Listar os 5 maiores arquivos ou diretórios que estão consumindo espaço em disco
+#### Exemplo 4: Listar os 5 maiores arquivos ou diretórios que estão consumindo espaço em disco
 ```bash
 # du -ah calcula o tamanho de todos os itens
 # sort -rh ordena por tamanho de arquivo decrescente legível para humanos (G, M, K)
@@ -450,7 +514,7 @@ $ du -ah /home/marcelo | sort -rh | head -n 5
 
 ---
 
-#### Exemplo 4: Contar a frequência de palavras em um documento de texto
+#### Exemplo 5: Contar a frequência de palavras em um documento de texto
 ```bash
 # Converte para minúsculas, transforma pontuações e espaços em quebras de linha,
 # remove linhas vazias, ordena e conta as 10 palavras mais usadas:
