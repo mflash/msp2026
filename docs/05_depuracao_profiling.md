@@ -35,7 +35,8 @@
 No desenvolvimento de software, encontramos dois tipos fundamentais de desafios após o código compilar:
 
 1. **Depuração (*Debugging*):** O programa apresenta um comportamento funcional incorreto — gera cálculos errados, lança exceções não tratadas ou sofre falhas catastróficas (*segmentation faults / crashes*). O objetivo da depuração é responder: ***"Por que o programa falhou?"***
-2. **Profiling (Análise de Desempenho):** O programa funciona corretamente e produz o resultado esperado, mas é **lento**, consome **memória RAM excessiva**, sobrecarrega a **CPU** ou sofre com gargalos de I/O de disco e rede. O objetivo do profiling é responder: ***"Onde exatamente o programa gasta seus recursos de tempo e memória?"***
+2. **Profiling (Análise de Desempenho):** O programa funciona corretamente e produz o resultado esperado, mas é **lento**, consome **memória RAM excessiva**, sobrecarrega a **CPU** ou sofre com gargalos de I/O de disco e rede. O objetivo do profiling é responder: ***"Onde exatamente o programa gasta seus recursos de tempo e memória?"***  
+   Para isso usamos um **profiler**: uma ferramenta que observa o programa em execução e mede, para cada função (ou linha), quantas vezes ela foi chamada, quanto tempo de CPU consumiu e quanta memória alocou, produzindo um relatório que aponta os gargalos.
 
 > *"A otimização prematura é a raiz de todos os males na programação."*  
 > — **Donald E. Knuth**
@@ -235,13 +236,16 @@ public class PedidoController {
 
 ### 2. Abordagens de Profiling e o que são Flame Graphs
 
-Existem duas metodologias principais para medir o comportamento de um programa:
+Existem duas metodologias principais para medir o comportamento de um programa, além de uma terceira, mais especializada:
 
 1. **Instrumentação (*Tracing*):** Modifica o código-fonte ou binário inserindo ganchos (*hooks*) no início e fim de cada função para contar chamadas e medir tempos.  
    - *Vantagem:* Medição exata de 100% das chamadas de função.  
    - *Desvantagem:* **Alto overhead** (pode desacelerar o programa em 5x a 50x), distorcendo as medições de tempo real.
 2. **Amostragem (*Sampling*):** O profiler interrompe o programa centenas de vezes por segundo (ex.: a cada 10 milissegundos), anota qual função e linha estavam rodando naquele instante (*stack trace*) e retoma a execução imediatamente.  
    - *Vantagem:* **Overhead quase nulo** (< 1% a 2%), sendo seguro para rodar até mesmo em servidores de produção.
+3. **Instrumentação Dinâmica de Binário (*Emulação*):** o programa não é recompilado nem modificado. Em vez disso, roda sobre um processador virtual que traduz cada instrução de máquina em tempo de execução e insere verificações nela. É o que o **Valgrind** faz.  
+   - *Vantagem:* enxerga **cada acesso à memória** e cada instrução executada. Detecta vazamentos, leituras de memória não inicializada e acessos fora dos limites, e conta instruções de forma determinística (o resultado é o mesmo a cada execução).  
+   - *Desvantagem:* **overhead muito alto** (de 10× a 50× mais lento, ou mais), o que restringe o uso a ambientes de desenvolvimento e teste.
 
 #### O que é um Flame Graph (Gráfico de Chama)?
 Criado pelo especialista em desempenho Brendan Gregg, o **Flame Graph** tornou-se o padrão mundial da indústria para visualizar perfis de execução:
@@ -560,12 +564,13 @@ $ jcmd 34120 GC.heap_info
 | Linguagem | Ferramenta | Tipo | Overhead | Caso de Uso Principal |
 | :--- | :--- | :---: | :---: | :--- |
 | **C / C++** | **`perf`** | Amostragem | Quase nulo (<1%) | Gargalos de CPU, ciclos de clock, falhas de cache de hardware no Linux. |
-| **C / C++** | **`Valgrind (Memcheck)`** | Emulação | Alto (~10x a 20x) | Detecção cirúrgica de vazamentos de memória (*memory leaks*) e corrupção de ponteiros. |
+| **C / C++** | **`Valgrind (Memcheck)`** | Emulação | Alto (~10x a 50x) | Detecção cirúrgica de vazamentos de memória (*memory leaks*) e corrupção de ponteiros. |
+| **C / C++** | **`Valgrind (Callgrind)`** | Emulação | Muito alto (~20x a 100x) | Contagem exata de instruções por função, visualizada no KCachegrind. |
 | **Python** | **`cProfile`** | Tracing | Baixo a médio | Profiler rápido embutido na biblioteca padrão; dispensa instalações extras. |
 | **Python** | **`py-spy`** | Amostragem | Quase nulo (<1%) | Seguro em produção; gera Flame Graphs interativos em SVG e tem modo `top` ao vivo. |
-| **Python** | **`line_profiler`** | Linha a Linha | Médio | Diagnóstico linha a linha quando o método gargalo já foi localizado. |
+| **Python** | **`line_profiler`** | Tracing (linha a linha) | Médio | Diagnóstico linha a linha quando o método gargalo já foi localizado. |
 | **Java** | **`JFR + JMC`** | Amostragem | Mínimo (<1%) | Profiler oficial do OpenJDK para CPU, Garbage Collector, I/O e contenção de threads. |
-| **Java** | **`VisualVM`** | Visual / Gráfico | Baixo a médio | Ambiente de desenvolvimento local com monitor de Heap, GC e inspeção de Threads. |
+| **Java** | **`VisualVM`** | Amostragem / Tracing | Baixo a médio | Ambiente de desenvolvimento local com monitor de Heap, GC e inspeção de Threads. |
 | **Java** | **`async-profiler`** | Amostragem | Quase nulo (<1%) | Geração de Flame Graphs de alta fidelidade sem viés de safepoints. |
 
 ---
