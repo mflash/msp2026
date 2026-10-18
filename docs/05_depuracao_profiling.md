@@ -312,8 +312,10 @@ Existem duas metodologias principais para medir o comportamento de um programa, 
 #### O que é um Flame Graph (Gráfico de Chama)?
 Criado pelo especialista em desempenho Brendan Gregg, o **Flame Graph** tornou-se o padrão mundial da indústria para visualizar perfis de execução:
 
-- **Eixo X (Largura):** Representa o percentual total de tempo de CPU gasto naquela função. **Quanto mais largo o bloco retangular, maior é o gargalo!** A ordem horizontal é alfabética (não cronológica).
+- **Eixo X (Largura):** Representa a proporção do tempo de CPU em que a função estava na pilha, ou seja, o tempo *inclusivo* (a própria função somada a tudo o que ela chama). A ordem horizontal é alfabética (não cronológica).
 - **Eixo Y (Altura):** Representa a profundidade da pilha de chamadas (*call stack*). A função `main()` fica na base; conforme funções chamam subfunções, os blocos sobem.
+- **Onde está o gargalo?** Não basta procurar o bloco mais largo (a `main()` sempre ocupa 100%!). O gargalo está nos **"platôs" do topo**: blocos largos **sem nenhuma outra função empilhada acima deles**. Essa faixa livre é o tempo gasto na própria função (*self time*). Na figura abaixo, `parse_json()` ocupa 45% da largura, mas quase tudo isso é tempo de `regex_match()`, que está acima dela: o verdadeiro gargalo é `regex_match()`.  
+  > Essa distinção reaparece no `cProfile` (Seção 4): a largura total corresponde à coluna `cumtime`, e o platô do topo corresponde à coluna `tottime`.
 
 [![Ecossistema de Profiling e Anatomia de um Flame Graph (clique para ampliar)](img/linux-profiling-flamegraph.svg)](img/linux-profiling-flamegraph.svg)
 
