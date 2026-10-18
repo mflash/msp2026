@@ -281,6 +281,32 @@ $ git switch main
 Switched to branch 'main'
 ```
 
+#### Boas Práticas para Nomear Branches
+
+Em um projeto com várias pessoas, a lista de branches cresce rápido. Nomes padronizados permitem saber, só de olhar, **o tipo de trabalho** e **do que se trata** cada branch. A convenção mais difundida é o formato **`tipo/descricao-curta`**:
+
+| Prefixo | Quando usar | Exemplo |
+| :--- | :--- | :--- |
+| **`feature/`** | Nova funcionalidade | `feature/autenticacao-jwt` |
+| **`fix/`** | Correção de bug em desenvolvimento | `fix/divisao-por-zero` |
+| **`hotfix/`** | Correção urgente de algo que já está em produção | `hotfix/falha-no-login` |
+| **`docs/`** | Alterações apenas na documentação | `docs/instrucoes-de-instalacao` |
+| **`refactor/`** | Reorganização do código sem mudar o comportamento | `refactor/modulo-de-pagamento` |
+| **`test/`** | Criação ou ajuste de testes automatizados | `test/cobertura-do-parser` |
+| **`chore/`** | Manutenção (dependências, configurações, build) | `chore/atualiza-dependencias` |
+
+Repare que os prefixos são os mesmos das mensagens de commit no padrão *Conventional Commits*, apresentado nas Boas Práticas ao final deste módulo. Assim, branch e commits "falam a mesma língua".
+
+##### Regras de Ouro:
+- **Letras minúsculas e palavras separadas por hífen** (`feature/busca-por-nome`), sem espaços.
+- **Evite acentos e caracteres especiais** (`ç`, `ã`, `é`...). O Git até aceita, mas eles costumam causar problemas em terminais, scripts e ferramentas de integração.
+- **Seja curto, mas descritivo:** `fix/timeout-no-upload` diz muito mais que `fix/bug` ou `teste2`.
+- **Não use o seu nome como nome da branch** (`branch-do-joao`): o nome deve descrever **o trabalho**, não quem o faz.
+- **Inclua o número da tarefa, se a equipe usar um sistema de *issues*:** `feature/42-login-com-google` deixa claro a qual tarefa a branch se refere (aqui, a *issue* 42 do GitHub ou do GitLab).
+- **Apague a branch depois do merge** (`git branch -d nome`). Branches antigas acumuladas só confundem.
+
+> **Nomes que o Git recusa:** espaços (`minha branch`), dois pontos seguidos (`fix/erro..divisao`), os caracteres `~ ^ : ? * [ \`, nomes terminados em `/` ou em `.lock`. Na dúvida, o próprio Git confere: `git check-ref-format --branch "nome-da-branch"` imprime o nome se ele for válido e acusa erro caso contrário.
+
 ---
 
 ### Trabalho Colaborativo: Sincronização e Resolução de Conflitos
