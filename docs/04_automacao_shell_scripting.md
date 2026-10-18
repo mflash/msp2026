@@ -95,7 +95,67 @@ Em scripts profissionais, coloque sempre a instrução `set -euo pipefail` logo 
 - **`-u`** (*nounset*): Trata o uso de variáveis não declaradas como erro fatal (evita bugs por digitação incorreta de nomes de variáveis).
 - **`-o pipefail`**: Garante que em pipelines (`cmd1 | cmd2`), se o `cmd1` falhar, o pipeline inteiro será considerado como erro.
 
+> **O `-e` não é infalível.** Ele **não** interrompe o script quando a falha acontece:
+> - na condição de um `if`, `while` ou `until` (ex.: `if grep -q erro log.txt; then`), pois ali falhar é um resultado esperado;
+> - em qualquer comando de uma lista `&&` / `||`, exceto o último (ex.: `false || true` não interrompe);
+> - em um comando negado com `!`.
+>
+> E há uma armadilha no sentido oposto: uma expressão aritmética `(( ... ))` cujo resultado seja **0** retorna código de saída **1**. Assim, `CONTADOR=0; (( CONTADOR++ ))` **encerra o script** sob `set -e`, porque o valor da expressão (antes do incremento) é 0. Prefira `CONTADOR=$((CONTADOR + 1))`.
+
 [![Anatomia, Parâmetros e Estruturas do Shell Scripting (clique para ampliar)](img/linux-shell-scripting.svg)](img/linux-shell-scripting.svg)
+
+---
+
+### Variáveis, Aspas e Expansões
+
+#### 1. Criando e Lendo Variáveis
+
+```bash
+NOME="Ana"                 # Atribuição: SEM espaços ao redor do '='
+echo "Olá, $NOME"          # Leitura: prefixo '$'
+echo "${NOME}_backup"      # Chaves delimitam o nome quando há texto colado
+HOJE=$(date +%F)           # Substituição de comando: guarda a SAÍDA de um comando
+```
+
+> **O erro mais comum de quem está começando:** escrever `NOME = "Ana"`, com espaços. O shell entende que `NOME` é um **comando** e que `=` e `"Ana"` são seus argumentos, resultando em `NOME: command not found`.
+
+#### 2. Aspas Simples vs. Aspas Duplas
+
+| Forma | Comportamento | Exemplo | Resultado |
+| :---: | :--- | :--- | :--- |
+| **`'...'`** | Literal: **nada** é expandido. | `echo 'Pasta: $HOME'` | `Pasta: $HOME` |
+| **`"..."`** | Expande variáveis e `$(...)`, mas preserva espaços. | `echo "Pasta: $HOME"` | `Pasta: /home/ana` |
+
+##### Por que sempre colocar variáveis entre aspas duplas?
+Sem aspas, o shell **quebra o valor da variável em palavras** nos espaços em branco (*word splitting*) antes de executar o comando:
+
+```bash
+$ ARQ="meu relatorio.txt"
+
+$ ls $ARQ          # Sem aspas: vira 'ls meu relatorio.txt' (dois argumentos!)
+ls: cannot access 'meu': No such file or directory
+ls: cannot access 'relatorio.txt': No such file or directory
+
+$ ls "$ARQ"        # Com aspas: um único argumento, como esperado
+meu relatorio.txt
+```
+
+> **Regra prática:** escreva sempre `"$VARIAVEL"`. Imagine o estrago de um `rm $ARQ` com espaços no nome!
+
+#### 3. Expansões de Parâmetros Úteis
+
+O Bash consegue manipular o conteúdo de variáveis diretamente, sem chamar programas externos:
+
+| Expansão | O que faz | Exemplo (com `ARQ="relatorio_final.txt"`) | Resultado |
+| :--- | :--- | :--- | :--- |
+| **`${VAR:-padrão}`** | Usa `padrão` se `VAR` estiver vazia ou não definida. | `${DESTINO:-/tmp}` | `/tmp` |
+| **`${#VAR}`** | Tamanho (número de caracteres). | `${#ARQ}` | `19` |
+| **`${VAR%sufixo}`** | Remove o sufixo do final. | `${ARQ%.txt}` | `relatorio_final` |
+| **`${VAR##*/}`** | Remove tudo até a última `/` (nome do arquivo). | `${CAMINHO##*/}` com `CAMINHO="/home/ana/foto.jpg"` | `foto.jpg` |
+| **`${VAR/antigo/novo}`** | Substitui a **primeira** ocorrência. | `${ARQ/final/v2}` | `relatorio_v2.txt` |
+| **`${VAR//antigo/novo}`** | Substitui **todas** as ocorrências. | `${ARQ//_/-}` | `relatorio-final.txt` |
+
+Essas expansões aparecem nos exemplos deste módulo: `${1:-status}` define um valor padrão para o primeiro argumento, e `${NOME_ANTIGO// /_}` troca todos os espaços por sublinhados.
 
 ---
 
@@ -126,8 +186,9 @@ $ ./deploy.sh producao v2.4.0
 # Script: converter_imagem.sh
 
 if [[ $# -lt 2 ]]; then
-    echo "Erro: Argumentos insuficientes!"
-    echo "Uso: $0 <arquivo_origem> <formato_destino>"
+    # Mensagens de erro vão para stderr (>&2), como vimos no Módulo 02:
+    echo "Erro: Argumentos insuficientes!" >&2
+    echo "Uso: $0 <arquivo_origem> <formato_destino>" >&2
     exit 1
 fi
 
@@ -142,7 +203,18 @@ echo "Processando o arquivo '$ARQUIVO_ORIGEM' para o formato '$FORMATO'..."
 
 ### Estruturas Condicionais: `if`, `test` e `[[ ... ]]`
 
-Para tomar decisões no script, usamos o comando `if` em conjunto com a sintaxe moderna de teste **`[[ ... ]]`** (uma versão aprimorada e mais segura do antigo comando `[ ... ]` do Unix):
+Para tomar decisões no script, usamos o comando `if` em conjunto com a sintaxe moderna de teste **`[[ ... ]]`** (uma versão aprimorada e mais segura do antigo comando `[ ... ]` do Unix).
+
+##### Por que `[[ ... ]]` é mais seguro que `[ ... ]`?
+O `[` é, na verdade, um **comando comum** (existe até o arquivo `/usr/bin/[`), e seus argumentos sofrem as mesmas expansões de qualquer comando. Já o `[[` é uma **palavra reservada do Bash**, tratada de forma especial:
+
+| Situação | `[ ... ]` (antigo, POSIX) | `[[ ... ]]` (Bash) |
+| :--- | :--- | :--- |
+| Variável vazia ou com espaços, sem aspas | Quebra: `[ $X == sim ]` vira `[ == sim ]` e gera erro | Funciona: não há quebra em palavras |
+| Combinar condições | `[ -f a ] && [ -f b ]` ou `-a` / `-o` | `[[ -f a && -f b ]]` |
+| Padrões (*glob*) e regex | Não suporta | `[[ $ARQ == *.txt ]]` e `[[ $X =~ ^[0-9]+$ ]]` |
+
+> **Atenção aos espaços:** os espaços logo após `[[` e antes de `]]` são **obrigatórios**. Escrever `[[-f config.json]]` gera o erro `[[-f: command not found`, porque o shell procura um comando chamado `[[-f`.
 
 #### 1. Testes de Arquivos e Diretórios no Disco:
 
@@ -163,6 +235,8 @@ Para tomar decisões no script, usamos o comando `if` em conjunto com a sintaxe 
 | **`"$A" == "$B"`** | As strings são idênticas (use `!=` para diferente). | `[[ "$RESPOSTA" == "sim" ]]` |
 | **`-z "$STR"`** | A string está **vazia** (*zero length*). | `[[ -z "$SENHA" ]]` |
 | **`-n "$STR"`** | A string **não está vazia** (*non-zero length*). | `[[ -n "$TOKEN" ]]` |
+| **`"$STR" == padrão`** | A string casa com um padrão *glob* (o lado direito **sem aspas**). | `[[ "$ARQ" == *.csv ]]` |
+| **`"$STR" =~ regex`** | A string casa com uma **expressão regular** (o lado direito **sem aspas**). | `[[ "$linha" =~ ^# ]]` (começa com `#`) |
 
 #### 3. Testes Numéricos (Inteiros):
 
@@ -257,6 +331,8 @@ for (( i = 0; i < 5; i++ )); do
 done
 ```
 
+> **Cuidado com o *globbing* sem correspondência:** se nenhum arquivo casar com `docs/*.md`, o Bash **não** pula o laço. Ele executa uma vez, com o próprio texto literal `docs/*.md` em `$arquivo`. Para evitar isso, ative `shopt -s nullglob` no início do script (o padrão sem correspondência vira uma lista vazia) ou proteja o corpo do laço com `[[ -e "$arquivo" ]] || continue`.
+
 ---
 
 #### 2. O Laço `while`
@@ -314,6 +390,50 @@ log_erro() {
 # Invocando as funções:
 log_info "Iniciando verificação de integridade..."
 log_erro "Falha ao conectar no servidor de backup!"
+```
+
+#### Como uma Função "Devolve" Resultados?
+
+Diferente de C, Python ou Java, uma função em Bash **não retorna valores** no sentido usual. Há dois mecanismos distintos:
+
+1. **`return N`: código de saída (0 a 255).** Serve para indicar **sucesso (`0`) ou falha (≠ `0`)**, e é usado diretamente em `if`, `&&` e `||`. Sem `return` explícito, vale o código de saída do último comando da função.
+2. **`echo` + `$(...)`: dados.** Para devolver um texto ou número, a função **imprime** o resultado e quem chama **captura a saída** com substituição de comando.
+
+```bash
+# 1. Código de saída: a função responde "sim" (0) ou "não" (1)
+eh_par() {
+    (( $1 % 2 == 0 ))         # o resultado desta expressão vira o código de saída
+}
+
+# 2. Dados: a função imprime o resultado
+dobro() {
+    echo $(( $1 * 2 ))
+}
+
+if eh_par 4; then
+    echo "4 é par"
+fi
+
+RESULTADO=$(dobro 21)          # captura a saída da função
+echo "Dobro: $RESULTADO"       # Dobro: 42
+```
+
+> **Atenção:** dentro de uma função, `$1`, `$2`, `$#` e `$@` se referem aos **argumentos da função**, e não aos do script. Para repassar todos os argumentos do script a uma função, chame-a com `minha_funcao "$@"`.
+
+#### Limpeza Garantida com `trap`
+
+Scripts frequentemente criam arquivos temporários. O comando **`trap`** registra uma ação a ser executada automaticamente quando o script termina, seja normalmente, por um `exit`, por um erro sob `set -e` ou por interrupção com `Ctrl + C`:
+
+```bash
+#!/bin/bash
+set -euo pipefail
+
+ARQ_TMP=$(mktemp)                     # Cria um arquivo temporário com nome único (alternativa ao uso de $$)
+trap 'rm -f "$ARQ_TMP"' EXIT          # Na saída do script, aconteça o que acontecer, apaga o temporário
+
+curl -s https://example.com > "$ARQ_TMP"
+grep -c "Example" "$ARQ_TMP"
+# Não é preciso apagar o $ARQ_TMP manualmente: o trap cuida disso.
 ```
 
 ---
@@ -379,19 +499,30 @@ Este script analisa o uso da partição raiz (`/`) e da memória RAM. Se ultrapa
 # ==============================================================================
 # Script: monitor_saude.sh
 # ==============================================================================
+set -euo pipefail
 
 LIMITE_DISCO_PERCENTUAL=80
+
+# Cores ANSI só quando a saída é um terminal (-t 1). Ao rodar pelo cron com
+# saída redirecionada para um arquivo, as variáveis ficam vazias e o log não
+# fica poluído com códigos como \033[31m:
+if [[ -t 1 ]]; then
+    VERMELHO=$'\033[31m'; VERDE=$'\033[32m'; RESET=$'\033[0m'
+else
+    VERMELHO=""; VERDE=""; RESET=""
+fi
 
 echo "--- RELATÓRIO DE SAÚDE DO SISTEMA ($(date '+%d/%m/%Y %H:%M:%S')) ---"
 
 # 1. Checagem de Disco da partição raiz (/)
-# df extrai a coluna de percentual de uso, remove o símbolo '%' e compara:
-USO_DISCO=$(df -h / | awk 'NR==2 {print $5}' | tr -d '%')
+# df -P (formato POSIX) garante uma linha por partição, mesmo com nomes de
+# dispositivo longos; extraímos a coluna de percentual e removemos o '%':
+USO_DISCO=$(df -P / | awk 'NR==2 {print $5}' | tr -d '%')
 
 if (( USO_DISCO >= LIMITE_DISCO_PERCENTUAL )); then
-    echo -e "\033[31m[ALERTA CRÍTICO]\033[0m Uso de disco em ${USO_DISCO}% (acima do limite de ${LIMITE_DISCO_PERCENTUAL}%)!"
+    echo "${VERMELHO}[ALERTA CRÍTICO]${RESET} Uso de disco em ${USO_DISCO}% (acima do limite de ${LIMITE_DISCO_PERCENTUAL}%)!"
 else
-    echo -e "\033[32m[OK]\033[0m Uso de disco saudável: ${USO_DISCO}%"
+    echo "${VERDE}[OK]${RESET} Uso de disco saudável: ${USO_DISCO}%"
 fi
 
 # 2. Checagem de Memória RAM Disponível
@@ -402,7 +533,7 @@ PERCENTUAL_LIVRE=$(( (MEM_DISP * 100) / MEM_TOTAL ))
 echo "Memória Disponível: ${MEM_DISP} MB de ${MEM_TOTAL} MB (${PERCENTUAL_LIVRE}% livre)"
 
 if (( PERCENTUAL_LIVRE < 10 )); then
-    echo -e "\033[31m[ALERTA CRÍTICO]\033[0m Menos de 10% de memória RAM disponível!"
+    echo "${VERMELHO}[ALERTA CRÍTICO]${RESET} Menos de 10% de memória RAM disponível!"
 fi
 
 # 3. Uptime e Carga
@@ -438,7 +569,7 @@ while IFS= read -r -d '' arquivo; do
     if [[ "$NOME_ANTIGO" != "$NOME_NOVO" ]]; then
         mv "$DIR/$NOME_ANTIGO" "$DIR/$NOME_NOVO"
         echo "Renomeado: '$NOME_ANTIGO' -> '$NOME_NOVO'"
-        (( TOTAL++ ))
+        TOTAL=$((TOTAL + 1))   # Não use (( TOTAL++ )): com TOTAL=0, encerraria o script sob set -e
     fi
 done < <(find "$PASTA_ALVO" -depth -name "* *" -print0)
 
@@ -473,15 +604,25 @@ Cada linha do arquivo do `cron` possui **5 campos de tempo**, seguidos pelo coma
 #### Exemplos de Agendamentos Práticos:
 
 ```bash
+# Os logs vão para uma pasta do próprio usuário: um usuário comum não tem
+# permissão de escrita em /var/log. Crie a pasta antes com: mkdir -p ~/logs
+
 # Executa o backup todos os dias às 02:30 da madrugada:
-30 02 * * * /home/marcelo/scripts/backup_sistema.sh >> /var/log/backup.log 2>&1
+30 02 * * * /home/marcelo/scripts/backup_sistema.sh >> $HOME/logs/backup.log 2>&1
 
 # Executa o monitor de saúde a cada 15 minutos:
-*/15 * * * * /home/marcelo/scripts/monitor_saude.sh >> /var/log/saude.log 2>&1
+*/15 * * * * /home/marcelo/scripts/monitor_saude.sh >> $HOME/logs/saude.log 2>&1
 
 # Executa toda segunda-feira às 08:00:
 00 08 * * 1 /home/marcelo/scripts/relatorio_semanal.sh
 ```
+
+#### Armadilhas Comuns do `cron`:
+
+- **Ambiente mínimo:** o `cron` não carrega o seu `.bashrc` e roda com um `PATH` bem reduzido (normalmente só `/usr/bin:/bin`). Um script que funciona no terminal pode falhar no `cron` com `command not found`. Use **caminhos absolutos** para scripts e programas, ou defina o `PATH` na primeira linha do crontab (ex.: `PATH=/usr/local/bin:/usr/bin:/bin`).
+- **O `%` é especial:** dentro do crontab, `%` significa "quebra de linha". Um comando como `date +%Y-%m-%d` escrito diretamente na linha do agendamento **quebra o comando**. Escape cada um como `\%` ou, melhor, coloque o comando dentro de um script.
+- **Sem terminal:** o script roda sem tela. Redirecione a saída para um arquivo de log (`>> arquivo.log 2>&1`), ou ela será enviada por e-mail local ao usuário (se houver um servidor de e-mail configurado) ou simplesmente descartada.
+- **Conferindo agendamentos:** use `crontab -l` para listar os agendamentos ativos e o site [crontab.guru](https://crontab.guru) para traduzir uma expressão como `*/15 * * * *` em linguagem natural antes de salvá-la.
 
 ---
 
@@ -492,6 +633,9 @@ Cada linha do arquivo do `cron` possui **5 campos de tempo**, seguidos pelo coma
 | **`#!/bin/bash`** | *Shebang*: define o interpretador a ser usado | Primeira linha do script |
 | **`chmod +x`** | Concede permissão de execução ao script | `chmod +x deploy.sh` |
 | **`set -euo pipefail`** | Ativa o modo de segurança e parada imediata em falhas | Logo após o Shebang |
+| **`VAR="valor"`** | Atribuição de variável (sem espaços ao redor do `=`) | `NOME="Ana"` |
+| **`"$VAR"`** | Leitura protegida contra quebra em palavras | `ls "$ARQ"` |
+| **`${VAR:-padrão}`** | Valor padrão quando a variável está vazia | `DESTINO="${1:-/tmp}"` |
 | **`$1`, `$2`, `$@`** | Parâmetros posicionais passados na linha de comando | `echo "Primeiro: $1"` |
 | **`$#`** | Quantidade total de argumentos fornecidos | `if [[ $# -lt 1 ]]; then` |
 | **`$?`** | Código de retorno do comando anterior (`0` = sucesso) | `echo "Status: $?"` |
@@ -499,6 +643,8 @@ Cada linha do arquivo do `cron` possui **5 campos de tempo**, seguidos pelo coma
 | **`[[ -d $DIR ]]`** | Testa se o caminho é uma pasta/diretório existente | `if [[ -d /tmp/dados ]]` |
 | **`for X in ...`** | Laço de repetição sobre listas, números ou arquivos | `for f in *.txt; do` |
 | **`while read ...`** | Leitura segura de arquivos linha por linha | `while IFS= read -r l; do` |
+| **`$(funcao)`** | Captura a saída de uma função ou comando | `RES=$(dobro 21)` |
+| **`trap '...' EXIT`** | Executa uma ação de limpeza ao final do script | `trap 'rm -f "$TMP"' EXIT` |
 | **`crontab -e`** | Edita a tabela de agendamentos automáticos do sistema | `30 02 * * * /path/script.sh` |
 
 ---

@@ -21,53 +21,56 @@
   <text x="165" y="145" font-family="sans-serif" font-size="11px" fill="#94a3b8" style="white-space: pre;">← Shebang: define o interpretador</text>
   <text x="60" y="172" class="code-mono" fill="#f59e0b" style="white-space: pre;">set -euo pipefail</text>
   <text x="210" y="172" font-family="sans-serif" font-size="11px" fill="#94a3b8" style="white-space: pre;">← Modo estrito: interrompe em erros</text>
-  <text x="60" y="199" class="code-mono" fill="#e2e8f0" style="white-space: pre;">echo "Processando: "</text>
+  <text x="60" y="199" class="code-mono" fill="#e2e8f0" style="white-space: pre;">echo "Processando: $1"</text>
   <text x="60" y="226" class="code-mono" fill="#4ade80" style="white-space: pre;">exit 0</text>
   <text x="130" y="226" font-family="sans-serif" font-size="11px" fill="#94a3b8" style="white-space: pre;">← Código de saída (0 = sucesso absoluto)</text>
   <text x="46" y="280" class="code-mono" font-size="11px" fill="#0f172a" style="white-space: pre;">$ chmod +x script.sh &amp;&amp; ./script.sh arquivo.txt</text>
   <rect x="495" y="80" width="435" height="225" rx="10" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>
   <text x="511" y="106" class="section-hdr" fill="#d97706" style="white-space: pre;">2. Argumentos e Variáveis Especiais</text>
   <rect x="511" y="120" width="403" height="32" rx="6" fill="#f1f5f9" stroke="#cbd5e1"/>
-  <text x="521" y="141" class="code-mono" font-size="12px" fill="#0f172a" style="white-space: pre;">$ ./deploy.sh  producao  v2.4.0</text>
-  <text x="569.154" y="166.872" text-anchor="middle" font-size="10px" fill="#64748b" style="white-space: pre; font-size: 10px;">Nome script</text>
-  <text x="635" y="170" text-anchor="middle" class="code-mono" fill="#16a34a" style="white-space: pre;"/>
-  <text x="659.154" y="166.872" text-anchor="middle" font-size="10px" fill="#64748b" style="white-space: pre; font-size: 10px;">1º arg</text>
-  <text x="725" y="170" text-anchor="middle" class="code-mono" fill="#16a34a" style="white-space: pre;"/>
-  <text x="720.306" y="166.872" text-anchor="middle" font-size="10px" fill="#64748b" style="white-space: pre; font-size: 10px;">2º arg</text>
-  <text x="545" y="192.35" font-family="sans-serif" font-size="11px" fill="#334155" style="white-space: pre;"><tspan font-weight="bold" style="font-size: 11px; word-spacing: 0px;">Total de argumentos passados</tspan> (neste caso: 2)</text>
-  <text x="511" y="240" class="code-mono" fill="#7c3aed" style="white-space: pre;"/>
-  <text x="545" y="213.924" font-family="sans-serif" font-size="11px" fill="#334155" style="white-space: pre;"><tspan font-weight="bold" style="font-size: 11px; word-spacing: 0px;">Todos os argumentos</tspan> como lista iterável individualmente</text>
-  <text x="545" y="234.306" font-family="sans-serif" font-size="11px" fill="#334155" style="white-space: pre;"><tspan font-weight="bold" style="font-size: 11px; word-spacing: 0px;">Exit status do último comando</tspan> (0 = ok, 1 a 255 = erro)</text>
+  <text x="521" y="141" class="code-mono" fill="#64748b">$</text>
+  <text x="537" y="141" class="code-mono" fill="#0f172a">./deploy.sh</text>
+  <text x="640" y="141" class="code-mono" fill="#0f172a">producao</text>
+  <text x="725" y="141" class="code-mono" fill="#0f172a">v2.4.0</text>
+  <text x="577" y="169" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12px" font-weight="700" fill="#16a34a" text-anchor="middle">$0</text>
+  <text x="577" y="182" font-family="system-ui, -apple-system, sans-serif" font-size="10px" fill="#64748b" text-anchor="middle">nome do script</text>
+  <text x="669" y="169" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12px" font-weight="700" fill="#16a34a" text-anchor="middle">$1</text>
+  <text x="669" y="182" font-family="system-ui, -apple-system, sans-serif" font-size="10px" fill="#64748b" text-anchor="middle">1º argumento</text>
+  <text x="747" y="169" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12px" font-weight="700" fill="#16a34a" text-anchor="middle">$2</text>
+  <text x="747" y="182" font-family="system-ui, -apple-system, sans-serif" font-size="10px" fill="#64748b" text-anchor="middle">2º argumento</text>
+  <text x="511" y="208" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12px" font-weight="700" fill="#7c3aed">$#</text>
+  <text x="545" y="208" font-family="system-ui, -apple-system, sans-serif" font-size="11px" fill="#334155" style="white-space: pre;"><tspan font-weight="bold">Total de argumentos passados</tspan> (neste caso: 2)</text>
+  <text x="511" y="230" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12px" font-weight="700" fill="#7c3aed">$@</text>
+  <text x="545" y="230" font-family="system-ui, -apple-system, sans-serif" font-size="11px" fill="#334155" style="white-space: pre;"><tspan font-weight="bold">Todos os argumentos</tspan> como lista iterável individualmente</text>
+  <text x="511" y="252" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12px" font-weight="700" fill="#7c3aed">$?</text>
+  <text x="545" y="252" font-family="system-ui, -apple-system, sans-serif" font-size="11px" fill="#334155" style="white-space: pre;"><tspan font-weight="bold">Exit status do último comando</tspan> (0 = ok, 1 a 255 = erro)</text>
+  <text x="511" y="274" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12px" font-weight="700" fill="#7c3aed">$$</text>
+  <text x="545" y="274" font-family="system-ui, -apple-system, sans-serif" font-size="11px" fill="#334155" style="white-space: pre;"><tspan font-weight="bold">PID do processo atual</tspan> (útil para criar arquivos temporários únicos)</text>
   <rect x="30" y="320" width="900" height="195" rx="10" fill="#faf5ff" stroke="#e9d5ff" stroke-width="1"/>
   <text x="46" y="346" class="section-hdr" fill="#6b21a8" style="white-space: pre;">3. Estruturas Fundamentais de Controle e Repetição</text>
   <g transform="translate(46, 360)">
     <rect width="270" height="135" rx="6" fill="#ffffff" stroke="#d8b4fe"/>
     <text x="16" y="24" font-family="sans-serif" font-size="12px" font-weight="bold" fill="#6b21a8" style="white-space: pre;">Condicional if / else</text>
-    <text x="16" y="48" class="code-mono" font-size="11px" fill="#0f172a" style="white-space: pre;">if [[ -f "" ]]; then</text>
-    <text x="28" y="70" class="code-mono" font-size="11px" fill="#16a34a" style="white-space: pre;">  echo "Arquivo existe!"</text>
-    <text x="16" y="92" class="code-mono" font-size="11px" fill="#0f172a" style="white-space: pre;">else</text>
-    <text x="28" y="114" class="code-mono" font-size="11px" fill="#dc2626" style="white-space: pre;">  echo "Não encontrado!"</text>
-    <text x="16" y="130" class="code-mono" font-size="11px" fill="#0f172a" style="white-space: pre;">fi</text>
+    <text x="16" y="48" class="code-mono" font-size="11px" fill="#0f172a" style="white-space: pre;">if [[ -f "$1" ]]; then</text>
+    <text x="28" y="67" class="code-mono" font-size="11px" fill="#16a34a" style="white-space: pre;">  echo "Arquivo existe!"</text>
+    <text x="16" y="86" class="code-mono" font-size="11px" fill="#0f172a" style="white-space: pre;">else</text>
+    <text x="28" y="105" class="code-mono" font-size="11px" fill="#dc2626" style="white-space: pre;">  echo "Não encontrado!"</text>
+    <text x="16" y="124" class="code-mono" font-size="11px" fill="#0f172a" style="white-space: pre;">fi</text>
   </g>
   <g transform="translate(345, 360)">
     <rect width="270" height="135" rx="6" fill="#ffffff" stroke="#d8b4fe"/>
     <text x="16" y="24" font-family="sans-serif" font-size="12px" font-weight="bold" fill="#6b21a8" style="white-space: pre;">Laço for (Lista / Globbing)</text>
     <text x="16" y="48" class="code-mono" font-size="11px" fill="#0f172a" style="white-space: pre;">for arq in *.log; do</text>
-    <text x="28" y="75" class="code-mono" font-size="11px" fill="#2563eb" style="white-space: pre;">  gzip ""</text>
-    <text x="28" y="100" class="code-mono" font-size="11px" fill="#16a34a" style="white-space: pre;">  echo "Compactado: "</text>
+    <text x="28" y="75" class="code-mono" font-size="11px" fill="#2563eb" style="white-space: pre;">  gzip "$arq"</text>
+    <text x="28" y="100" class="code-mono" font-size="11px" fill="#16a34a" style="white-space: pre;">  echo "Compactado: $arq"</text>
     <text x="16" y="126" class="code-mono" font-size="11px" fill="#0f172a" style="white-space: pre;">done</text>
   </g>
   <g transform="translate(645, 360)">
     <rect width="270" height="135" rx="6" fill="#ffffff" stroke="#d8b4fe"/>
     <text x="16" y="24" font-family="sans-serif" font-size="12px" font-weight="bold" fill="#6b21a8" style="white-space: pre;">Laço while (Lendo Arquivo)</text>
     <text x="16" y="48" class="code-mono" font-size="11px" fill="#0f172a" style="white-space: pre;">while IFS= read -r linha; do</text>
-    <text x="28" y="75" class="code-mono" font-size="11px" fill="#7c3aed" style="white-space: pre;">  processar ""</text>
+    <text x="28" y="75" class="code-mono" font-size="11px" fill="#7c3aed" style="white-space: pre;">  processar "$linha"</text>
     <text x="16" y="102" class="code-mono" font-size="11px" fill="#0f172a" style="white-space: pre;">done &lt; lista.txt</text>
     <text x="16" y="125" font-family="sans-serif" font-size="10px" fill="#64748b" style="white-space: pre;">Processa linha a linha de forma segura</text>
   </g>
-  <text style="fill: rgb(51, 65, 85); font-size: 11px; font-weight: 700; white-space: pre;" x="511.458" y="192.35">$#</text>
-  <text style="fill: rgb(51, 65, 85); font-size: 11px; font-weight: 700; white-space: pre;" x="511.458" y="214.35">$@</text>
-  <text style="fill: rgb(51, 65, 85); font-size: 11px; font-weight: 700; white-space: pre;" x="511.458" y="234.35">$?</text>
-  <text style="fill: rgb(51, 65, 85); font-size: 11px; font-weight: 700; white-space: pre;" x="511.458" y="254.35">$?</text>
-  <text style="fill: rgb(51, 65, 85); font-size: 11px; font-weight: 700; white-space: pre;"><tspan x="545" y="254.306">PID do processo atual </tspan><tspan style="font-weight: 400;">(útil para criar arquivos temporários únicos)</tspan></text>
 </svg>
