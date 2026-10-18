@@ -42,8 +42,32 @@ No desenvolvimento de software, encontramos dois tipos fundamentais de desafios 
 
 Tentar adivinhar onde um programa está lento sem medições quase sempre leva a otimizações inúteis em trechos que respondem por menos de 1% do tempo total. A regra de ouro é: **meça primeiro, profile sempre, otimize somente o que faz diferença.**
 
-#### A Lei de Amdahl e a Regra 80/20:
-Em praticamente qualquer aplicação, **cerca de 80% do tempo de execução é consumido por apenas 20% do código** (muitas vezes um único laço ou algoritmo ineficiente). O profiling permite localizar cirurgicamente esses 20% (chamados de *hotspots* ou gargalos).
+#### Por que medir antes de otimizar? A Regra 80/20 e a Lei de Amdahl
+
+Dois conceitos complementares justificam o uso de profilers:
+
+##### 1. A Regra 80/20 (Princípio de Pareto): *onde* está o tempo?
+É uma **observação empírica**, e não uma lei matemática: na maioria dos programas, **uma pequena parte do código responde pela maior parte do tempo de execução** (algo como 80% do tempo gasto em 20% do código, e muitas vezes a concentração é ainda maior, como 90/10). Esses trechos são chamados de *hotspots* ou gargalos.
+
+O problema é que **a intuição do programador costuma errar ao apontar onde eles estão**. Por isso precisamos de um profiler para encontrá-los.
+
+##### 2. A Lei de Amdahl: *quanto* vale a pena otimizar?
+Formulada por Gene Amdahl em 1967 (originalmente para processamento paralelo), ela calcula o **ganho total (*speedup*)** obtido ao acelerar apenas **uma parte** do programa:
+
+```text
+Speedup total = 1 / ( (1 − p) + p / k )
+```
+
+- `p` = fração do tempo total gasta no trecho otimizado (ex.: 0,80 = 80%)
+- `k` = quantas vezes esse trecho ficou mais rápido
+
+**Exemplo A: otimizar o gargalo.** Uma função consome 80% do tempo e você a deixa 4× mais rápida:  
+`1 / (0,20 + 0,80/4) = 1 / 0,40` → **2,5× mais rápido no total**.
+
+**Exemplo B: otimizar o trecho errado.** Uma função consome 5% do tempo e você a deixa *infinitamente* rápida (`k → ∞`):  
+`1 / 0,95 ≈ 1,05` → **apenas 5% de ganho**, por mais esforço que tenha sido investido.
+
+> **Moral:** o ganho máximo possível é limitado pela parte que você **não** otimizou. A regra de Pareto diz que os gargalos existem e são poucos; a Lei de Amdahl mostra que só otimizá-los traz resultado. **O profiler revela o valor de `p` de cada função.** No exemplo `processamento.c` da Seção 3, `funcao_lenta_gargalo` responde por mais de 95% do tempo: otimizar `funcao_rapida` seria praticamente inútil.
 
 ---
 
