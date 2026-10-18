@@ -254,6 +254,10 @@ $ grep -E "WARNING|ERROR" app.log
 # Conta quantas mensagens existem de cada nível:
 $ grep -oE "\[(DEBUG|INFO|WARNING|ERROR|CRITICAL)" app.log | sort | uniq -c
 
+# Painel improvisado: a mesma contagem, atualizada a cada 2 s, realçando o que mudou
+# (o 'watch -d' foi apresentado no Módulo 03):
+$ watch -n 2 -d 'grep -oE "\[(DEBUG|INFO|WARNING|ERROR|CRITICAL)" app.log | sort | uniq -c'
+
 # Serviços do sistema (systemd): logs de um serviço, só de nível warning ou mais grave:
 $ journalctl -u nginx -p warning -f
 ```

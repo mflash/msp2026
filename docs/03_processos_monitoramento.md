@@ -195,6 +195,41 @@ $ htop
 
 ---
 
+#### 4. Transformando Qualquer Comando em Monitor: `watch`
+
+O `top` e o `htop` mostram processos ao vivo, mas e se quisermos acompanhar a **memória**, o **disco** ou a saída de **qualquer outro comando**? O utilitário **`watch`** executa um comando repetidamente (a cada 2 segundos, por padrão) e redesenha a tela com o resultado, transformando qualquer "fotografia" em um monitor ao vivo. Para sair, tecle `Ctrl + C`.
+
+```bash
+# Repete o 'free -h' a cada 1 segundo (-n) e realça as diferenças (-d):
+$ watch -n 1 -d free -h
+```
+
+##### O Grande Trunfo: a Opção `-d` (*differences*)
+
+Olhar uma tela de números que se redesenha a cada segundo e tentar perceber **o que mudou** é cansativo e sujeito a erros. Com a opção **`-d`**, o `watch` compara cada atualização com a anterior e **realça (em vídeo reverso) exatamente os caracteres que mudaram**. O olho vai direto para a novidade:
+
+[![watch -d: realçando o que mudou entre atualizações (clique para ampliar)](img/linux-watch-differences.svg)](img/linux-watch-differences.svg)
+
+- **`-d`**: realça só o que mudou desde a **última** atualização (o realce "pisca" e some quando o valor estabiliza).
+- **`--differences=permanent`**: mantém realçado **tudo o que mudou pelo menos uma vez** desde que o `watch` começou. É ideal para flagrar oscilações raras, como um valor que muda só de vez em quando enquanto você não estava olhando.
+
+##### Exemplos Práticos:
+
+```bash
+# Os 5 processos que mais consomem CPU, com realce do que muda (comandos com pipe vão entre aspas):
+$ watch -n 2 -d 'ps -eo pid,%cpu,%mem,comm --sort=-%cpu | head -n 6'
+
+# Acompanhar um download ou uma cópia grande crescendo:
+$ watch -n 5 -d du -sh ~/Downloads
+
+# Vigiar o espaço livre nas partições durante uma operação pesada:
+$ watch -d df -h
+```
+
+> **Dica:** combine o `watch -d` com os comandos de diagnóstico da seção [Diagnóstico de Recursos](#diagnóstico-de-recursos-memória-e-armazenamento) (`free`, `df`, `du`) para observar o sistema reagindo enquanto você executa um programa em outro terminal.
+
+---
+
 ### Controle de Tarefas no Terminal (*Job Control*)
 
 Quando você dispara um comando demorado no terminal (como um backup ou uma compilação), por padrão ele roda em **primeiro plano** (*foreground*), prendendo seu prompt até que termine.
@@ -412,6 +447,7 @@ $ sudo systemctl enable docker
 | :--- | :--- | :--- |
 | **`ps aux`** | Fotografia completa de todos os processos do sistema | `ps aux \| grep node` |
 | **`top` / `htop`** | Painel interativo ao vivo de CPU e memória | `top` (tecle `M` para ordenar por RAM) |
+| **`watch -d`** | Repete um comando periodicamente, realçando o que mudou | `watch -n 1 -d free -h` |
 | **`comando &`** | Executa o programa em segundo plano | `python3 app.py &` |
 | **`jobs`** | Lista as tarefas vinculadas à sessão atual do shell | `jobs -l` |
 | **`Ctrl + Z`** | Pausa o processo atual em primeiro plano | Pressione `Ctrl + Z` e use `bg` |

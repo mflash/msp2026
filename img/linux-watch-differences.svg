@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 520" width="100%" height="100%">
+  <defs>
+    <style>
+      .title { font-family: system-ui, -apple-system, sans-serif; font-size: 20px; font-weight: 700; fill: #1e293b; }
+      .subtitle { font-family: system-ui, -apple-system, sans-serif; font-size: 13px; fill: #64748b; }
+      .mono { font-family: Consolas, ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12.5px; white-space: pre; }
+      .lbl { font-family: system-ui, -apple-system, sans-serif; font-size: 12px; font-weight: 700; }
+      .leg { font-family: system-ui, -apple-system, sans-serif; font-size: 12px; fill: #334155; }
+      .leg-b { font-family: system-ui, -apple-system, sans-serif; font-size: 12px; font-weight: 700; fill: #854d0e; }
+      .cmd { font-family: Consolas, ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; fill: #1e293b; }
+      .tip { font-family: system-ui, -apple-system, sans-serif; font-size: 12px; fill: #334155; }
+    </style>
+  </defs>
+  <rect width="960" height="520" rx="14" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/>
+  <text x="32" y="40" class="title" style="white-space: pre;">watch -d: Realçando o que Mudou entre Atualizações</text>
+  <text x="32" y="60" class="subtitle" style="white-space: pre;">Exemplo: $ watch -n 1 -d free -h   (repete o free -h a cada 1 segundo e realça as diferenças)</text>
+  <rect x="40" y="100" width="651.1999999999999" height="122" rx="8" fill="#0f172a" stroke="#334155"/>
+  <text x="40" y="92" class="lbl" fill="#64748b">Atualização em t = 0 s (primeira tela, nada a comparar ainda)</text>
+  <text x="54.0 61.6 69.2 76.8 84.4 92.0 99.6 107.2 114.8 122.4 130.0 137.6 145.2 152.8 160.4 168.0 175.6 183.2 190.8 198.4 206.0 213.6 221.2 228.8 236.4 244.0 251.6 259.2 266.8 274.4 282.0 289.6 297.2 304.8 312.4 320.0 327.6 335.2 342.8 350.4 358.0 365.6 373.2 380.8 388.4 396.0 403.6 411.2 418.8 426.4 434.0 441.6 449.2 456.8 464.4 472.0 479.6 487.2 494.8 502.4 510.0 517.6 525.2 532.8 540.4 548.0 555.6 563.2 570.8 578.4 586.0 593.6 601.2 608.8 616.4 624.0 631.6 639.2 646.8 654.4 662.0 669.6" y="126" class="mono" fill="#94a3b8">Every 1.0s: free -h                              DESKTOP: Sat Oct 18 14:02:11 2026</text>
+  <text x="54.0 61.6 69.2 76.8 84.4 92.0 99.6 107.2 114.8 122.4 130.0 137.6 145.2 152.8 160.4 168.0 175.6 183.2 190.8 198.4 206.0 213.6 221.2 228.8 236.4 244.0 251.6 259.2 266.8 274.4 282.0 289.6 297.2 304.8 312.4 320.0 327.6 335.2 342.8 350.4 358.0 365.6 373.2 380.8 388.4 396.0 403.6 411.2 418.8 426.4 434.0 441.6 449.2 456.8 464.4 472.0 479.6 487.2 494.8 502.4 510.0 517.6 525.2 532.8 540.4 548.0 555.6 563.2 570.8 578.4 586.0 593.6 601.2 608.8 616.4 624.0 631.6 639.2 646.8 654.4" y="162" class="mono" fill="#e2e8f0">               total        used        free      shared  buff/cache   available</text>
+  <text x="54.0 61.6 69.2 76.8 84.4 92.0 99.6 107.2 114.8 122.4 130.0 137.6 145.2 152.8 160.4 168.0 175.6 183.2 190.8 198.4 206.0 213.6 221.2 228.8 236.4 244.0 251.6 259.2 266.8 274.4 282.0 289.6 297.2 304.8 312.4 320.0 327.6 335.2 342.8 350.4 358.0 365.6 373.2 380.8 388.4 396.0 403.6 411.2 418.8 426.4 434.0 441.6 449.2 456.8 464.4 472.0 479.6 487.2 494.8 502.4 510.0 517.6 525.2 532.8 540.4 548.0 555.6 563.2 570.8 578.4 586.0 593.6 601.2 608.8 616.4 624.0 631.6 639.2 646.8 654.4" y="180" class="mono" fill="#e2e8f0">Mem:           7.6Gi       3.4Gi       2.1Gi        52Mi       2.1Gi       4.0Gi</text>
+  <text x="54.0 61.6 69.2 76.8 84.4 92.0 99.6 107.2 114.8 122.4 130.0 137.6 145.2 152.8 160.4 168.0 175.6 183.2 190.8 198.4 206.0 213.6 221.2 228.8 236.4 244.0 251.6 259.2 266.8 274.4 282.0 289.6 297.2 304.8 312.4 320.0 327.6 335.2 342.8 350.4 358.0 365.6 373.2 380.8" y="198" class="mono" fill="#e2e8f0">Swap:          2.0Gi          0B       2.0Gi</text>
+  <rect x="40" y="260" width="651.1999999999999" height="122" rx="8" fill="#0f172a" stroke="#334155"/>
+  <text x="40" y="252" class="lbl" fill="#a16207">Atualização em t = 1 s (após abrir um programa pesado): -d realça o que mudou</text>
+  <text x="54.0 61.6 69.2 76.8 84.4 92.0 99.6 107.2 114.8 122.4 130.0 137.6 145.2 152.8 160.4 168.0 175.6 183.2 190.8 198.4 206.0 213.6 221.2 228.8 236.4 244.0 251.6 259.2 266.8 274.4 282.0 289.6 297.2 304.8 312.4 320.0 327.6 335.2 342.8 350.4 358.0 365.6 373.2 380.8 388.4 396.0 403.6 411.2 418.8 426.4 434.0 441.6 449.2 456.8 464.4 472.0 479.6 487.2 494.8 502.4 510.0 517.6 525.2 532.8 540.4 548.0 555.6 563.2 570.8 578.4 586.0 593.6 601.2 608.8 616.4 624.0 631.6 639.2 646.8 654.4 662.0 669.6" y="286" class="mono" fill="#94a3b8">Every 1.0s: free -h                              DESKTOP: Sat Oct 18 14:02:12 2026</text>
+  <text x="54.0 61.6 69.2 76.8 84.4 92.0 99.6 107.2 114.8 122.4 130.0 137.6 145.2 152.8 160.4 168.0 175.6 183.2 190.8 198.4 206.0 213.6 221.2 228.8 236.4 244.0 251.6 259.2 266.8 274.4 282.0 289.6 297.2 304.8 312.4 320.0 327.6 335.2 342.8 350.4 358.0 365.6 373.2 380.8 388.4 396.0 403.6 411.2 418.8 426.4 434.0 441.6 449.2 456.8 464.4 472.0 479.6 487.2 494.8 502.4 510.0 517.6 525.2 532.8 540.4 548.0 555.6 563.2 570.8 578.4 586.0 593.6 601.2 608.8 616.4 624.0 631.6 639.2 646.8 654.4" y="322" class="mono" fill="#e2e8f0">               total        used        free      shared  buff/cache   available</text>
+  <rect x="273.9" y="327" width="8.6" height="17" fill="#fde047"/>
+  <rect x="349.9" y="327" width="8.6" height="17" fill="#fde047"/>
+  <rect x="365.1" y="327" width="8.6" height="17" fill="#fde047"/>
+  <rect x="623.5" y="327" width="8.6" height="17" fill="#fde047"/>
+  <rect x="638.7" y="327" width="8.6" height="17" fill="#fde047"/>
+  <text x="54.0 61.6 69.2 76.8 84.4 92.0 99.6 107.2 114.8 122.4 130.0 137.6 145.2 152.8 160.4 168.0 175.6 183.2 190.8 198.4 206.0 213.6 221.2 228.8 236.4 244.0 251.6 259.2 266.8 274.4 282.0 289.6 297.2 304.8 312.4 320.0 327.6 335.2 342.8 350.4 358.0 365.6 373.2 380.8 388.4 396.0 403.6 411.2 418.8 426.4 434.0 441.6 449.2 456.8 464.4 472.0 479.6 487.2 494.8 502.4 510.0 517.6 525.2 532.8 540.4 548.0 555.6 563.2 570.8 578.4 586.0 593.6 601.2 608.8 616.4 624.0 631.6 639.2 646.8 654.4" y="340" class="mono" fill="#e2e8f0">Mem:           7.6Gi       3.8Gi       1.7Gi        52Mi       2.1Gi       3.6Gi</text>
+  <text x="274.4" y="340" class="mono" fill="#0f172a" font-weight="bold">8</text>
+  <text x="350.4" y="340" class="mono" fill="#0f172a" font-weight="bold">1</text>
+  <text x="365.6" y="340" class="mono" fill="#0f172a" font-weight="bold">7</text>
+  <text x="624.0" y="340" class="mono" fill="#0f172a" font-weight="bold">3</text>
+  <text x="639.2" y="340" class="mono" fill="#0f172a" font-weight="bold">6</text>
+  <text x="54.0 61.6 69.2 76.8 84.4 92.0 99.6 107.2 114.8 122.4 130.0 137.6 145.2 152.8 160.4 168.0 175.6 183.2 190.8 198.4 206.0 213.6 221.2 228.8 236.4 244.0 251.6 259.2 266.8 274.4 282.0 289.6 297.2 304.8 312.4 320.0 327.6 335.2 342.8 350.4 358.0 365.6 373.2 380.8" y="358" class="mono" fill="#e2e8f0">Swap:          2.0Gi          0B       2.0Gi</text>
+  
+  <rect x="715.1999999999999" y="92" width="214.80000000000007" height="290" rx="10" fill="#fefce8" stroke="#fde047"/>
+  <text x="729.1999999999999" y="116" class="leg-b" style="white-space: pre;">O que o -d faz</text>
+  <text x="729.1999999999999" y="134" class="leg" style="white-space: pre;">Compara cada tela com a</text>
+  <text x="729.1999999999999" y="152" class="leg" style="white-space: pre;">anterior e realça (vídeo</text>
+  <text x="729.1999999999999" y="170" class="leg" style="white-space: pre;">reverso) só os caracteres</text>
+  <text x="729.1999999999999" y="188" class="leg" style="white-space: pre;">que mudaram.</text>
+  <text x="729.1999999999999" y="224" class="leg-b" style="white-space: pre;">Repare:</text>
+  <text x="729.1999999999999" y="242" class="leg" style="white-space: pre;">• used subiu: 3.4 → 3.8</text>
+  <text x="729.1999999999999" y="260" class="leg" style="white-space: pre;">• free caiu: 2.1 → 1.7</text>
+  <text x="729.1999999999999" y="278" class="leg" style="white-space: pre;">• available caiu: 4.0 → 3.6</text>
+  <text x="729.1999999999999" y="296" class="leg" style="white-space: pre;">• total, shared e Swap não</text>
+  <text x="729.1999999999999" y="314" class="leg" style="white-space: pre;">  mudaram: sem realce.</text>
+  <text x="729.1999999999999" y="332" class="leg" style="white-space: pre;">• O relógio do cabeçalho</text>
+  <text x="729.1999999999999" y="350" class="leg" style="white-space: pre;">  muda, mas não é realçado.</text>
+  <rect x="40" y="400" width="890" height="96" rx="10" fill="#f8fafc" stroke="#e2e8f0"/>
+  <text x="56" y="424" class="lbl" fill="#334155">Variações úteis</text>
+  <text x="56" y="448" class="cmd" style="white-space: pre;">watch --differences=permanent free -h</text>
+  <text x="340" y="448" class="tip" style="white-space: pre;">mantém realçado tudo o que já mudou desde o início (bom para notar oscilações raras)</text>
+  <text x="56" y="472" class="cmd" style="white-space: pre;">watch -n 2 -d 'cmd | cmd'</text>
+  <text x="340" y="472" class="tip" style="white-space: pre;">com pipes, coloque o comando entre aspas; -n define o intervalo em segundos</text>
+</svg>
