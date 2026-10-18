@@ -18,6 +18,10 @@
   --pre-bg: #f6f8fa;
   --table-alt: #f6f8fa;
   --quote-border: #0969da;
+  --callout-bg: #fff8eb;
+  --callout-line: #f5d9a8;
+  --callout-border: #d97706;
+  --callout-title: #92400e;
   --max-width: 80rem; /* ~1280px para maior área útil de diagramas e leitura */
 
   /* Heading colors (Light Mode) */
@@ -41,6 +45,10 @@
     --pre-bg: #161b22;
     --table-alt: #161b22;
     --quote-border: #4493f8;
+    --callout-bg: #231c10;
+    --callout-line: #4a3a1c;
+    --callout-border: #f59e0b;
+    --callout-title: #fbbf24;
 
     /* Heading colors (Dark Mode) */
     --h1-color: #58a6ff; /* Azul celeste luminoso */
@@ -54,6 +62,10 @@
 
 /* Explicit dark theme */
 [data-theme="dark"] {
+  --callout-bg: #231c10;
+  --callout-line: #4a3a1c;
+  --callout-border: #f59e0b;
+  --callout-title: #fbbf24;
   --bg: #0d1117;
   --text: #e6edf3;
   --muted: #848d97;
@@ -75,6 +87,10 @@
 
 /* Explicit light theme */
 [data-theme="light"] {
+  --callout-bg: #fff8eb;
+  --callout-line: #f5d9a8;
+  --callout-border: #d97706;
+  --callout-title: #92400e;
   --bg: #ffffff;
   --text: #1f2328;
   --muted: #656d76;
@@ -323,6 +339,36 @@ blockquote > :first-child {
 
 blockquote > :last-child {
   margin-bottom: 0;
+}
+
+/* Quadro de destaque (Pandoc: ::: destaque) para avisos importantes, sem tom de alarme */
+.destaque {
+  margin: 1.75rem 0;
+  padding: 1rem 1.25rem;
+  color: var(--text);
+  background-color: var(--callout-bg);
+  border: 1px solid var(--callout-line);
+  border-left: 0.35rem solid var(--callout-border);
+  border-radius: 6px;
+}
+
+.destaque > .destaque-titulo {
+  margin: 0 0 0.6rem;
+  font-size: 1.05em;
+  font-weight: 700;
+  color: var(--callout-title);
+}
+
+.destaque > .destaque-titulo > p {
+  margin: 0;
+}
+
+.destaque > :last-child {
+  margin-bottom: 0;
+}
+
+.destaque pre {
+  background-color: var(--bg);
 }
 
 /* Code & Preformatted Text */

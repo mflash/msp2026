@@ -52,7 +52,7 @@
   <text x="717" y="202" text-anchor="middle" class="code-sm" fill="#7c3aed" style="white-space: pre;">pull/<tspan x="717" dy="1em">​</tspan>fetch</text>
   <rect x="740" y="125" width="175" height="95" rx="8" fill="#ffffff" stroke="#7c3aed" stroke-width="1.5"/>
   <text x="827" y="150" text-anchor="middle" class="box-label" fill="#6b21a8" style="white-space: pre;">Remoto (GitHub/GitLab)</text>
-  <text x="827" y="170" text-anchor="middle" class="text-sub" style="white-space: pre;">Servidor central da equipe</text>
+  <text x="827" y="170" text-anchor="middle" class="text-sub" style="white-space: pre;">Cópia compartilhada da equipe</text>
   <text x="827" y="195" text-anchor="middle" class="code-mono" fill="#7c3aed" style="white-space: pre;">origin/main</text>
   <text x="46" y="255" class="code-mono" font-size="12px" fill="#334155" style="white-space: pre;">
     $ git status <tspan font-family="sans-serif" font-weight="normal" fill="#64748b">→ Verifica o estado de cada arquivo em relação ao Staging e ao último commit</tspan>
@@ -61,30 +61,30 @@
     $ git diff   <tspan font-family="sans-serif" font-weight="normal" fill="#64748b">→ Mostra as alterações linha a linha que ainda NÃO foram preparadas (não estão em Staging)</tspan>
   </text>
   <rect x="30" y="320" width="900" height="195" rx="10" fill="#faf5ff" stroke="#e9d5ff" stroke-width="1"/>
-  <text x="46" y="346" class="section-hdr" fill="#6b21a8" style="white-space: pre;">2. Ramificações (Branches) e Resolução de Conflitos</text>
+  <text x="46" y="346" class="section-hdr" fill="#6b21a8" style="white-space: pre;">2. Ramificações (Branches) e Merge</text>
   <circle cx="80" cy="420" r="12" fill="#2563eb"/>
-  <text x="80" y="424" text-anchor="middle" fill="#ffffff" font-size="9px" font-weight="bold" style="white-space: pre;">C1</text>
+  <text x="80" y="424" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" fill="#ffffff" font-size="9px" font-weight="bold" style="white-space: pre;">C1</text>
   <line x1="92" y1="420" x2="178" y2="420" stroke="#2563eb" stroke-width="3"/>
   <circle cx="190" cy="420" r="12" fill="#2563eb"/>
-  <text x="190" y="424" text-anchor="middle" fill="#ffffff" font-size="9px" font-weight="bold" style="white-space: pre;">C2</text>
+  <text x="190" y="424" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" fill="#ffffff" font-size="9px" font-weight="bold" style="white-space: pre;">C2</text>
   <path d="M 198 412 C 240 370, 260 370, 300 370" fill="none" stroke="#16a34a" stroke-width="3"/>
   <circle cx="312" cy="370" r="12" fill="#16a34a"/>
-  <text x="312" y="374" text-anchor="middle" fill="#ffffff" font-size="9px" font-weight="bold" style="white-space: pre;">F1</text>
+  <text x="312" y="374" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" fill="#ffffff" font-size="9px" font-weight="bold" style="white-space: pre;">F1</text>
   <line x1="324" y1="370" x2="438" y2="370" stroke="#16a34a" stroke-width="3"/>
   <circle cx="450" cy="370" r="12" fill="#16a34a"/>
-  <text x="450" y="374" text-anchor="middle" fill="#ffffff" font-size="9px" font-weight="bold" style="white-space: pre;">F2</text>
+  <text x="450" y="374" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" fill="#ffffff" font-size="9px" font-weight="bold" style="white-space: pre;">F2</text>
   <text x="473.525" y="350.738" text-anchor="middle" class="code-mono" font-size="11px" fill="#15803d" style="white-space: pre; font-size: 12px;">feature/login</text>
   <line x1="202" y1="420" x2="378" y2="420" stroke="#2563eb" stroke-width="3"/>
   <circle cx="390" cy="420" r="12" fill="#2563eb"/>
-  <text x="390" y="424" text-anchor="middle" fill="#ffffff" font-size="9px" font-weight="bold" style="white-space: pre;">C3</text>
+  <text x="390" y="424" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" fill="#ffffff" font-size="9px" font-weight="bold" style="white-space: pre;">C3</text>
   <path d="M 460 375 C 500 390, 520 420, 568 420" fill="none" stroke="#16a34a" stroke-width="3"/>
   <line x1="402" y1="420" x2="568" y2="420" stroke="#2563eb" stroke-width="3"/>
   <circle cx="580" cy="420" r="14" fill="#7c3aed" stroke="#5b21b6" stroke-width="2"/>
-  <text x="580" y="424" text-anchor="middle" fill="#ffffff" font-size="9px" font-weight="bold" style="white-space: pre;">M1</text>
+  <text x="580" y="424" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" fill="#ffffff" font-size="9px" font-weight="bold" style="white-space: pre;">M1</text>
   <text x="580" y="450" text-anchor="middle" class="code-mono" font-size="11px" fill="#7c3aed" style="white-space: pre;">git merge</text>
   <line x1="594" y1="420" x2="650" y2="420" stroke="#2563eb" stroke-width="3"/>
   <circle cx="662" cy="420" r="12" fill="#2563eb"/>
-  <text x="662" y="424" text-anchor="middle" fill="#ffffff" font-size="9px" font-weight="bold" style="white-space: pre;">C4</text>
+  <text x="662" y="424" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" fill="#ffffff" font-size="9px" font-weight="bold" style="white-space: pre;">C4</text>
   <text x="662" y="445" text-anchor="middle" class="code-mono" font-size="11px" fill="#1e40af" style="white-space: pre;">main</text>
   <rect x="710" y="350" width="205" height="145" rx="6" fill="#ffffff" stroke="#cbd5e1"/>
   <text x="725" y="372" font-family="sans-serif" font-size="11px" font-weight="bold" fill="#1e293b" style="white-space: pre;">Comandos de Branching:</text>
