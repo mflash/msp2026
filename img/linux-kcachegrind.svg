@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" width="100%" height="100%">
+  <defs>
+    <style>
+      .title { font-family: system-ui, -apple-system, sans-serif; font-size: 20px; font-weight: 700; fill: #1e293b; }
+      .subtitle { font-family: system-ui, -apple-system, sans-serif; font-size: 13px; fill: #64748b; }
+      .section-hdr { font-family: system-ui, -apple-system, sans-serif; font-size: 13px; font-weight: 700; fill: #334155; }
+      .th { font-family: system-ui, -apple-system, sans-serif; font-size: 11px; font-weight: 700; fill: #475569; }
+      .td { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 11px; fill: #1e293b; }
+      .td-num { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 11px; fill: #1e293b; text-anchor: end; }
+      .node { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 11px; font-weight: 600; fill: #ffffff; text-anchor: middle; }
+      .edge { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 10px; fill: #475569; }
+      .legend-hdr { font-family: system-ui, -apple-system, sans-serif; font-size: 12px; font-weight: 700; fill: #6b21a8; }
+      .legend { font-family: system-ui, -apple-system, sans-serif; font-size: 11px; fill: #334155; }
+      .marker-txt { font-family: system-ui, -apple-system, sans-serif; font-size: 11px; font-weight: 700; fill: #ffffff; text-anchor: middle; }
+    </style>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#64748b"/>
+    </marker>
+  </defs>
+  <rect width="960" height="540" rx="14" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/>
+  <text x="32" y="40" class="title" style="white-space: pre;">KCachegrind: Lendo o Perfil do processamento.c</text>
+  <text x="32" y="60" class="subtitle" style="white-space: pre;">Ilustração com dados de uma execução real de valgrind --tool=callgrind ./processamento (4,38 bilhões de instruções)</text>
+
+  <!-- Janela simulada -->
+  <rect x="30" y="75" width="900" height="330" rx="8" fill="#f8fafc" stroke="#cbd5e1"/>
+  <path d="M 30 101 L 30 83 A 8 8 0 0 1 38 75 L 922 75 A 8 8 0 0 1 930 83 L 930 101 Z" fill="#334155"/>
+  <circle cx="46" cy="88" r="5" fill="#f87171"/>
+  <circle cx="62" cy="88" r="5" fill="#fbbf24"/>
+  <circle cx="78" cy="88" r="5" fill="#4ade80"/>
+  <text x="480" y="92" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12px" fill="#e2e8f0" style="white-space: pre;">KCachegrind — callgrind.out.1692 [processamento]</text>
+
+  <!-- Painel esquerdo: Flat Profile -->
+  <rect x="40" y="110" width="450" height="285" rx="6" fill="#ffffff" stroke="#e2e8f0"/>
+  <text x="52" y="130" class="section-hdr" style="white-space: pre;">Flat Profile (lista de funções)</text>
+  <rect x="48" y="140" width="434" height="24" fill="#f1f5f9"/>
+  <text x="105" y="156" class="th" text-anchor="end">Incl. %</text>
+  <text x="165" y="156" class="th" text-anchor="end">Self %</text>
+  <text x="260" y="156" class="th" text-anchor="end">Called</text>
+  <text x="280" y="156" class="th">Function</text>
+
+  <text x="105" y="184" class="td-num">100,00</text>
+  <text x="165" y="184" class="td-num">0,00</text>
+  <text x="260" y="184" class="td-num">1</text>
+  <text x="280" y="184" class="td">main</text>
+
+  <rect x="48" y="194" width="434" height="26" fill="#dbeafe"/>
+  <text x="105" y="211" class="td-num">99,98</text>
+  <text x="165" y="211" class="td-num" font-weight="bold">10,04</text>
+  <text x="260" y="211" class="td-num">1</text>
+  <text x="280" y="211" class="td">funcao_lenta_gargalo</text>
+
+  <rect x="48" y="221" width="434" height="26" fill="#ffe4e6"/>
+  <text x="105" y="238" class="td-num">89,89</text>
+  <text x="165" y="238" class="td-num" font-weight="bold" fill="#be123c">89,89</text>
+  <text x="260" y="238" class="td-num" font-weight="bold" fill="#be123c">39 980 000</text>
+  <text x="280" y="238" class="td">__cos_fma (cos)</text>
+
+  <text x="105" y="265" class="td-num">0,04</text>
+  <text x="165" y="265" class="td-num">0,04</text>
+  <text x="260" y="265" class="td-num">19 999</text>
+  <text x="280" y="265" class="td">__sin_fma (sin)</text>
+
+  <text x="105" y="292" class="td-num">0,02</text>
+  <text x="165" y="292" class="td-num">0,02</text>
+  <text x="260" y="292" class="td-num">1</text>
+  <text x="280" y="292" class="td">funcao_rapida</text>
+
+  <line x1="48" y1="310" x2="482" y2="310" stroke="#e2e8f0"/>
+  <text x="52" y="330" class="legend" style="white-space: pre;"><tspan font-weight="bold">Incl.</tspan> = a função + tudo o que ela chama (largura no flame graph)</text>
+  <text x="52" y="348" class="legend" style="white-space: pre;"><tspan font-weight="bold">Self</tspan> = só o código da própria função (platô no topo)</text>
+  <text x="52" y="366" class="legend" style="white-space: pre;"><tspan font-weight="bold">Called</tspan> = quantas vezes a função foi chamada</text>
+  <text x="52" y="384" class="legend" fill="#64748b" style="white-space: pre;">Custo medido em instruções executadas (Ir), não em segundos.</text>
+
+  <circle cx="178" cy="152" r="9" fill="#7c3aed"/>
+  <text x="178" y="156" class="marker-txt">1</text>
+  <circle cx="473" cy="234" r="9" fill="#7c3aed"/>
+  <text x="473" y="238" class="marker-txt">2</text>
+
+  <!-- Painel direito: Call Graph -->
+  <rect x="505" y="110" width="415" height="285" rx="6" fill="#ffffff" stroke="#e2e8f0"/>
+  <text x="517" y="130" class="section-hdr" style="white-space: pre;">Call Graph (quem chama quem)</text>
+  <circle cx="905" cy="126" r="9" fill="#7c3aed"/>
+  <text x="905" y="130" class="marker-txt">3</text>
+
+  <line x1="715" y1="175" x2="590" y2="213" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="715" y1="175" x2="765" y2="213" stroke="#94a3b8" stroke-width="3" marker-end="url(#arrow)"/>
+  <line x1="765" y1="245" x2="690" y2="298" stroke="#94a3b8" stroke-width="3" marker-end="url(#arrow)"/>
+  <line x1="765" y1="245" x2="850" y2="298" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="615" y="198" class="edge">1×</text>
+  <text x="752" y="188" class="edge">1×</text>
+  <text x="640" y="276" class="edge" font-weight="bold" fill="#be123c">39 980 000×</text>
+  <text x="818" y="276" class="edge">19 999×</text>
+
+  <rect x="620" y="145" width="190" height="30" rx="4" fill="#ea580c" stroke="#c2410c"/>
+  <text x="715" y="164" class="node">main  [100%]</text>
+  <rect x="512" y="215" width="146" height="30" rx="4" fill="#94a3b8" stroke="#64748b"/>
+  <text x="585" y="234" class="node">funcao_rapida [0,02%]</text>
+  <rect x="660" y="215" width="210" height="30" rx="4" fill="#f97316" stroke="#ea580c"/>
+  <text x="765" y="234" class="node">funcao_lenta_gargalo [99,98%]</text>
+  <rect x="590" y="300" width="200" height="30" rx="4" fill="#e11d48" stroke="#be123c"/>
+  <text x="690" y="319" class="node">__cos_fma (cos) [89,89%]</text>
+  <rect x="796" y="300" width="118" height="30" rx="4" fill="#94a3b8" stroke="#64748b"/>
+  <text x="855" y="319" class="node">__sin_fma [0,04%]</text>
+  <text x="517" y="365" class="legend" fill="#64748b" style="white-space: pre;">Setas mais grossas = caminhos mais caros.</text>
+  <text x="517" y="383" class="legend" fill="#64748b" style="white-space: pre;">Clicar em um bloco mostra suas linhas no código-fonte.</text>
+
+  <!-- Legenda de interpretação -->
+  <rect x="30" y="418" width="900" height="104" rx="10" fill="#faf5ff" stroke="#e9d5ff"/>
+  <text x="46" y="440" class="legend-hdr" style="white-space: pre;">Como interpretar</text>
+  <circle cx="54" cy="461" r="9" fill="#7c3aed"/><text x="54" y="465" class="marker-txt">1</text>
+  <text x="70" y="465" class="legend" style="white-space: pre;"><tspan font-weight="bold">Incl. alto, Self baixo:</tspan> funcao_lenta_gargalo</text>
+  <text x="70" y="481" class="legend" style="white-space: pre;">soma 99,98%, mas só 10% é código dela.</text>
+  <text x="70" y="497" class="legend" style="white-space: pre;">O custo está em quem ela chama.</text>
+  <circle cx="344" cy="461" r="9" fill="#7c3aed"/><text x="344" y="465" class="marker-txt">2</text>
+  <text x="360" y="465" class="legend" style="white-space: pre;"><tspan font-weight="bold">O gargalo real:</tspan> cos() tem 89,89% de Self</text>
+  <text x="360" y="481" class="legend" style="white-space: pre;">em quase 40 milhões de chamadas, embora</text>
+  <text x="360" y="497" class="legend" style="white-space: pre;">só existam 2.000 valores distintos de j.</text>
+  <circle cx="634" cy="461" r="9" fill="#7c3aed"/><text x="634" y="465" class="marker-txt">3</text>
+  <text x="650" y="465" class="legend" style="white-space: pre;"><tspan font-weight="bold">O caminho:</tspan> main → funcao_lenta_gargalo</text>
+  <text x="650" y="481" class="legend" style="white-space: pre;">→ cos mostra onde mexer no código.</text>
+  <text x="650" y="497" class="legend" style="white-space: pre;">sin() quase não custa: veja por quê no texto.</text>
+</svg>

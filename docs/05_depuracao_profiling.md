@@ -447,13 +447,76 @@ $ valgrind --leak-check=full --show-leak-kinds=all ./vazamento
 O Valgrind indica exatamente **qual função e qual linha** (`vazamento.c:4`) alocou a memória esquecida!
 
 ##### 2. Mapeamento de Chamadas com `Callgrind`:
-```bash
-# Grava a contagem de instruções por função:
-$ valgrind --tool=callgrind ./processamento
 
-# Gera um arquivo 'callgrind.out.PID', que pode ser aberto graficamente no KCachegrind:
-$ kcachegrind callgrind.out.35120
+O **Callgrind** é a ferramenta do Valgrind que conta **quantas instruções de máquina** cada função executou (evento `Ir`, de *Instructions read*) e registra **quem chamou quem**. Como o programa roda no processador virtual do Valgrind, a medição é **determinística**: a mesma entrada produz exatamente os mesmos números em todas as execuções, o que torna o Callgrind ótimo para comparar o "antes e depois" de uma otimização.
+
+```bash
+# Grava a contagem de instruções por função (muito mais lento que a execução normal!):
+$ valgrind --tool=callgrind ./processamento
+==1692== Events    : Ir
+==1692== Collected : 4383710533
+==1692==
+==1692== I   refs:      4,383,710,533
 ```
+
+> **Atenção ao overhead:** nesta medição, o `processamento` levou **0,67 s** rodando normalmente e cerca de **1 min 30 s** sob o Callgrind, **mais de 100× mais lento**. Para experimentos em sala, reduza o tamanho da entrada.
+
+O resultado é gravado no arquivo `callgrind.out.<PID>` (aqui, `callgrind.out.1692`), que pode ser analisado de duas formas.
+
+**A. No terminal, com `callgrind_annotate`** (vem junto com o Valgrind e dispensa interface gráfica):
+
+```bash
+$ callgrind_annotate callgrind.out.1692
+--------------------------------------------------------------------------------
+Ir                      file:function
+--------------------------------------------------------------------------------
+3,540,920,000 (80.77%)  ./math/../sysdeps/ieee754/dbl-64/s_sin.c:__cos_fma [/usr/lib/x86_64-linux-gnu/libm.so.6]
+  440,060,020 (10.04%)  processamento.c:funcao_lenta_gargalo [/tmp/cg/processamento]
+  399,800,000 ( 9.12%)  ./math/../sysdeps/x86/fpu/fenv_private.h:__cos_fma
+```
+
+Por padrão, a lista é ordenada pelo custo **próprio** (*Self*) de cada função. A opção `--auto=yes` mostra também o custo **linha a linha** do código-fonte, incluindo as chamadas feitas em cada linha:
+
+```text
+119,980,000 ( 2.74%)          for (int j = 0; j < 2000; j++) {
+320,020,002 ( 7.30%)              soma += sin((double)i) * cos((double)j);
+3,940,720,000 (89.89%)  => ./math/../sysdeps/ieee754/dbl-64/s_sin.c:__cos_fma (39,980,000x)
+  1,889,803 ( 0.04%)  => ./math/../sysdeps/ieee754/dbl-64/s_sin.c:__sin_fma (19,999x)
+```
+
+**B. Graficamente, com o KCachegrind** (`sudo apt install kcachegrind`; no Windows e no macOS existe a versão **QCachegrind**):
+
+```bash
+$ kcachegrind callgrind.out.1692
+```
+
+[![KCachegrind: lendo o perfil do processamento.c (clique para ampliar)](img/linux-kcachegrind.svg)](img/linux-kcachegrind.svg)
+
+##### Interpretando o resultado:
+
+1. **Incl. alto, Self baixo = o custo está nas funções chamadas.** `funcao_lenta_gargalo` responde por 99,98% das instruções (inclusivo), mas apenas 10,04% são do código dela mesma (o laço e a multiplicação). É a mesma distinção entre largura e platô do flame graph (Seção 2).
+2. **O gargalo real é `cos()`:** a função da biblioteca matemática (`__cos_fma`, da `libm`) concentra **89,89%** de todas as instruções, em **39.980.000 chamadas**. Mas `cos((double)j)` só depende de `j`, que assume apenas **2.000 valores distintos**: o programa recalcula os mesmos 2.000 cossenos 20 mil vezes!
+3. **Uma surpresa revelada pelo profiler: `sin()` quase não custa.** `sin((double)i)` também está no laço interno, mas foi chamada só 19.999 vezes, e não 40 milhões. Como o valor não muda dentro do laço em `j`, o próprio GCC (`-O2`) **moveu o cálculo para fora do laço interno**. As contagens também mostram que o compilador resolveu sozinho os casos triviais `sin(0)` e `cos(0)`, por isso aparecem 19.999 e 39.980.000, e não 20.000 e 40.000.000. *Moral: o código-fonte nem sempre é o que executa; só a medição revela o que realmente acontece.*
+
+##### Do diagnóstico à otimização:
+
+Com o diagnóstico em mãos, a correção é direta: calcular os 2.000 cossenos **uma única vez**, em uma tabela, antes dos laços:
+
+```c
+void funcao_lenta_otimizada(int n) {
+    volatile double soma = 0.0;
+    double tab_cos[2000];
+    for (int j = 0; j < 2000; j++)          // 2.000 chamadas a cos(), em vez de ~40 milhões
+        tab_cos[j] = cos((double)j);
+    for (int i = 0; i < n; i++) {
+        double s = sin((double)i);
+        for (int j = 0; j < 2000; j++)
+            soma += s * tab_cos[j];
+    }
+}
+```
+
+Na mesma máquina, o tempo caiu de **0,63 s para 0,13 s** (cerca de **5× mais rápido**), com uma mudança de poucas linhas, exatamente no ponto que o profiler apontou.
 
 ---
 
@@ -629,7 +692,7 @@ $ jcmd 34120 GC.heap_info
 | :--- | :--- | :---: | :---: | :--- |
 | **C / C++** | **`perf`** | Amostragem | Quase nulo (<1%) | Gargalos de CPU, ciclos de clock, falhas de cache de hardware no Linux. |
 | **C / C++** | **`Valgrind (Memcheck)`** | Emulação | Alto (~10x a 50x) | Detecção cirúrgica de vazamentos de memória (*memory leaks*) e corrupção de ponteiros. |
-| **C / C++** | **`Valgrind (Callgrind)`** | Emulação | Muito alto (~20x a 100x) | Contagem exata de instruções por função, visualizada no KCachegrind. |
+| **C / C++** | **`Valgrind (Callgrind)`** | Emulação | Muito alto (~100x ou mais) | Contagem exata de instruções por função, visualizada no KCachegrind. |
 | **Python** | **`cProfile`** | Tracing | Baixo a médio | Profiler rápido embutido na biblioteca padrão; dispensa instalações extras. |
 | **Python** | **`py-spy`** | Amostragem | Quase nulo (<1%) | Seguro em produção; gera Flame Graphs interativos em SVG e tem modo `top` ao vivo. |
 | **Python** | **`line_profiler`** | Tracing (linha a linha) | Médio | Diagnóstico linha a linha quando o método gargalo já foi localizado. |
