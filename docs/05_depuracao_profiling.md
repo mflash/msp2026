@@ -162,7 +162,7 @@ int main(void) {
 ---
 
 ##### 2. Logging em Python: O Módulo Nativo `logging`
-O Python inclui um subsistema completo e poderoso de logging diretamente na biblioteca padrão (não requer `pip install`):
+O Python inclui um subsistema completo e poderoso de logging diretamente na biblioteca padrão (não requer `pip install`). Considere o script `faturamento.py`:
 
 ```python
 import logging
@@ -231,6 +231,68 @@ public class PedidoController {
 ```
 
 > **Vantagem de Performance em Java:** Ao usar `logger.debug("Valor: {}", x)`, a string só é construída se o nível `DEBUG` estiver realmente ativo no `logback.xml`. Usar concatenação direta (`"Valor: " + x`) força a criação de objetos na memória RAM mesmo quando o log está desligado!
+
+---
+
+#### D. Consumindo os Logs: Da Inspeção Visual às Ferramentas de Análise
+
+Gerar logs é só metade do trabalho. O valor aparece quando conseguimos **encontrar rapidamente a informação certa** no meio de milhares de linhas. Na prática, o profissional usa estratégias diferentes conforme o tamanho do sistema:
+
+##### 1. Linha de comando: o kit básico (projetos locais e servidores únicos)
+Como os logs são texto, as ferramentas dos Módulos 01 e 02 já resolvem boa parte dos casos. Usando o exemplo em Python acima (o `logging` escreve em `stderr` por padrão):
+
+```bash
+# Redireciona os logs (stderr) para um arquivo:
+$ python3 faturamento.py 2> app.log
+
+# Acompanha o arquivo em tempo real enquanto a aplicação roda:
+$ tail -f app.log
+
+# Filtra apenas avisos e erros:
+$ grep -E "WARNING|ERROR" app.log
+
+# Conta quantas mensagens existem de cada nível:
+$ grep -oE "\[(DEBUG|INFO|WARNING|ERROR|CRITICAL)" app.log | sort | uniq -c
+
+# Serviços do sistema (systemd): logs de um serviço, só de nível warning ou mais grave:
+$ journalctl -u nginx -p warning -f
+```
+
+##### 2. Logs estruturados em JSON + `jq`
+Em vez de texto livre, cada linha de log pode ser um objeto JSON. Assim, os logs são lidos por programas sem precisar de expressões regulares frágeis:
+
+```json
+{"ts": "2026-10-18T14:02:11", "level": "ERROR", "logger": "ModServico", "msg": "Percentual negativo invalido", "percentual": -5}
+```
+
+- **Python:** `loguru` com `serialize=True`, ou a biblioteca `python-json-logger`.
+- **Java:** `logstash-logback-encoder` no `logback.xml`.
+
+Com a ferramenta [`jq`](https://jqlang.github.io/jq/), consultamos esses logs como se fossem um banco de dados:
+
+```bash
+# Somente os erros, mostrando data e mensagem:
+$ jq -r 'select(.level == "ERROR") | "\(.ts) \(.msg)"' app.json
+```
+
+##### 3. Visualizadores de log no terminal: `lnav`
+O [`lnav`](https://lnav.org) (*Log File Navigator*, gratuito) detecta automaticamente o formato dos logs, colore os níveis, junta vários arquivos em ordem cronológica, permite pular de erro em erro e até aceita consultas SQL sobre as linhas:
+
+```bash
+$ sudo apt install lnav
+$ lnav app.log /var/log/syslog
+```
+
+##### 4. Centralização em produção: sistemas distribuídos
+Quando há dezenas de servidores ou contêineres, entrar em cada máquina para dar `grep` se torna inviável. Os logs passam a ser **enviados para um servidor central**, que indexa, permite buscas e gera painéis e alertas:
+
+| Solução (gratuita / open source) | Componentes | Destaque |
+| :--- | :--- | :--- |
+| **Elastic Stack (ELK)** / **OpenSearch** | Elasticsearch + Logstash/Beats + Kibana | Busca textual poderosa e painéis ricos; o padrão de mercado por muitos anos. |
+| **Grafana Loki** | Loki + Promtail/Alloy + Grafana | Mais leve: indexa só os metadados (rótulos), e não o texto completo. |
+| **Graylog** | Graylog + OpenSearch | Interface pronta, focada em logs, com alertas simples de configurar. |
+
+> **Dica profissional, o ID de correlação:** em sistemas com várias etapas (API → serviço → banco), inclua em **todas** as mensagens um identificador único da requisição (`request_id`). Quando um usuário relatar um erro, uma busca por esse ID mostra toda a história daquela requisição, mesmo que ela tenha passado por vários servidores.
 
 ---
 
