@@ -1,23 +1,26 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 280" width="100%" height="auto" font-family="'Outfit', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1140 380" width="100%" height="auto" font-family="'Outfit', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif">
   <defs>
     <!-- Drop Shadow for Cards -->
     <filter id="card-shadow" x="-8%" y="-10%" width="120%" height="130%">
-      <feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="#000000" flood-opacity="0.4" />
+      <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#000000" flood-opacity="0.45" />
     </filter>
 
     <!-- Shell Center Glow Filter -->
     <filter id="shell-glow" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="0" stdDeviation="8" flood-color="#ffe600" flood-opacity="0.45" />
+      <feDropShadow dx="0" dy="0" stdDeviation="12" flood-color="#ffe600" flood-opacity="0.55" />
     </filter>
 
     <!-- Arrow Markers -->
-    <marker id="arrow-right" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <marker id="arrow-right" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
       <path d="M 0 1 L 10 5 L 0 9 z" fill="#38bdf8" />
     </marker>
-    <marker id="arrow-right-yellow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <marker id="arrow-right-yellow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
       <path d="M 0 1 L 10 5 L 0 9 z" fill="#ffe600" />
     </marker>
-    <marker id="arrow-left-green" viewBox="0 0 10 10" refX="2" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <marker id="arrow-right-orange" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#f7941d" />
+    </marker>
+    <marker id="arrow-left-green" viewBox="0 0 10 10" refX="2" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
       <path d="M 10 1 L 0 5 L 10 9 z" fill="#34d399" />
     </marker>
 
@@ -29,126 +32,143 @@
   </defs>
 
   <!-- ==================== 1. EMULADOR DE TERMINAL ==================== -->
-  <g transform="translate(25, 35)">
-    <rect x="0" y="0" width="245" height="210" rx="12" fill="#0f172a" fill-opacity="0.9" stroke="rgba(56, 189, 248, 0.4)" stroke-width="1.5" filter="url(#card-shadow)" />
-    <rect x="0" y="0" width="245" height="4" rx="2" fill="#38bdf8" />
+  <g transform="translate(15, 30)">
+    <rect x="0" y="0" width="245" height="320" rx="14" fill="#0f172a" fill-opacity="0.92" stroke="rgba(56, 189, 248, 0.45)" stroke-width="1.8" filter="url(#card-shadow)" />
+    <rect x="0" y="0" width="245" height="5" rx="2" fill="#38bdf8" />
     
     <!-- Header -->
-    <text x="18" y="32" font-size="20">🖥️</text>
-    <text x="50" y="32" font-size="14" font-weight="800" fill="#38bdf8">Emulador de Terminal</text>
-    <rect x="18" y="46" width="115" height="18" rx="9" fill="rgba(56, 189, 248, 0.15)" stroke="rgba(56, 189, 248, 0.3)" stroke-width="1" />
-    <text x="75" y="59" text-anchor="middle" font-size="9.5" font-weight="700" fill="#38bdf8" font-family="'Fira Code', monospace">iTerm2 • Terminal</text>
+    <text x="20" y="40" font-size="26">🖥️</text>
+    <text x="58" y="38" font-size="17" font-weight="800" fill="#38bdf8">Emulador Terminal</text>
+    <rect x="20" y="58" width="138" height="22" rx="11" fill="rgba(56, 189, 248, 0.15)" stroke="rgba(56, 189, 248, 0.35)" stroke-width="1.2" />
+    <text x="89" y="73" text-anchor="middle" font-size="11.5" font-weight="700" fill="#38bdf8" font-family="'Fira Code', monospace">iTerm2 • Terminal</text>
+
+    <line x1="20" y1="94" x2="225" y2="94" stroke="rgba(255,255,255,0.12)" stroke-width="1" />
 
     <!-- Content -->
-    <text x="18" y="90" font-size="11" font-weight="700" fill="#ffffff">A Janela Gráfica (GUI)</text>
-    <text x="18" y="112" font-size="10.5" fill="#cbd5e1">• Captura teclas digitadas</text>
-    <text x="18" y="132" font-size="10.5" fill="#cbd5e1">• Renderiza caracteres na tela</text>
-    <text x="18" y="152" font-size="10.5" fill="#cbd5e1">• Virtualiza o terminal físico</text>
-    <text x="28" y="170" font-size="10" font-weight="600" fill="#38bdf8">(Legado do DEC VT100 de 1978)</text>
+    <text x="20" y="124" font-size="14.5" font-weight="700" fill="#ffffff">A Janela Gráfica (GUI)</text>
+    <text x="20" y="156" font-size="13.5" fill="#cbd5e1">• Captura teclas digitadas</text>
+    <text x="20" y="184" font-size="13.5" fill="#cbd5e1">• Renderiza caracteres na tela</text>
+    <text x="20" y="212" font-size="13.5" fill="#cbd5e1">• Envia entrada pelo <tspan font-family="'Fira Code', monospace" fill="#38bdf8">stdin</tspan></text>
+    <text x="20" y="240" font-size="13.5" fill="#cbd5e1">• Virtualiza o terminal físico</text>
     
-    <rect x="18" y="186" width="209" height="2" fill="rgba(255,255,255,0.08)" />
+    <rect x="16" y="264" width="213" height="34" rx="6" fill="rgba(56, 189, 248, 0.1)" stroke="rgba(56, 189, 248, 0.25)" stroke-width="1" />
+    <text x="122" y="285" text-anchor="middle" font-size="11" font-weight="600" fill="#93c5fd">Legado DEC VT100 (1978)</text>
   </g>
 
   <!-- ==================== FLOW 1: TERMINAL <-> SHELL ==================== -->
-  <g transform="translate(270, 0)">
+  <g transform="translate(260, 0)">
     <!-- Top Arrow: stdin -->
-    <path d="M 6 105 L 48 105" stroke="#38bdf8" stroke-width="2.5" marker-end="url(#arrow-right)" />
-    <rect x="8" y="86" width="38" height="14" rx="3" fill="#0f172a" />
-    <text x="27" y="97" text-anchor="middle" font-size="8.5" font-weight="700" fill="#38bdf8" font-family="'Fira Code', monospace">stdin</text>
+    <path d="M 4 140 L 46 140" stroke="#38bdf8" stroke-width="3" marker-end="url(#arrow-right)" />
+    <rect x="4" y="116" width="42" height="18" rx="4" fill="#0f172a" stroke="rgba(56, 189, 248, 0.5)" stroke-width="1" />
+    <text x="25" y="129" text-anchor="middle" font-size="11" font-weight="700" fill="#38bdf8" font-family="'Fira Code', monospace">stdin</text>
 
     <!-- Bottom Arrow: stdout -->
-    <path d="M 48 165 L 6 165" stroke="#34d399" stroke-width="2.5" marker-start="url(#arrow-left-green)" />
-    <rect x="5" y="172" width="44" height="14" rx="3" fill="#0f172a" />
-    <text x="27" y="183" text-anchor="middle" font-size="8.5" font-weight="700" fill="#34d399" font-family="'Fira Code', monospace">stdout</text>
+    <path d="M 46 225 L 4 225" stroke="#34d399" stroke-width="3" marker-start="url(#arrow-left-green)" />
+    <rect x="1" y="234" width="48" height="18" rx="4" fill="#0f172a" stroke="rgba(52, 211, 153, 0.5)" stroke-width="1" />
+    <text x="25" y="247" text-anchor="middle" font-size="10.5" font-weight="700" fill="#34d399" font-family="'Fira Code', monospace">stdout</text>
   </g>
 
   <!-- ==================== 2. O SHELL (DESTAQUE CENTRAL) ==================== -->
-  <g transform="translate(328, 22)">
+  <g transform="translate(310, 12)">
     <!-- Card Frame (Bigger & Highlighted) -->
-    <rect x="0" y="0" width="294" height="236" rx="14" fill="#0f172a" fill-opacity="0.96" stroke="#ffe600" stroke-width="2" filter="url(#shell-glow)" />
-    <rect x="0" y="0" width="294" height="6" rx="3" fill="url(#shell-badge-grad)" />
+    <rect x="0" y="0" width="320" height="356" rx="16" fill="#0f172a" fill-opacity="0.96" stroke="#ffe600" stroke-width="2.5" filter="url(#shell-glow)" />
+    <rect x="0" y="0" width="320" height="7" rx="3" fill="url(#shell-badge-grad)" />
 
-    <!-- Top Badge "O CÉREBRO" -->
-    <rect x="185" y="16" width="92" height="18" rx="9" fill="url(#shell-badge-grad)" />
-    <text x="231" y="29" text-anchor="middle" font-size="9" font-weight="900" fill="#0f172a">O MAESTRO</text>
+    <!-- Top Badge "O MAESTRO" -->
+    <rect x="200" y="18" width="105" height="22" rx="11" fill="url(#shell-badge-grad)" />
+    <text x="252" y="33" text-anchor="middle" font-size="11" font-weight="900" fill="#0f172a" letter-spacing="0.5">O MAESTRO</text>
 
     <!-- Header -->
-    <text x="18" y="36" font-size="24">🐚</text>
-    <text x="56" y="34" font-size="16" font-weight="900" fill="#ffe600">O Shell</text>
-    <text x="56" y="50" font-size="10.5" font-weight="600" fill="#f7941d">Interpretador de Comandos</text>
+    <text x="22" y="44" font-size="28">🐚</text>
+    <text x="64" y="42" font-size="20" font-weight="900" fill="#ffe600">O Shell</text>
+    <text x="64" y="60" font-size="12.5" font-weight="700" fill="#f7941d">Interpretador de Comandos</text>
 
-    <rect x="18" y="62" width="145" height="18" rx="9" fill="rgba(255, 230, 0, 0.15)" stroke="rgba(255, 230, 0, 0.35)" stroke-width="1" />
-    <text x="90" y="75" text-anchor="middle" font-size="9.5" font-weight="800" fill="#ffe600" font-family="'Fira Code', monospace">Bash • Zsh • Fish</text>
+    <rect x="22" y="74" width="158" height="22" rx="11" fill="rgba(255, 230, 0, 0.15)" stroke="rgba(255, 230, 0, 0.4)" stroke-width="1.2" />
+    <text x="101" y="89" text-anchor="middle" font-size="11.5" font-weight="800" fill="#ffe600" font-family="'Fira Code', monospace">Bash • Zsh • Fish</text>
+
+    <line x1="22" y1="108" x2="298" y2="108" stroke="rgba(255,255,255,0.14)" stroke-width="1" />
 
     <!-- Content -->
-    <text x="18" y="106" font-size="11" font-weight="700" fill="#ffffff">A Concha Protetora do Kernel:</text>
-    <text x="18" y="128" font-size="10.5" fill="#f1f5f9">1. <tspan font-weight="700" fill="#ffe600">Lê e interpreta</tspan> sua instrução</text>
-    <text x="18" y="148" font-size="10.5" fill="#f1f5f9">2. <tspan font-weight="700" fill="#ffe600">Busca programas</tspan> no <tspan font-family="'Fira Code', monospace" fill="#38bdf8">$PATH</tspan></text>
-    <text x="18" y="168" font-size="10.5" fill="#f1f5f9">3. <tspan font-weight="700" fill="#ffe600">Conecta pipelines</tspan> e fluxos (<tspan font-family="'Fira Code', monospace" fill="#38bdf8">|</tspan>)</text>
-    <text x="18" y="188" font-size="10.5" fill="#f1f5f9">4. <tspan font-weight="700" fill="#ffe600">Invoca o Kernel</tspan> via <tspan font-family="'Fira Code', monospace" fill="#38bdf8">syscalls</tspan></text>
+    <text x="22" y="132" font-size="14.5" font-weight="800" fill="#ffffff">A Concha Protetora do Kernel:</text>
+    <text x="22" y="162" font-size="13.5" fill="#f1f5f9">1. <tspan font-weight="800" fill="#ffe600">Lê e interpreta</tspan> sua instrução</text>
+    <text x="22" y="190" font-size="13.5" fill="#f1f5f9">2. <tspan font-weight="800" fill="#ffe600">Busca programas</tspan> no <tspan font-family="'Fira Code', monospace" fill="#38bdf8" font-weight="700">$PATH</tspan></text>
+    <text x="22" y="218" font-size="13.5" fill="#f1f5f9">3. <tspan font-weight="800" fill="#ffe600">Conecta pipelines</tspan> e fluxos (<tspan font-family="'Fira Code', monospace" fill="#38bdf8" font-weight="700">|</tspan>)</text>
+    <text x="22" y="246" font-size="13.5" fill="#f1f5f9">4. <tspan font-weight="800" fill="#ffe600">Invoca o Kernel</tspan> via <tspan font-family="'Fira Code', monospace" fill="#38bdf8" font-weight="700">syscalls</tspan></text>
 
-    <rect x="18" y="206" width="258" height="18" rx="4" fill="rgba(255, 255, 255, 0.06)" />
-    <text x="147" y="219" text-anchor="middle" font-size="9.5" font-family="'Fira Code', monospace" fill="#cbd5e1">$ python3 script.py</text>
+    <!-- Terminal Code Simulation Box -->
+    <rect x="20" y="274" width="280" height="58" rx="8" fill="#0b1120" stroke="rgba(255, 230, 0, 0.3)" stroke-width="1.2" />
+    <circle cx="34" cy="290" r="4" fill="#ef4444" />
+    <circle cx="46" cy="290" r="4" fill="#f59e0b" />
+    <circle cx="58" cy="290" r="4" fill="#10b981" />
+    <text x="72" y="293" font-size="10" font-family="'Fira Code', monospace" fill="#94a3b8">bash session</text>
+    <text x="32" y="318" font-size="13" font-family="'Fira Code', monospace" font-weight="600" fill="#a5f3fc">$ python3 script.py</text>
   </g>
 
   <!-- ==================== FLOW 2: SHELL <-> KERNEL ==================== -->
-  <g transform="translate(622, 0)">
+  <g transform="translate(630, 0)">
     <!-- Top Arrow: System Call -->
-    <path d="M 6 105 L 48 105" stroke="#ffe600" stroke-width="2.5" marker-end="url(#arrow-right-yellow)" />
-    <rect x="4" y="86" width="46" height="14" rx="3" fill="#0f172a" />
-    <text x="27" y="97" text-anchor="middle" font-size="8.5" font-weight="700" fill="#ffe600" font-family="'Fira Code', monospace">syscall</text>
+    <path d="M 4 140 L 46 140" stroke="#ffe600" stroke-width="3" marker-end="url(#arrow-right-yellow)" />
+    <rect x="0" y="116" width="50" height="18" rx="4" fill="#0f172a" stroke="rgba(255, 230, 0, 0.5)" stroke-width="1" />
+    <text x="25" y="129" text-anchor="middle" font-size="11" font-weight="700" fill="#ffe600" font-family="'Fira Code', monospace">syscall</text>
 
     <!-- Bottom Arrow: Exit Code / Data -->
-    <path d="M 48 165 L 6 165" stroke="#34d399" stroke-width="2.5" marker-start="url(#arrow-left-green)" />
-    <rect x="5" y="172" width="44" height="14" rx="3" fill="#0f172a" />
-    <text x="27" y="183" text-anchor="middle" font-size="8.5" font-weight="700" fill="#34d399" font-family="'Fira Code', monospace">dados</text>
+    <path d="M 46 225 L 4 225" stroke="#34d399" stroke-width="3" marker-start="url(#arrow-left-green)" />
+    <rect x="2" y="234" width="46" height="18" rx="4" fill="#0f172a" stroke="rgba(52, 211, 153, 0.5)" stroke-width="1" />
+    <text x="25" y="247" text-anchor="middle" font-size="10.5" font-weight="700" fill="#34d399" font-family="'Fira Code', monospace">dados</text>
   </g>
 
   <!-- ==================== 3. O KERNEL LINUX ==================== -->
-  <g transform="translate(676, 35)">
-    <rect x="0" y="0" width="235" height="210" rx="12" fill="#0f172a" fill-opacity="0.9" stroke="rgba(247, 148, 29, 0.5)" stroke-width="1.5" filter="url(#card-shadow)" />
-    <rect x="0" y="0" width="235" height="4" rx="2" fill="#f7941d" />
+  <g transform="translate(680, 30)">
+    <rect x="0" y="0" width="235" height="320" rx="14" fill="#0f172a" fill-opacity="0.92" stroke="rgba(247, 148, 29, 0.55)" stroke-width="1.8" filter="url(#card-shadow)" />
+    <rect x="0" y="0" width="235" height="5" rx="2" fill="#f7941d" />
 
     <!-- Header -->
-    <text x="18" y="32" font-size="20">⚙️</text>
-    <text x="50" y="32" font-size="14" font-weight="800" fill="#f7941d">Kernel Linux</text>
-    <rect x="18" y="46" width="95" height="18" rx="9" fill="rgba(247, 148, 29, 0.15)" stroke="rgba(247, 148, 29, 0.3)" stroke-width="1" />
-    <text x="65" y="59" text-anchor="middle" font-size="9.5" font-weight="700" fill="#f7941d">O Núcleo do SO</text>
+    <text x="18" y="40" font-size="26">⚙️</text>
+    <text x="56" y="38" font-size="17" font-weight="800" fill="#f7941d">Kernel Linux</text>
+    <rect x="18" y="58" width="122" height="22" rx="11" fill="rgba(247, 148, 29, 0.15)" stroke="rgba(247, 148, 29, 0.35)" stroke-width="1.2" />
+    <text x="79" y="73" text-anchor="middle" font-size="11.5" font-weight="700" fill="#f7941d">O Núcleo do SO</text>
+
+    <line x1="18" y1="94" x2="217" y2="94" stroke="rgba(255,255,255,0.12)" stroke-width="1" />
 
     <!-- Content -->
-    <text x="18" y="90" font-size="11" font-weight="700" fill="#ffffff">Gerente do Computador</text>
-    <text x="18" y="112" font-size="10.5" fill="#cbd5e1">• Cria e encerra processos</text>
-    <text x="18" y="132" font-size="10.5" fill="#cbd5e1">• Aloca memória RAM protegida</text>
-    <text x="18" y="152" font-size="10.5" fill="#cbd5e1">• Controla sistema de arquivos</text>
-    <text x="18" y="172" font-size="10.5" fill="#cbd5e1">• Comunica com os drivers</text>
+    <text x="18" y="124" font-size="14.5" font-weight="700" fill="#ffffff">Gerente do Sistema</text>
+    <text x="18" y="156" font-size="13.5" fill="#cbd5e1">• Cria e gerencia processos</text>
+    <text x="18" y="184" font-size="13.5" fill="#cbd5e1">• Aloca memória RAM</text>
+    <text x="18" y="212" font-size="13.5" fill="#cbd5e1">• Sistema de arquivos</text>
+    <text x="18" y="240" font-size="13.5" fill="#cbd5e1">• Escala tempo de CPU</text>
+    <text x="18" y="268" font-size="13.5" fill="#cbd5e1">• Comunica com drivers</text>
 
-    <rect x="18" y="186" width="199" height="2" fill="rgba(255,255,255,0.08)" />
+    <rect x="18" y="286" width="199" height="2" fill="rgba(255,255,255,0.08)" />
   </g>
 
   <!-- ==================== FLOW 3: KERNEL <-> HARDWARE ==================== -->
-  <g transform="translate(911, 0)">
-    <path d="M 6 135 L 36 135" stroke="#f7941d" stroke-width="2.5" marker-end="url(#arrow-right)" />
-    <text x="21" y="125" text-anchor="middle" font-size="8" font-weight="700" fill="#f7941d" font-family="'Fira Code', monospace">drivers</text>
+  <g transform="translate(915, 0)">
+    <path d="M 4 175 L 46 175" stroke="#f7941d" stroke-width="3" marker-end="url(#arrow-right-orange)" />
+    <rect x="4" y="152" width="42" height="18" rx="4" fill="#0f172a" stroke="rgba(247, 148, 29, 0.5)" stroke-width="1" />
+    <text x="25" y="165" text-anchor="middle" font-size="10.5" font-weight="700" fill="#f7941d" font-family="'Fira Code', monospace">driver</text>
   </g>
 
   <!-- ==================== 4. HARDWARE ==================== -->
-  <g transform="translate(953, 35)">
-    <rect x="0" y="0" width="142" height="210" rx="12" fill="#0f172a" fill-opacity="0.9" stroke="rgba(255, 255, 255, 0.2)" stroke-width="1.2" filter="url(#card-shadow)" />
-    <rect x="0" y="0" width="142" height="4" rx="2" fill="#94a3b8" />
+  <g transform="translate(965, 30)">
+    <rect x="0" y="0" width="160" height="320" rx="14" fill="#0f172a" fill-opacity="0.92" stroke="rgba(255, 255, 255, 0.28)" stroke-width="1.8" filter="url(#card-shadow)" />
+    <rect x="0" y="0" width="160" height="5" rx="2" fill="#94a3b8" />
 
     <!-- Header -->
-    <text x="16" y="32" font-size="20">🔲</text>
-    <text x="46" y="32" font-size="14" font-weight="800" fill="#ffffff">Hardware</text>
-    <rect x="16" y="46" width="70" height="18" rx="9" fill="rgba(255, 255, 255, 0.1)" />
-    <text x="51" y="59" text-anchor="middle" font-size="9.5" font-weight="700" fill="#cbd5e1">Físico</text>
+    <text x="16" y="40" font-size="24">🔲</text>
+    <text x="48" y="39" font-size="16.5" font-weight="800" fill="#ffffff">Hardware</text>
+    <rect x="16" y="58" width="128" height="22" rx="11" fill="rgba(255, 255, 255, 0.1)" stroke="rgba(255, 255, 255, 0.2)" stroke-width="1" />
+    <text x="80" y="73" text-anchor="middle" font-size="11.5" font-weight="700" fill="#cbd5e1">Físico / Chips</text>
+
+    <line x1="16" y1="94" x2="144" y2="94" stroke="rgba(255,255,255,0.12)" stroke-width="1" />
 
     <!-- Content -->
-    <text x="16" y="90" font-size="11" font-weight="700" fill="#ffffff">Execução Real</text>
-    <text x="16" y="112" font-size="10.5" fill="#cbd5e1">• CPU (Processador)</text>
-    <text x="16" y="132" font-size="10.5" fill="#cbd5e1">• Memória RAM</text>
-    <text x="16" y="152" font-size="10.5" fill="#cbd5e1">• SSD / NVMe / HD</text>
-    <text x="16" y="172" font-size="10.5" fill="#cbd5e1">• Placas de Rede</text>
+    <text x="16" y="124" font-size="14.5" font-weight="700" fill="#ffffff">Execução Real</text>
+    <text x="16" y="156" font-size="13.5" fill="#cbd5e1">• CPU (Processador)</text>
+    <text x="16" y="184" font-size="13.5" fill="#cbd5e1">• Memória RAM</text>
+    <text x="16" y="212" font-size="13.5" fill="#cbd5e1">• SSD / NVMe / HD</text>
+    <text x="16" y="240" font-size="13.5" fill="#cbd5e1">• Placas de Rede</text>
+    <text x="16" y="268" font-size="13.5" fill="#cbd5e1">• GPU / Dispositivos</text>
 
-    <rect x="16" y="186" width="110" height="2" fill="rgba(255,255,255,0.08)" />
+    <rect x="16" y="286" width="128" height="2" fill="rgba(255,255,255,0.08)" />
   </g>
 </svg>
