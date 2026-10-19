@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Manual de Sobrevivência de Programação — Introdução ao Shell e Unix/Linux</title>
+  <title>Manual de Sobrevivência de Programação — Semana Acadêmica Integrada PUCRS</title>
 
   <!-- Reveal.js CSS Core & Theme -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
@@ -15,27 +15,32 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800;900&display=swap"
     rel="stylesheet">
 
   <style>
     :root {
-      --bg-dark: #0b1120;
-      --card-bg: rgba(30, 41, 59, 0.75);
-      --card-border: rgba(148, 163, 184, 0.2);
-      --primary: #38bdf8;
-      --primary-gradient: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
-      --accent-green: #34d399;
-      --accent-amber: #fbbf24;
-      --accent-rose: #f43f5e;
-      --text-muted: #94a3b8;
-      --text-bright: #f8fafc;
+      /* Identidade Visual: Semana Acadêmica Integrada PUCRS */
+      --event-blue: #4f7bf8;
+      --event-blue-dark: #375fd9;
+      --event-grid: rgba(255, 255, 255, 0.16);
+      --event-yellow: #ffe600;
+      --event-orange: #f7941d;
+      --event-gradient: linear-gradient(135deg, #ffe600 0%, #f7941d 100%);
+      --card-bg: rgba(15, 23, 42, 0.82);
+      --card-border: rgba(255, 255, 255, 0.22);
+      --text-bright: #ffffff;
+      --text-muted: #e2e8f0;
     }
 
     .reveal {
       font-family: 'Inter', system-ui, -apple-system, sans-serif;
       color: var(--text-bright);
-      background: radial-gradient(circle at 50% 15%, #1e293b 0%, #0b1120 75%);
+      background-color: var(--event-blue);
+      background-image:
+        linear-gradient(var(--event-grid) 1px, transparent 1px),
+        linear-gradient(90deg, var(--event-grid) 1px, transparent 1px);
+      background-size: 36px 36px;
     }
 
     .reveal .slides section {
@@ -54,39 +59,44 @@
 
     .reveal h1 {
       font-size: 2.1em;
-      font-weight: 800;
+      font-weight: 900;
       line-height: 1.1;
-      margin: 0.3em 0 0.2em 0;
-      background: var(--primary-gradient);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      margin: 0.2em 0 0.15em 0;
+      color: #ffffff;
+      text-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
     }
 
     .reveal h2 {
       font-size: 1.55em;
-      color: #f1f5f9;
+      font-weight: 800;
+      color: #ffffff;
       margin: 0.2em 0 0.25em 0;
       line-height: 1.15;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
     }
 
     .subtitle {
       font-size: 0.65em !important;
-      color: var(--text-muted) !important;
+      color: #ffffff !important;
+      opacity: 0.92;
       margin: 0 0 0.8em 0 !important;
       line-height: 1.3 !important;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
     }
 
     .badge-pill {
       display: inline-block;
-      padding: 0.2em 0.75em;
-      font-size: 0.38em;
-      font-weight: 700;
+      padding: 0.25em 0.85em;
+      font-size: 0.4em;
+      font-weight: 800;
+      font-family: 'Outfit', sans-serif;
       text-transform: uppercase;
       letter-spacing: 0.08em;
       border-radius: 9999px;
-      background: rgba(56, 189, 248, 0.15);
-      color: var(--primary);
-      border: 1px solid rgba(56, 189, 248, 0.4);
+      background: #0f172a;
+      color: var(--event-yellow);
+      border: 1.5px solid var(--event-orange);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
       margin-bottom: 0.4em;
     }
 
@@ -116,14 +126,14 @@
       border: 1px solid var(--card-border);
       border-radius: 10px;
       padding: 0.75rem 0.9rem;
-      box-shadow: 0 6px 18px -4px rgba(0, 0, 0, 0.35);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
       backdrop-filter: blur(8px);
     }
 
     .card h4 {
       margin: 0 0 0.3em 0;
       font-size: 0.82em;
-      color: var(--primary);
+      color: var(--event-yellow);
       line-height: 1.2;
     }
 
@@ -131,7 +141,7 @@
     .card ul {
       font-size: 0.58em;
       line-height: 1.38;
-      color: #cbd5e1;
+      color: #f1f5f9;
       margin: 0;
     }
 
@@ -140,22 +150,23 @@
     }
 
     .highlight-card {
-      border-left: 3px solid var(--primary);
+      border-left: 3.5px solid var(--event-orange) !important;
     }
 
     .metric-big {
       font-family: 'Outfit', sans-serif;
       font-size: 1.7em;
-      font-weight: 800;
-      color: var(--primary);
+      font-weight: 900;
+      color: var(--event-yellow);
       line-height: 1;
       margin-bottom: 0.15em;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
     }
 
     .metric-label {
       font-size: 0.48em;
       font-weight: 700;
-      color: var(--text-muted);
+      color: var(--event-orange);
       text-transform: uppercase;
       letter-spacing: 0.05em;
       margin-bottom: 0.35em;
@@ -171,9 +182,10 @@
       font-size: 0.6em;
       line-height: 1.35;
       border-radius: 8px;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
       padding: 0.75rem 1rem;
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(10, 15, 30, 0.92);
       max-height: 280px;
     }
 
@@ -181,20 +193,21 @@
       font-style: italic;
       font-size: 0.68em;
       padding: 0.7rem 1.1rem;
-      border-left: 3px solid var(--primary);
-      background: rgba(56, 189, 248, 0.08);
+      border-left: 4px solid var(--event-orange);
+      background: rgba(15, 23, 42, 0.85);
       border-radius: 0 8px 8px 0;
       margin: 0.7em 0;
-      color: #e2e8f0;
+      color: #ffffff;
       text-align: left;
       line-height: 1.35;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
     }
 
     .quote-author {
       font-style: normal;
       font-weight: 600;
       font-size: 0.85em;
-      color: var(--primary);
+      color: var(--event-yellow);
       display: block;
       margin-top: 0.3em;
     }
@@ -217,12 +230,13 @@
 
     .tag {
       display: inline-block;
-      padding: 0.1em 0.4em;
+      padding: 0.1em 0.45em;
       border-radius: 4px;
       font-size: 0.82em;
       font-family: 'Fira Code', monospace;
-      background: rgba(255, 255, 255, 0.12);
-      color: #38bdf8;
+      background: rgba(255, 230, 0, 0.18);
+      color: var(--event-yellow);
+      border: 1px solid rgba(255, 230, 0, 0.4);
     }
   </style>
 </head>
@@ -233,15 +247,19 @@
 
       <!-- SLIDE 1: CAPA -->
       <section data-transition="zoom">
-        <span class="badge-pill">Semana Acadêmica Integrada 2026 • PUCRS</span>
-        <h1>Manual de Sobrevivência<br>de Programação</h1>
-
-        <div style="font-size: 0.62em; color: #cbd5e1; margin-bottom: 1.4em;">
-          <strong>Profs. Edson Ifarraguirre Moreno e Marcelo Cohen</strong><br>
-          <span style="color: var(--text-muted);">Escola Politécnica • Porto Alegre, RS</span>
+        <div style="margin-bottom: 0.5em;">
+          <img src="img/semana_academica_banner.png" alt="Semana Acadêmica Integrada PUCRS"
+            style="max-height: 85px; border-radius: 8px; box-shadow: 0 8px 24px rgba(0,0,0,0.3); width: auto;">
         </div>
 
-        <p style="font-size: 0.45em; color: var(--text-muted); margin: 0;">
+        <h1>Manual de Sobrevivência<br>de Programação</h1>
+
+        <div style="font-size: 0.62em; color: #ffffff; margin: 0.8em 0 1.2em 0; text-shadow: 0 2px 8px rgba(0,0,0,0.35);">
+          <strong style="color: var(--event-yellow); font-size: 1.1em;">Profs. Edson Ifarraguirre Moreno e Marcelo Cohen</strong><br>
+          <span style="color: #f1f5f9;">Escola Politécnica • Porto Alegre, RS</span>
+        </div>
+
+        <p style="font-size: 0.45em; color: #ffffff; opacity: 0.9; margin: 0;">
           Use <span class="tag">Espaço</span> para navegar • <span class="tag">F</span> para tela cheia • <span
             class="tag">S</span> para notas do apresentador
         </p>
@@ -320,7 +338,7 @@
           </div>
         </div>
 
-        <p style="font-size: 0.52em; color: #94a3b8; margin-top: 0.8em;">
+        <p style="font-size: 0.52em; color: #ffffff; opacity: 0.95; margin-top: 0.8em; text-shadow: 0 1px 4px rgba(0,0,0,0.3);">
           🛰️ <em>Curiosidade:</em> O rover <strong>Perseverance</strong> e o helicóptero <strong>Ingenuity</strong> em
           Marte operam com Linux.
         </p>
@@ -416,7 +434,7 @@
       <section data-transition="slide">
         <span class="badge-pill">Arquitetura</span>
         <h2>O que é o Shell?</h2>
-        <p class="subtitle">A evolução da ponte entre o usuário e o núcleo do sistema:</p>
+        <p class="subtitle">A evolução da ponte entre o usuário e o núcleo do sistema operacional:</p>
 
         <div class="grid-3" style="align-items: stretch;">
           <div class="card" style="text-align: center;">
@@ -450,10 +468,10 @@
         </div>
 
         <div class="card"
-          style="margin-top: 0.6rem; padding: 0.45rem 0.8rem; text-align: center; border-left: 3px solid var(--primary);">
-          <p style="font-size: 0.55em; font-family: 'Fira Code', monospace; color: #e2e8f0; margin: 0;">
+          style="margin-top: 0.6rem; padding: 0.45rem 0.8rem; text-align: center; border-left: 3.5px solid var(--event-orange);">
+          <p style="font-size: 0.55em; font-family: 'Fira Code', monospace; color: #ffffff; margin: 0;">
             Você (Teclado) ➔ <strong>Emulador</strong> (Janela) ➔ <strong>Shell</strong> (Interpretador) ➔
-            <strong>Kernel</strong> (Hardware/SO)
+            <strong style="color: var(--event-yellow);">Kernel</strong> (Hardware/SO)
           </p>
         </div>
 
@@ -553,7 +571,7 @@ $ which gcc
               • <strong>r</strong> (read) = <strong>4</strong> &nbsp;|&nbsp;
               • <strong>w</strong> (write) = <strong>2</strong> &nbsp;|&nbsp;
               • <strong>x</strong> (exec) = <strong>1</strong><br>
-              <span style="color: var(--primary); font-weight: 600;">755</span> = Dono edita e roda; demais só executam.
+              <span style="color: var(--event-yellow); font-weight: 700;">755</span> = Dono edita e roda; demais só executam.
             </p>
           </div>
 
@@ -579,39 +597,39 @@ $ which gcc
         <p class="subtitle">Nossa jornada de 90 minutos para transformar seu fluxo de trabalho:</p>
 
         <div class="grid-3" style="font-size: 0.85em;">
-          <div class="card" style="border-left: 3px solid #38bdf8;">
-            <strong style="color: #38bdf8; font-size: 0.85em;">01. Shell & Navegação</strong><br>
+          <div class="card" style="border-left: 3.5px solid var(--event-yellow);">
+            <strong style="color: var(--event-yellow); font-size: 0.85em;">01. Shell & Navegação</strong><br>
             <p style="font-size: 0.6em; margin-top: 0.2em;">Comandos essenciais, $PATH e permissões (Agora!)</p>
           </div>
 
-          <div class="card" style="border-left: 3px solid #34d399;">
-            <strong style="color: #34d399; font-size: 0.85em;">02. Pipes & Filtros</strong><br>
+          <div class="card" style="border-left: 3.5px solid var(--event-orange);">
+            <strong style="color: var(--event-orange); font-size: 0.85em;">02. Pipes & Filtros</strong><br>
             <p style="font-size: 0.6em; margin-top: 0.2em;">stdin/stdout, grep, sort, uniq e pipelines compostos</p>
           </div>
 
-          <div class="card" style="border-left: 3px solid #fbbf24;">
-            <strong style="color: #fbbf24; font-size: 0.85em;">03. Processos</strong><br>
+          <div class="card" style="border-left: 3.5px solid var(--event-yellow);">
+            <strong style="color: var(--event-yellow); font-size: 0.85em;">03. Processos</strong><br>
             <p style="font-size: 0.6em; margin-top: 0.2em;">htop, PID e matando processos travados (kill -9)</p>
           </div>
 
-          <div class="card" style="border-left: 3px solid #f43f5e;">
-            <strong style="color: #f43f5e; font-size: 0.85em;">04. Shell Scripting</strong><br>
+          <div class="card" style="border-left: 3.5px solid var(--event-orange);">
+            <strong style="color: var(--event-orange); font-size: 0.85em;">04. Shell Scripting</strong><br>
             <p style="font-size: 0.6em; margin-top: 0.2em;">Automação, parâmetros ($1) e laços de repetição</p>
           </div>
 
-          <div class="card" style="border-left: 3px solid #818cf8;">
-            <strong style="color: #818cf8; font-size: 0.85em;">05. Profiling</strong><br>
+          <div class="card" style="border-left: 3.5px solid var(--event-yellow);">
+            <strong style="color: var(--event-yellow); font-size: 0.85em;">05. Profiling</strong><br>
             <p style="font-size: 0.6em; margin-top: 0.2em;">Flame Graphs interativos, Valgrind, py-spy e JFR</p>
           </div>
 
-          <div class="card" style="border-left: 3px solid #a855f7;">
-            <strong style="color: #a855f7; font-size: 0.85em;">06. Git Colaborativo</strong><br>
+          <div class="card" style="border-left: 3.5px solid var(--event-orange);">
+            <strong style="color: var(--event-orange); font-size: 0.85em;">06. Git Colaborativo</strong><br>
             <p style="font-size: 0.6em; margin-top: 0.2em;">Áreas locais, branches e resolução de conflitos</p>
           </div>
         </div>
 
         <div style="margin-top: 1rem;">
-          <p style="font-size: 0.85em; font-weight: 700; color: #38bdf8; margin: 0;">
+          <p style="font-size: 0.88em; font-weight: 800; color: var(--event-yellow); margin: 0; text-shadow: 0 2px 8px rgba(0,0,0,0.4);">
             Menos cliques, mais poder. Vamos abrir o terminal! 🚀
           </p>
         </div>
