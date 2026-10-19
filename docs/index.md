@@ -30,6 +30,8 @@ Bem-vindo ao **Manual de Sobrevivência de Programação**, desenvolvido para a 
 
 O objetivo deste material é capacitar estudantes no uso produtivo da linha de comando e recursos do sistema e de programação em ambientes Unix/Linux — competência indispensável para o desenvolvimento de software moderno, engenharia de dados, computação em nuvem, segurança da informação e computação científica.
 
+Este material é fortemente inspirado pelo [Missing Semester](https://missing.csail.mit.edu/), projeto do MIT com conteúdos que costumam estar ausentes ou incompletos em currículos de muitas graduações na área.
+
 ---
 
 ### Índice dos Módulos do Tutorial
