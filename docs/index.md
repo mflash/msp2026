@@ -32,6 +32,8 @@ O objetivo deste material é capacitar estudantes no uso produtivo da linha de c
 
 Este material é fortemente inspirado pelo [Missing Semester](https://missing.csail.mit.edu/), projeto do MIT com conteúdos que costumam estar ausentes ou incompletos em currículos de muitas graduações na área.
 
+> 📊 **Slides de Abertura:** Acompanhe a contextualização e a motivação inicial do curso através dos [Slides da Introdução)](slides_introducao.html).
+
 ---
 
 ### Índice dos Módulos do Tutorial
@@ -47,6 +49,7 @@ Navegue pelos módulos disponíveis abaixo para acessar o conteúdo teórico, di
 
 Fundamentos históricos do Unix/Linux, arquitetura do sistema de arquivos, comandos essenciais de inspeção, variáveis de ambiente, navegação de diretórios e controle de permissões de arquivos.
 
+- **Apresentação em Slides:** [Acessar Slides da Introdução (Reveal.js)](slides_introducao.html).
 - **Histórico & Relevância:** Das origens nos Bell Labs à nuvem, IoT, Android e supercomputadores.
 - **Linha do Tempo Visual:** Evolução do Unix, BSD, GNU e Linux.
 - **O Shell & Terminais:** O conceito de shell e o legado de terminais físicos como o DEC VT100.
