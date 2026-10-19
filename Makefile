@@ -51,10 +51,9 @@ copy-assets: | $(DIST_DIR)
 		cp -r $(ASSETS_DIR) $(DIST_DIR)/; \
 		echo "Copied assets directory"; \
 	fi
-	@if [ -f "slides_introducao.html" ]; then \
-		cp slides_introducao.html $(DIST_DIR)/; \
-		echo "Copied slides_introducao.html"; \
-	fi
+	@for html in $(wildcard $(SRC_DIR)/*.html); do \
+		cp "$$html" $(DIST_DIR)/ && echo "Copied $$html -> $(DIST_DIR)/"; \
+	done
 
 $(DIST_DIR)/.nojekyll: | $(DIST_DIR)
 	@touch $(DIST_DIR)/.nojekyll
