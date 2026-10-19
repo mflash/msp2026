@@ -1206,9 +1206,6 @@
           }
 
           let badgesHtml = '';
-          if (item.requires_booking) {
-            badgesHtml += '<span class="meta-badge" title="Requer inscrição prévia">🎟️ Inscrição obrigatória</span>';
-          }
           if (item.available_slots !== null && item.available_slots !== undefined) {
             badgesHtml += `<span class="meta-badge">👥 ${item.available_slots} vagas</span>`;
           }
