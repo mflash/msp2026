@@ -13,11 +13,11 @@
 | :--- | :---: | :---: | :--- | :--- |
 | **Abertura & Motivação** | **5 min** | 00:00 – 00:05 | *Missing Semester*, relevância do terminal e filosofia Unix. | Fala rápida / Slides |
 | **01. Shell e Comandos Básicos** | **15 min** | 00:05 – 00:20 | Navegação ágil, `$PATH`, comandos essenciais e `chmod`. | Terminal ao vivo |
-| **02. Redirecionamento, Pipes e Filtros** | **18 min** | 00:20 – 00:38 | O coração do Unix: `stdin`/`stdout`, `grep`, `sort`, `uniq` e `\|`. | Terminal / Demonstração |
-| **03. Gerenciamento de Processos** | **7 min** | 00:38 – 00:45 | *Superficial:* O que é PID, monitoramento com `htop` e como matar processos (`kill -9`). | Pílula prática |
-| **04. Automação e Shell Scripting** | **15 min** | 00:45 – 01:00 | Transformar pipelines em scripts reutilizáveis (`.sh`) com `$1`. | Editor + Terminal |
-| **05. Depuração e Profiling** | **8 min** | 01:00 – 01:08 | *Superficial:* Princípio de Pareto, demonstração do Flame Graph e panorama de ferramentas. | Visual / Navegador |
-| **06. Git e Trabalho Colaborativo** | **17 min** | 01:08 – 01:25 | As 3 áreas locais, fluxo de *branches* e resolução de conflitos. | Terminal / Diagramas |
+| **02. Redirecionamento, Pipes e Filtros** | **15 min** | 00:20 – 00:38 | O coração do Unix: `stdin`/`stdout`, `grep`, `sort`, `uniq` e `\|`. | Terminal / Demonstração |
+| **03. Gerenciamento de Processos** | **10 min** | 00:38 – 00:45 | *Superficial:* O que é PID, monitoramento com `htop` e como matar processos (`kill -9`). | Pílula prática |
+| **04. Automação e Shell Scripting** | **10 min** | 00:45 – 01:00 | Transformar pipelines em scripts reutilizáveis (`.sh`) com `$1`. | Editor + Terminal |
+| **05. Depuração e Profiling** | **15 min** | 01:00 – 01:08 | *Superficial:* Princípio de Pareto, demonstração do Flame Graph e panorama de ferramentas. | Visual / Navegador |
+| **06. Git e Trabalho Colaborativo** | **15 min** | 01:08 – 01:25 | As 3 áreas locais, fluxo de *branches* e resolução de conflitos. | Terminal / Diagramas |
 | **Encerramento & Dúvidas** | **5 min** | 01:25 – 01:30 | Apresentação do repositório/site do curso e encerramento. | Diálogo |
 
 ---
