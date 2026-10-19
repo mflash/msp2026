@@ -1,0 +1,650 @@
+<!doctype html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Manual de Sobrevivência de Programação — Introdução ao Shell e Unix/Linux</title>
+
+  <!-- Reveal.js CSS Core & Theme -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/black.css" id="theme">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/monokai.css">
+
+  <!-- Google Fonts: Inter, Outfit & Fira Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap"
+    rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-dark: #0b1120;
+      --card-bg: rgba(30, 41, 59, 0.75);
+      --card-border: rgba(148, 163, 184, 0.2);
+      --primary: #38bdf8;
+      --primary-gradient: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
+      --accent-green: #34d399;
+      --accent-amber: #fbbf24;
+      --accent-rose: #f43f5e;
+      --text-muted: #94a3b8;
+      --text-bright: #f8fafc;
+    }
+
+    .reveal {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      color: var(--text-bright);
+      background: radial-gradient(circle at 50% 15%, #1e293b 0%, #0b1120 75%);
+    }
+
+    .reveal .slides section {
+      box-sizing: border-box;
+      padding: 0.5rem 1.5rem;
+    }
+
+    .reveal h1,
+    .reveal h2,
+    .reveal h3,
+    .reveal h4 {
+      font-family: 'Outfit', sans-serif;
+      text-transform: none;
+      letter-spacing: -0.02em;
+    }
+
+    .reveal h1 {
+      font-size: 2.1em;
+      font-weight: 800;
+      line-height: 1.1;
+      margin: 0.3em 0 0.2em 0;
+      background: var(--primary-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .reveal h2 {
+      font-size: 1.55em;
+      color: #f1f5f9;
+      margin: 0.2em 0 0.25em 0;
+      line-height: 1.15;
+    }
+
+    .subtitle {
+      font-size: 0.65em !important;
+      color: var(--text-muted) !important;
+      margin: 0 0 0.8em 0 !important;
+      line-height: 1.3 !important;
+    }
+
+    .badge-pill {
+      display: inline-block;
+      padding: 0.2em 0.75em;
+      font-size: 0.38em;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      border-radius: 9999px;
+      background: rgba(56, 189, 248, 0.15);
+      color: var(--primary);
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      margin-bottom: 0.4em;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      text-align: left;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.9rem;
+      text-align: left;
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.8rem;
+      text-align: left;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 0.75rem 0.9rem;
+      box-shadow: 0 6px 18px -4px rgba(0, 0, 0, 0.35);
+      backdrop-filter: blur(8px);
+    }
+
+    .card h4 {
+      margin: 0 0 0.3em 0;
+      font-size: 0.82em;
+      color: var(--primary);
+      line-height: 1.2;
+    }
+
+    .card p,
+    .card ul {
+      font-size: 0.58em;
+      line-height: 1.38;
+      color: #cbd5e1;
+      margin: 0;
+    }
+
+    .card ul {
+      padding-left: 1.1em;
+    }
+
+    .highlight-card {
+      border-left: 3px solid var(--primary);
+    }
+
+    .metric-big {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.7em;
+      font-weight: 800;
+      color: var(--primary);
+      line-height: 1;
+      margin-bottom: 0.15em;
+    }
+
+    .metric-label {
+      font-size: 0.48em;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.35em;
+    }
+
+    .reveal pre {
+      margin: 0.4em auto !important;
+      width: 100% !important;
+    }
+
+    .reveal pre code {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.6em;
+      line-height: 1.35;
+      border-radius: 8px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+      padding: 0.75rem 1rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      max-height: 280px;
+    }
+
+    .quote-box {
+      font-style: italic;
+      font-size: 0.68em;
+      padding: 0.7rem 1.1rem;
+      border-left: 3px solid var(--primary);
+      background: rgba(56, 189, 248, 0.08);
+      border-radius: 0 8px 8px 0;
+      margin: 0.7em 0;
+      color: #e2e8f0;
+      text-align: left;
+      line-height: 1.35;
+    }
+
+    .quote-author {
+      font-style: normal;
+      font-weight: 600;
+      font-size: 0.85em;
+      color: var(--primary);
+      display: block;
+      margin-top: 0.3em;
+    }
+
+    .reveal section img {
+      margin: 0 !important;
+      border: none !important;
+      background: none !important;
+      box-shadow: none !important;
+    }
+
+    .img-frame {
+      border-radius: 8px;
+      border: 1px solid var(--card-border);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+      max-height: 120px;
+      max-width: 100%;
+      object-fit: cover;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 0.1em 0.4em;
+      border-radius: 4px;
+      font-size: 0.82em;
+      font-family: 'Fira Code', monospace;
+      background: rgba(255, 255, 255, 0.12);
+      color: #38bdf8;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <!-- SLIDE 1: CAPA -->
+      <section data-transition="zoom">
+        <span class="badge-pill">Semana Acadêmica Integrada 2026 • PUCRS</span>
+        <h1>Manual de Sobrevivência<br>de Programação</h1>
+
+        <div style="font-size: 0.62em; color: #cbd5e1; margin-bottom: 1.4em;">
+          <strong>Profs. Edson Ifarraguirre Moreno e Marcelo Cohen</strong><br>
+          <span style="color: var(--text-muted);">Escola Politécnica • Porto Alegre, RS</span>
+        </div>
+
+        <p style="font-size: 0.45em; color: var(--text-muted); margin: 0;">
+          Use <span class="tag">Espaço</span> para navegar • <span class="tag">F</span> para tela cheia • <span
+            class="tag">S</span> para notas do apresentador
+        </p>
+
+        <aside class="notes">
+          - Boas-vindas aos alunos da Semana Acadêmica Integrada.
+          - Contextualizar o objetivo: ensinar as ferramentas práticas de linha de comando que o mercado exige.
+        </aside>
+      </section>
+
+      <!-- SLIDE 2: A MOTIVAÇÃO (MISSING SEMESTER) -->
+      <section data-transition="slide">
+        <span class="badge-pill">Motivação</span>
+        <h2>O "Missing Semester"</h2>
+        <p class="subtitle">Por que dominar a linha de comando em pleno 2026?</p>
+
+        <div class="grid-2">
+          <div class="card highlight-card">
+            <h4>🎓 O Vazio Curricular</h4>
+            <p>
+              A faculdade ensina algoritmos e cálculo, mas o mercado e a pesquisa exigem fluência em <strong>terminal,
+                Git, SSH e containers</strong> desde o primeiro dia de trabalho.
+            </p>
+          </div>
+
+          <div class="card highlight-card">
+            <h4>⚡ Produtividade e Escala</h4>
+            <p>
+              Interfaces gráficas (GUI) são úteis para <em>explorar</em>. O teclado e o shell são incomparáveis para
+              <strong>repetir, automatizar e processar em lote</strong> milhares de arquivos.
+            </p>
+          </div>
+        </div>
+
+        <div class="quote-box">
+          "A interface gráfica torna tarefas simples fáceis; o Shell torna tarefas complexas possíveis."
+          <span class="quote-author">— Inspiração: The Missing Semester of Your CS Education (MIT CSAIL)</span>
+        </div>
+
+        <aside class="notes">
+          - Citar o projeto do MIT.
+          - Na nuvem ou em servidores remotos não existe mouse nem tela gráfica.
+        </aside>
+      </section>
+
+      <!-- SLIDE 3: ONDE ESTÁ O LINUX HOJE? -->
+      <section data-transition="slide">
+        <span class="badge-pill">Onipresença</span>
+        <h2>O Linux Move a Tecnologia Global</h2>
+        <p class="subtitle">A espinha dorsal invisível da infraestrutura digital:</p>
+
+        <div class="grid-4">
+          <div class="card">
+            <div class="metric-big">75%+</div>
+            <div class="metric-label">Nuvem Global</div>
+            <p>A maioria absoluta dos servidores na AWS, Google Cloud e Azure roda distribuições Linux.</p>
+          </div>
+
+          <div class="card">
+            <div class="metric-big">100%</div>
+            <div class="metric-label">Supercomputadores</div>
+            <p>Todos os 500 computadores mais rápidos do mundo (TOP500) rodam Linux.</p>
+          </div>
+
+          <div class="card">
+            <div class="metric-big">3.5 bi</div>
+            <div class="metric-label">Dispositivos Mobile</div>
+            <p>O Android gerencia hardware, rede e processos diretamente sobre o kernel Linux.</p>
+          </div>
+
+          <div class="card">
+            <div class="metric-big">🐳</div>
+            <div class="metric-label">Containers</div>
+            <p>Docker e Kubernetes nasceram diretamente de recursos do kernel: <em>cgroups</em> e <em>namespaces</em>.
+            </p>
+          </div>
+        </div>
+
+        <p style="font-size: 0.52em; color: #94a3b8; margin-top: 0.8em;">
+          🛰️ <em>Curiosidade:</em> O rover <strong>Perseverance</strong> e o helicóptero <strong>Ingenuity</strong> em
+          Marte operam com Linux.
+        </p>
+
+        <aside class="notes">
+          - Mostrar que aprender Linux não é nicho; é a infraestrutura padrão de toda a computação moderna.
+        </aside>
+      </section>
+
+      <!-- SLIDE 4: BREVE HISTÓRICO -->
+      <section data-transition="slide">
+        <span class="badge-pill">Histórico</span>
+        <h2>Uma Breve Viagem no Tempo</h2>
+        <p class="subtitle">Como chegamos ao sistema operacional mais importante do planeta:</p>
+
+        <div class="grid-3">
+          <div class="card">
+            <h4>1969 • Unix (Bell Labs)</h4>
+            <p>
+              Ken Thompson e Dennis Ritchie criam o Unix. Em 1973 é reescrito em <strong>linguagem C</strong>,
+              tornando-se o primeiro SO verdadeiramente <strong>portátil</strong> entre processadores.
+            </p>
+          </div>
+
+          <div class="card">
+            <h4>1983 • Projeto GNU</h4>
+            <p>
+              Richard Stallman lança a FSF criando ferramentas livres (GCC, utilitários de shell e bibliotecas). Faltava
+              uma peça vital: o <strong>Kernel</strong> (núcleo).
+            </p>
+          </div>
+
+          <div class="card">
+            <h4>1991 • Kernel Linux</h4>
+            <p>
+              Linus Torvalds desenvolve o kernel livre e lança sob licença GPL. A união do <strong>GNU + Linux</strong>
+              cria o ecossistema completo que usamos hoje.
+            </p>
+          </div>
+        </div>
+
+        <div class="card highlight-card" style="margin-top: 0.8rem; text-align: left;">
+          <p style="font-size: 0.6em;">
+            💡 <strong>Legado:</strong> Do Unix herdamos a modularidade, a portabilidade e a premissa de que sistemas
+            complexos são construídos conectando ferramentas simples.
+          </p>
+        </div>
+
+        <aside class="notes">
+          - A união de ferramentas de usuário (GNU) com o kernel (Linux) explica o termo formal GNU/Linux.
+        </aside>
+      </section>
+
+      <!-- SLIDE 5: A FILOSOFIA UNIX -->
+      <section data-transition="slide">
+        <span class="badge-pill">Filosofia</span>
+        <h2>A Filosofia Unix</h2>
+        <p class="subtitle">Três princípios de design que tornam o terminal uma ferramenta imbatível:</p>
+
+        <div class="grid-3">
+          <div class="card highlight-card">
+            <h4>1. Especialização</h4>
+            <p>
+              Faça apenas <strong>uma coisa</strong> e faça-a muito bem. Programas pequenos são mais confiáveis e fáceis
+              de depurar (ex.: <code>grep</code> filtra, <code>sort</code> ordena).
+            </p>
+          </div>
+
+          <div class="card highlight-card">
+            <h4>2. Composição</h4>
+            <p>
+              A saída de um comando deve ser a entrada do próximo. O operador *Pipe* (<span class="tag">|</span>)
+              permite criar pipelines complexos sem arquivos intermediários em disco.
+            </p>
+          </div>
+
+          <div class="card highlight-card">
+            <h4>3. "Tudo é um arquivo"</h4>
+            <p>
+              No Unix/Linux, discos, conexões de rede, teclados e memória (<span class="tag">/dev</span>, <span
+                class="tag">/proc</span>) são manipulados com as mesmas chamadas de arquivos.
+            </p>
+          </div>
+        </div>
+
+        <aside class="notes">
+          - A filosofia Unix é como blocos de LEGO: comandos simples combinados formam qualquer aplicação de análise de
+          dados.
+        </aside>
+      </section>
+
+      <!-- SLIDE 6: O QUE É O SHELL? -->
+      <section data-transition="slide">
+        <span class="badge-pill">Arquitetura</span>
+        <h2>O que é o Shell?</h2>
+        <p class="subtitle">A evolução da ponte entre o usuário e o núcleo do sistema:</p>
+
+        <div class="grid-3" style="align-items: stretch;">
+          <div class="card" style="text-align: center;">
+            <img src="img/vt100.jpg" alt="Terminal DEC VT100" class="img-frame"
+              style="width: 100%; height: 100px; margin-bottom: 0.4em !important;">
+            <h4 style="text-align: center; justify-content: center;">1. O Terminal Físico</h4>
+            <p style="font-size: 0.55em;">
+              Hardware de 1978 (DEC VT100): teclado e tela de fósforo conectados a um mainframe remoto.
+            </p>
+          </div>
+
+          <div class="card">
+            <h4>2. O Emulador Moderno</h4>
+            <p style="font-size: 0.55em; margin-bottom: 0.35em;">
+              A <strong>janela gráfica</strong> na sua tela (<em>iTerm2, Alacritty, Terminal</em>).
+            </p>
+            <p style="font-size: 0.55em;">
+              Ele apenas desenha texto e repassa teclas digitadas, emulando virtualmente o hardware VT100.
+            </p>
+          </div>
+
+          <div class="card highlight-card">
+            <h4>3. O Shell (O Maestro)</h4>
+            <p style="font-size: 0.55em; margin-bottom: 0.35em;">
+              O <strong>interpretador</strong> (<em>Bash, Zsh, Fish</em>) que roda dentro da janela.
+            </p>
+            <p style="font-size: 0.55em;">
+              Interpreta comandos, resolve variáveis e solicita ao <strong>Kernel</strong> a execução de programas.
+            </p>
+          </div>
+        </div>
+
+        <div class="card"
+          style="margin-top: 0.6rem; padding: 0.45rem 0.8rem; text-align: center; border-left: 3px solid var(--primary);">
+          <p style="font-size: 0.55em; font-family: 'Fira Code', monospace; color: #e2e8f0; margin: 0;">
+            Você (Teclado) ➔ <strong>Emulador</strong> (Janela) ➔ <strong>Shell</strong> (Interpretador) ➔
+            <strong>Kernel</strong> (Hardware/SO)
+          </p>
+        </div>
+
+        <aside class="notes">
+          - Distinção fundamental: o emulador de terminal é a "janela"; o shell é o interpretador de comandos que roda
+          dentro dela.
+        </aside>
+      </section>
+
+      <!-- SLIDE 7: O SISTEMA DE ARQUIVOS (FHS) -->
+      <section data-transition="slide">
+        <span class="badge-pill">Estrutura</span>
+        <h2>O Sistema de Arquivos (FHS)</h2>
+        <p class="subtitle">A organização lógica de pastas e regras fundamentais:</p>
+
+        <div class="grid-2" style="margin-bottom: 0.6rem;">
+          <div class="card">
+            <h4>🌳 Raiz Única (<code>/</code>)</h4>
+            <p>
+              Sem unidades separadas (<code>C:</code>, <code>D:</code>). Tudo brota da raiz <code>/</code>. Discos e
+              pendrives são montados em pastas dessa árvore.
+            </p>
+          </div>
+
+          <div class="card">
+            <h4>🔤 Case-Sensitive</h4>
+            <p>
+              Diferencia maiúsculas e minúsculas: <code>relatorio.txt</code> e <code>Relatorio.txt</code> são arquivos
+              totalmente independentes.
+            </p>
+          </div>
+        </div>
+
+        <div class="card" style="text-align: left;">
+          <h4 style="margin-bottom: 0.2em;">Pastas Essenciais da Árvore:</h4>
+          <ul style="font-size: 0.55em; column-count: 2; column-gap: 1.5rem;">
+            <li><span class="tag">/bin</span>, <span class="tag">/usr/bin</span>: Programas executáveis.</li>
+            <li><span class="tag">/etc</span>: Configurações do sistema operacional.</li>
+            <li><span class="tag">/home/usuario</span>: Seus arquivos pessoais (<span class="tag">~</span>).</li>
+            <li><span class="tag">/dev</span>: Dispositivos de hardware mapeados.</li>
+            <li><span class="tag">/proc</span>: Métricas e processos em tempo real.</li>
+            <li><span class="tag">/tmp</span>: Arquivos temporários (limpos no reboot).</li>
+          </ul>
+        </div>
+
+        <aside class="notes">
+          - O padrão FHS (Filesystem Hierarchy Standard) garante consistência entre qualquer distribuição Linux.
+        </aside>
+      </section>
+
+      <!-- SLIDE 8: O SUPERPODER DO $PATH -->
+      <section data-transition="slide">
+        <span class="badge-pill">Execução</span>
+        <h2>O Superpoder da Variável <code>$PATH</code></h2>
+        <p class="subtitle">Como o sistema sabe onde está o comando que você digitou?</p>
+
+        <pre><code class="language-bash"># O shell busca nos diretórios listados no $PATH, da esquerda para a direita:
+$ echo $PATH
+/usr/local/bin:/usr/bin:/bin:/usr/sbin
+
+# Para descobrir o caminho exato do binário que será executado:
+$ which python3
+/usr/bin/python3
+
+$ which gcc
+/usr/bin/gcc</code></pre>
+
+        <div class="card highlight-card" style="margin-top: 0.6rem; text-align: left;">
+          <p style="font-size: 0.6em;">
+            💡 <strong>Regra de Ouro:</strong> Entender o <code>$PATH</code> resolve 80% dos erros de <em>"command not
+              found"</em> ao instalar NodeJS, Python, Java, Rust ou Docker!
+          </p>
+        </div>
+
+        <aside class="notes">
+          - Enfatizar que se um script ou binário local não roda direto sem ./, é porque o diretório atual '.' não fica
+          no $PATH por segurança.
+        </aside>
+      </section>
+
+      <!-- SLIDE 9: PERMISSÕES DE ACESSO -->
+      <section data-transition="slide">
+        <span class="badge-pill">Segurança</span>
+        <h2>Permissões de Acesso (<code>chmod</code>)</h2>
+        <p class="subtitle">Segurança e controle de execução em nível de arquivo:</p>
+
+        <pre style="margin: 0.3em auto !important;"><code class="language-text">- r w x  r - x  r - x   1  marcelo  staff   meu_script.sh
+  └──┬──┘  └──┬──┘  └──┬──┘
+     │        │        └── Outros (o):  leitura + execução (4+0+1 = 5)
+     │        └─────────── Grupo (g):    leitura + execução (4+0+1 = 5)
+     └──────────────────── Dono (u):     leitura + escrita + execução (4+2+1 = 7)</code></pre>
+
+        <div class="grid-2" style="margin-top: 0.6rem;">
+          <div class="card">
+            <h4>Cálculo Octal</h4>
+            <p>
+              • <strong>r</strong> (read) = <strong>4</strong> &nbsp;|&nbsp;
+              • <strong>w</strong> (write) = <strong>2</strong> &nbsp;|&nbsp;
+              • <strong>x</strong> (exec) = <strong>1</strong><br>
+              <span style="color: var(--primary); font-weight: 600;">755</span> = Dono edita e roda; demais só executam.
+            </p>
+          </div>
+
+          <div class="card">
+            <h4>Tornando Executável</h4>
+            <p>
+              Todo script recém-criado precisa de permissão explícita:<br>
+              <code class="language-bash">$ chmod +x meu_script.sh</code><br>
+              <code class="language-bash">$ ./meu_script.sh</code>
+            </p>
+          </div>
+        </div>
+
+        <aside class="notes">
+          - Explicar por que scripts em Linux não são executáveis por acidente: requerem a flag 'x'.
+        </aside>
+      </section>
+
+      <!-- SLIDE 10: ROTEIRO DA OFICINA -->
+      <section data-transition="zoom">
+        <span class="badge-pill">Próximos Passos</span>
+        <h2>Roteiro da Oficina</h2>
+        <p class="subtitle">Nossa jornada de 90 minutos para transformar seu fluxo de trabalho:</p>
+
+        <div class="grid-3" style="font-size: 0.85em;">
+          <div class="card" style="border-left: 3px solid #38bdf8;">
+            <strong style="color: #38bdf8; font-size: 0.85em;">01. Shell & Navegação</strong><br>
+            <p style="font-size: 0.6em; margin-top: 0.2em;">Comandos essenciais, $PATH e permissões (Agora!)</p>
+          </div>
+
+          <div class="card" style="border-left: 3px solid #34d399;">
+            <strong style="color: #34d399; font-size: 0.85em;">02. Pipes & Filtros</strong><br>
+            <p style="font-size: 0.6em; margin-top: 0.2em;">stdin/stdout, grep, sort, uniq e pipelines compostos</p>
+          </div>
+
+          <div class="card" style="border-left: 3px solid #fbbf24;">
+            <strong style="color: #fbbf24; font-size: 0.85em;">03. Processos</strong><br>
+            <p style="font-size: 0.6em; margin-top: 0.2em;">htop, PID e matando processos travados (kill -9)</p>
+          </div>
+
+          <div class="card" style="border-left: 3px solid #f43f5e;">
+            <strong style="color: #f43f5e; font-size: 0.85em;">04. Shell Scripting</strong><br>
+            <p style="font-size: 0.6em; margin-top: 0.2em;">Automação, parâmetros ($1) e laços de repetição</p>
+          </div>
+
+          <div class="card" style="border-left: 3px solid #818cf8;">
+            <strong style="color: #818cf8; font-size: 0.85em;">05. Profiling</strong><br>
+            <p style="font-size: 0.6em; margin-top: 0.2em;">Flame Graphs interativos, Valgrind, py-spy e JFR</p>
+          </div>
+
+          <div class="card" style="border-left: 3px solid #a855f7;">
+            <strong style="color: #a855f7; font-size: 0.85em;">06. Git Colaborativo</strong><br>
+            <p style="font-size: 0.6em; margin-top: 0.2em;">Áreas locais, branches e resolução de conflitos</p>
+          </div>
+        </div>
+
+        <div style="margin-top: 1rem;">
+          <p style="font-size: 0.85em; font-weight: 700; color: #38bdf8; margin: 0;">
+            Menos cliques, mais poder. Vamos abrir o terminal! 🚀
+          </p>
+        </div>
+
+        <aside class="notes">
+          - Transição direta para o terminal: abrir a janela do shell e começar a demonstração prática!
+        </aside>
+      </section>
+
+    </div>
+  </div>
+
+  <!-- Reveal.js & Plugins via CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/highlight.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/notes/notes.js"></script>
+
+  <script>
+    Reveal.initialize({
+      width: 1200,
+      height: 675,
+      margin: 0.04,
+      minScale: 0.2,
+      maxScale: 2.0,
+      hash: true,
+      slideNumber: 'c/t',
+      controls: true,
+      progress: true,
+      center: true,
+      transition: 'slide',
+      plugins: [RevealHighlight, RevealNotes]
+    });
+  </script>
+</body>
+
+</html>

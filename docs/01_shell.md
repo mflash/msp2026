@@ -18,7 +18,8 @@
 </script>
 
 <p class="nav-breadcrumb">
-  <a href="index.html" class="nav-link">← Voltar ao Índice Principal</a>
+  <a href="index.html" class="nav-link">← Voltar ao Índice Principal</a> | 
+  <a href="slides_introducao.html" class="nav-link" target="_blank" rel="noopener noreferrer">📊 Ver Slides da Introdução (Reveal.js) →</a>
 </p>
 
 ![](img/mgp.jpg)
