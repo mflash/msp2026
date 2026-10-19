@@ -43,7 +43,11 @@ Navegue pelos módulos disponíveis abaixo para acessar o conteúdo teórico, di
 ::: module-grid
 
 ::: module-card
+::: module-card-header
 [Disponível]{.module-badge .available}
+
+<img src="https://mzc9kojc5a.map.azionedge.net/prd-semana-academica-2026-ss-v2/app/image/17/17_1792091256817.png?ims=filters:quality(75)" alt="Prof. Edson Ifarraguirre Moreno" title="Prof. Edson Ifarraguirre Moreno" class="instructor-avatar" loading="lazy">
+:::
 
 ### [01. Introdução ao Shell e Comandos Básicos](01_shell.html)
 
@@ -63,7 +67,11 @@ Fundamentos históricos do Unix/Linux, arquitetura do sistema de arquivos, coman
 :::
 
 ::: module-card
+::: module-card-header
 [Disponível]{.module-badge .available}
+
+<img src="https://mzc9kojc5a.map.azionedge.net/prd-semana-academica-2026-ss-v2/app/image/17/17_1792091157911.png?ims=filters:quality(75)" alt="Prof. Marcelo Cohen" title="Prof. Marcelo Cohen" class="instructor-avatar" loading="lazy">
+:::
 
 ### [02. Redirecionamento, Pipes e Filtros de Texto](02_redirecionamento_pipes.html)
 
@@ -79,7 +87,11 @@ A filosofia Unix em ação: combinando programas pequenos através de canais e m
 :::
 
 ::: module-card
+::: module-card-header
 [Disponível]{.module-badge .available}
+
+<img src="https://mzc9kojc5a.map.azionedge.net/prd-semana-academica-2026-ss-v2/app/image/17/17_1792091256817.png?ims=filters:quality(75)" alt="Prof. Edson Ifarraguirre Moreno" title="Prof. Edson Ifarraguirre Moreno" class="instructor-avatar" loading="lazy">
+:::
 
 ### [03. Gerenciamento de Processos e Monitoramento](03_processos_monitoramento.html)
 
@@ -95,7 +107,11 @@ Como o sistema operacional gerencia recursos, memória e CPU, e como inspecionar
 :::
 
 ::: module-card
+::: module-card-header
 [Disponível]{.module-badge .available}
+
+<img src="https://mzc9kojc5a.map.azionedge.net/prd-semana-academica-2026-ss-v2/app/image/17/17_1792091157911.png?ims=filters:quality(75)" alt="Prof. Marcelo Cohen" title="Prof. Marcelo Cohen" class="instructor-avatar" loading="lazy">
+:::
 
 ### [04. Automação e Shell Scripting](04_automacao_shell_scripting.html)
 
@@ -111,7 +127,11 @@ Construindo scripts executáveis em Bash para automatizar rotinas, pipelines de 
 :::
 
 ::: module-card
+::: module-card-header
 [Disponível]{.module-badge .available}
+
+<img src="https://mzc9kojc5a.map.azionedge.net/prd-semana-academica-2026-ss-v2/app/image/17/17_1792091157911.png?ims=filters:quality(75)" alt="Prof. Marcelo Cohen" title="Prof. Marcelo Cohen" class="instructor-avatar" loading="lazy">
+:::
 
 ### [05. Depuração e Profiling (Java, Python e C)](05_depuracao_profiling.html)
 
@@ -127,7 +147,11 @@ Identificando gargalos de CPU e vazamentos de memória usando ferramentas gratui
 :::
 
 ::: module-card
+::: module-card-header
 [Disponível]{.module-badge .available}
+
+<img src="https://mzc9kojc5a.map.azionedge.net/prd-semana-academica-2026-ss-v2/app/image/17/17_1792091256817.png?ims=filters:quality(75)" alt="Prof. Edson Ifarraguirre Moreno" title="Prof. Edson Ifarraguirre Moreno" class="instructor-avatar" loading="lazy">
+:::
 
 ### [06. Git e Controle de Versão Colaborativo](06_git_colaborativo.html)
 
