@@ -32,7 +32,8 @@ O objetivo deste material é capacitar estudantes no uso produtivo da linha de c
 
 Este material é fortemente inspirado pelo [Missing Semester](https://missing.csail.mit.edu/), projeto do MIT com conteúdos que costumam estar ausentes ou incompletos em currículos de muitas graduações na área.
 
-> 📊 **Slides de Abertura:** Acompanhe a contextualização e a motivação inicial do curso através dos [Slides da Introdução)](slides_introducao.html).
+> 📊 **Slides de Abertura:** Acompanhe a contextualização e a motivação inicial do curso através dos [Slides da Introdução](slides_introducao.html).  
+> 📅 **Cronograma do Evento:** Confira a programação completa das atividades da Escola Politécnica no [Cronograma da Semana Acadêmica](cronograma_semana.html).
 
 ---
 
