@@ -1203,15 +1203,16 @@
 
           // Search query
           if (q) {
-            const inTitle = item.title && item.title.toLowerCase().includes(q);
-            const inDesc = item.description && item.description.toLowerCase().includes(q);
-            const inPlace = item.place && item.place.toLowerCase().includes(q);
-            const inSpeakers = item.speakers && item.speakers.some(s =>
-              (s.name && s.name.toLowerCase().includes(q)) ||
-              (s.role && s.role.toLowerCase().includes(q)) ||
-              (s.company && s.company.toLowerCase().includes(q))
-            );
-            const inTags = item.tags && item.tags.some(t => t.name && t.name.toLowerCase().includes(q));
+            const inTitle = item.title && cleanString(item.title).toLowerCase().includes(q);
+            const inDesc = item.description && cleanString(item.description).toLowerCase().includes(q);
+            const inPlace = item.place && cleanString(item.place).toLowerCase().includes(q);
+            const inSpeakers = item.speakers && item.speakers.some(s => {
+              const sn = cleanString(s.name).toLowerCase();
+              const sr = cleanString(s.role).toLowerCase();
+              const sc = cleanString(s.company).toLowerCase();
+              return sn.includes(q) || sr.includes(q) || sc.includes(q);
+            });
+            const inTags = item.tags && item.tags.some(t => t.name && cleanString(t.name).toLowerCase().includes(q));
             if (!inTitle && !inDesc && !inPlace && !inSpeakers && !inTags) return false;
           }
 
@@ -1219,9 +1220,25 @@
         });
       }
 
+      function cleanString(val) {
+        if (!val) return '';
+        if (typeof val === 'string') {
+          const s = val.trim();
+          return (s === '[object Object]' || s === '{}') ? '' : s;
+        }
+        if (typeof val === 'object') {
+          if (val.name && typeof val.name === 'string') return val.name.trim();
+          if (val.title && typeof val.title === 'string') return val.title.trim();
+          if (val.label && typeof val.label === 'string') return val.label.trim();
+          return '';
+        }
+        return String(val).trim();
+      }
+
       function escapeHtml(str) {
-        if (!str) return '';
-        return String(str)
+        const s = cleanString(str);
+        if (!s) return '';
+        return s
           .replace(/&/g, '&amp;')
           .replace(/</g, '&lt;')
           .replace(/>/g, '&gt;')
@@ -1260,10 +1277,11 @@
           if (item.speakers && item.speakers.length > 0) {
             speakersHtml = '<div class="speakers-list">' + item.speakers.map(sp => {
               const name = escapeHtml(sp.name);
-              const role = escapeHtml(sp.role || sp.company || '');
+              const role = escapeHtml(cleanString(sp.role) || cleanString(sp.company));
               const initial = name ? escapeHtml(name.charAt(0)) : '?';
-              const avatar = sp.picture
-                ? '<div class="speaker-thumb">' + initial + '<img class="speaker-avatar-img" src="' + escapeHtml(sp.picture) + '" alt="' + name + '" loading="lazy" onerror="this.remove()"></div>'
+              const pic = cleanString(sp.picture);
+              const avatar = pic
+                ? '<div class="speaker-thumb">' + initial + '<img class="speaker-avatar-img" src="' + escapeHtml(pic) + '" alt="' + name + '" loading="lazy" onerror="this.remove()"></div>'
                 : '<div class="speaker-thumb">' + initial + '</div>';
               return `
                 <div class="speaker-item">
@@ -1300,11 +1318,10 @@
           }
 
           let badgesHtml = '';
-          if (item.requires_booking) {
-            badgesHtml += '<span class="meta-badge" title="Requer inscrição prévia">🎟️ Inscrição obrigatória</span>';
-          }
-          if (item.available_slots !== null && item.available_slots !== undefined) {
+          if (item.available_slots && item.available_slots > 0) {
             badgesHtml += `<span class="meta-badge">👥 ${item.available_slots} vagas</span>`;
+          } else {
+            badgesHtml += `<span class="meta-badge" title="Número de vagas não informado pela organização">👥 Vagas: informação não disponível</span>`;
           }
 
           return `
@@ -1489,15 +1506,15 @@
         const endTimeStr = dtEnd ? fmtTime.format(dtEnd) : '';
 
         const speakers = (it.speakers || []).map(sp => ({
-          name: sp.name || '',
-          role: sp.role || sp.company || '',
-          company: sp.company || '',
-          picture: sp.picture || ''
+          name: cleanString(sp.name),
+          role: cleanString(sp.role),
+          company: cleanString(sp.company),
+          picture: cleanString(sp.picture)
         }));
 
         const tags = (it.tags || []).map(tg => ({
-          name: tg.name || '',
-          color: tg.color || '#4f7bf8'
+          name: cleanString(tg.name),
+          color: cleanString(tg.color) || '#4f7bf8'
         }));
 
         return {
@@ -1506,9 +1523,9 @@
           start_time: startTimeStr,
           end_time: endTimeStr,
           time_sort: dtStart.getTime(),
-          title: it.title || 'Sem título',
-          description: it.description || '',
-          place: it.place || 'A definir',
+          title: cleanString(it.title) || 'Sem título',
+          description: cleanString(it.description),
+          place: cleanString(it.place) || 'A definir',
           available_slots: it.available_slots,
           requires_booking: it.requires_booking || false,
           speakers: speakers,
