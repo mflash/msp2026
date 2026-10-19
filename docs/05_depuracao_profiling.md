@@ -536,13 +536,13 @@ Considere o script `teste_gargalo.py`:
 import time
 
 def processamento_rapido():
-    return sum(i * 2 for i in range(100_000))
+    return sum(i * 2 for i in range(100_000_000))
 
 def processamento_lento():
     total = 0
     # Gargalo: concatenação lenta de strings em loop
     resultado = ""
-    for i in range(20_000):
+    for i in range(20_000_000):
         resultado += str(i)
     return len(resultado)
 
@@ -558,14 +558,20 @@ Rode o script através do módulo `cProfile`, ordenando pelo tempo gasto exclusi
 
 ```bash
 $ python3 -m cProfile -s tottime teste_gargalo.py | head -n 15
+         100000009 function calls in 11.113 seconds
+
    Ordered by: internal time
 
    ncalls  tottime  percall  cumtime  percall filename:lineno(function)
-        1    0.142    0.142    0.142    0.142 teste_gargalo.py:6(processamento_lento)
-        1    0.015    0.015    0.015    0.015 teste_gargalo.py:3(processamento_rapido)
-    20000    0.008    0.000    0.008    0.000 {built-in method builtins.len}
-        1    0.000    0.000    0.157    0.157 teste_gargalo.py:14(main)
-        1    0.000    0.000    0.157    0.157 teste_gargalo.py:1(<module>)
+        1    5.000    5.000    9.044    9.044 {built-in method builtins.sum}
+100000001    4.043    0.000    4.043    0.000 teste_gargalo.py:4(<genexpr>)
+        1    2.069    2.069    2.069    2.069 teste_gargalo.py:6(processamento_lento)
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+        1    0.000    0.000   11.113   11.113 teste_gargalo.py:14(main)
+        1    0.000    0.000   11.113   11.113 {built-in method builtins.exec}
+        1    0.000    0.000   11.113   11.113 teste_gargalo.py:1(<module>)
+        1    0.000    0.000    9.044    9.044 teste_gargalo.py:3(processamento_rapido)
+        1    0.000    0.000    0.000    0.000 {built-in method builtins.len}
 ```
 
 ##### Decodificando as Colunas do `cProfile`:
@@ -579,20 +585,69 @@ $ python3 -m cProfile -s tottime teste_gargalo.py | head -n 15
 #### B. `py-spy` (Sampling Profiler com Flame Graphs)
 O **`py-spy`** é um profiler moderno escrito em Rust. Sua grande vantagem é ler o estado da pilha de execução da memória do processo Python externamente, **sem modificar o interpretador e sem desacelerar o código**.
 
+##### Código de Exemplo (`fibonacci.py`):
+Para demonstrar a criação do Flame Graph, utilizaremos um cálculo clássico de Fibonacci usando recursão simples sem memorização. Como a função faz chamadas recursivas duplas (`fibonacci(n-1) + fibonacci(n-2)`), o custo computacional cresce exponencialmente ($O(2^n)$), gerando uma pilha profunda e intensiva em CPU:
+
+```python
+import time
+
+def fibonacci(n: int):
+    if n <= 0:
+        return 0
+    elif n == 1:
+        return 1
+    else:
+        return fibonacci(n - 1) + fibonacci(n - 2)
+
+def main():
+    for n in range(2, 40):
+        start_time = time.time()
+        result = fibonacci(n)
+        end_time = time.time()
+        print(f"Resultado de Fibonacci({n}): {result}")
+        print(f"Tempo: {end_time - start_time:.2f} segundos")
+
+if __name__ == "__main__":
+    main()
+```
+
+##### Executando o `py-spy`:
+
 ```bash
 # Instalação:
 $ pip install py-spy
 
 # 1. Visualização ao vivo tipo 'top' de um script ou processo Python ativo:
-$ py-spy top -- python3 meu_app.py
+$ py-spy top -- python3 fibonacci.py
 # Ou monitorando um processo já rodando pelo PID:
 $ py-spy top --pid 4520
 
 # 2. Gerar diretamente um Flame Graph interativo em SVG:
-$ py-spy record -o perfil_execucao.svg -- python3 meu_app.py
+$ py-spy record -o perfil_execucao.svg -- python3 fibonacci.py
 ```
-O arquivo `perfil_execucao.svg` gerado pode ser aberto em qualquer navegador, permitindo clicar nos blocos para dar zoom nas funções mais lentas!
 
+O arquivo `perfil_execucao.svg` gerado pode ser aberto em qualquer navegador, permitindo clicar nos blocos para dar zoom nas funções mais lentas. Observe que essa saída do `py-spy` gera o *flame graph* invertido (*icicle graph*), ou seja, de cima para baixo: a função raiz (`main`) fica no topo e as chamadas recursivas vão descendo em cascata.
+
+[![Flame Graph gerado pelo py-spy (clique para abrir e interagir)](img/perfil_execucao.svg)](img/perfil_execucao.svg)
+
+##### Visualização Alternativa e Interativa com `Speedscope.app`
+
+Se você preferir visualizar o perfil no formato clássico (de baixo para cima), alternar entre diferentes modos de ordenação ou inspecionar a linha do tempo de execução, o `py-spy` suporta nativamente a exportação para o formato do **[Speedscope](https://www.speedscope.app/)**:
+
+```bash
+# Gerar o arquivo de perfil no formato do Speedscope (JSON):
+$ py-spy record -f speedscope -o perfil.json -- python3 fibonacci.py
+```
+
+Para visualizar:
+
+1. Abra o site **[speedscope.app](https://www.speedscope.app/)** em qualquer navegador moderno. Todo o processamento é executado localmente via JavaScript/WebAssembly no próprio cliente — nenhum dado do seu código ou da sua máquina é enviado para a internet.
+2. Arraste e solte o arquivo `perfil.json` gerado sobre a janela do navegador.
+3. Alterne entre os três modos de análise disponíveis na barra superior:
+   - **Time Order:** Visualiza as chamadas em ordem cronológica ao longo do tempo (esquerda para a direita), ideal para entender em que momento da execução ocorreram picos de processamento.
+   - **Left Heavy (Flame Graph Agrupado):** Agrupa chamadas idênticas somando o tempo total gasto em cada função. Permite alternar entre **Top-Down** (de cima para baixo) e **Bottom-Up** (de baixo para cima, invertendo o eixo vertical).
+   - **Sandwich:** Permite focar em uma função individual selecionada, exibindo quem foram os seus chamadores (*callers*) e quem ela chamou (*callees*), junto com o tempo próprio (*self time*).
+ 
 ---
 
 #### C. `line_profiler` (Análise Linha a Linha)
@@ -614,20 +669,176 @@ O relatório exibirá a porcentagem exata de tempo consumida por cada linha do c
 A Máquina Virtual Java (JVM) gerencia compilação JIT (*Just-In-Time*), alocação dinâmica e coleta de lixo (*Garbage Collection*). Por isso, as ferramentas de diagnóstico Java analisam tanto o código da aplicação quanto o comportamento da própria JVM.
 
 #### A. `JDK Flight Recorder (JFR)` e `JDK Mission Control (JMC)`
-Antigo recurso proprietário da Oracle, o **JFR** foi aberto e integrado diretamente ao OpenJDK moderno. Trata-se do profiler mais avançado do ecossistema Java, projetado para operar continuamente com **menos de 1% de overhead**:
+Antigo recurso proprietário da Oracle, o **JFR** foi aberto e integrado diretamente ao OpenJDK moderno (versões 11+). Trata-se do profiler de produção mais avançado do ecossistema Java: ele é implementado diretamente dentro da JVM (HotSpot), permitindo coletar telemetria profunda com **menos de 1% de overhead**, o que o torna seguro para uso contínuo em ambientes de produção 24/7.
 
-```bash
-# Iniciar a aplicação gravando 60 segundos de telemetria completa em um arquivo .jfr:
-$ java -XX:StartFlightRecording=duration=60s,filename=diagnostico.jfr,settings=profile -jar minha_aplicacao.jar
+##### Código de Exemplo (`ExemploJFR.java`):
+O código a seguir simula três padrões clássicos de problemas de desempenho em aplicações corporativas:
+1. **CPU Hotspot:** laço matemático intensivo em CPU;
+2. **Pressão no Garbage Collector:** alocação massiva de matrizes temporárias;
+3. **Contenção de Locks (Thread Latency):** múltiplas threads concorrentes disputando um mesmo monitor sincronizado (`synchronized`).
+
+```java
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+
+/**
+ * Exemplo prático para demonstração do JDK Flight Recorder (JFR)
+ * e análise com JDK Mission Control (JMC).
+ *
+ * Simula três cenários comuns de diagnóstico de desempenho:
+ *  1. CPU Hotspot: cálculo matemático intensivo em laço (Method Profiling).
+ *  2. Pressão de Alocação e GC: geração contínua de objetos temporários (TLAB e Garbage Collection).
+ *  3. Contenção de Locks (Thread Contention): múltiplas threads disputando um monitor sincronizado.
+ */
+public class ExemploJFR {
+
+    private static final Object MONITOR_LOCK = new Object();
+    private static long contadorCompartilhado = 0;
+
+    public static void main(String[] args) throws InterruptedException {
+        System.out.println("=== Iniciando ExemploJFR para Diagnóstico com Flight Recorder ===");
+        System.out.println("PID do processo Java: " + ProcessHandle.current().pid());
+        System.out.println("Simulação em andamento por 20 segundos. Pressione Ctrl+C se quiser interromper antes...\n");
+
+        long tempoFim = System.currentTimeMillis() + 20_000; // 20 segundos
+        ExecutorService executor = Executors.newFixedThreadPool(4);
+
+        // Threads concorrentes para gerar contenção no lock sincronizado
+        for (int i = 0; i < 3; i++) {
+            executor.submit(() -> {
+                while (System.currentTimeMillis() < tempoFim) {
+                    simularContencaoDeLock();
+                }
+            });
+        }
+
+        // Loop principal: executa trabalho de CPU e alocação intensa de objetos
+        int iteracao = 1;
+        while (System.currentTimeMillis() < tempoFim) {
+            System.out.printf("[Ciclo %02d] Processando CPU e alocando memória temporária...%n", iteracao++);
+
+            // 1. Hotspot de CPU: laço numérico intensivo
+            processamentoIntensivoCpu(200_000);
+
+            // 2. Pressão de alocação de memória (ativa eventos de TLAB e coletas de GC)
+            pressaoAlocacaoMemoria(100_000);
+
+            Thread.sleep(50);
+        }
+
+        executor.shutdown();
+        executor.awaitTermination(5, TimeUnit.SECONDS);
+
+        System.out.println("\n=== Execução concluída! Gravação do JFR pronta para análise. ===");
+    }
+
+    /**
+     * Hotspot de CPU: o JFR colherá amostras de pilha (Execution Profiling)
+     * identificando este método no topo da lista "Hot Methods".
+     */
+    private static void processamentoIntensivoCpu(int n) {
+        double total = 1.0;
+        for (int i = 0; i < n; i++) {
+            total += Math.sin(i) * Math.cos(total);
+        }
+    }
+
+    /**
+     * Pressão no Garbage Collector: cria listas e matrizes de curta duração.
+     * No JMC, aparecerá na aba 'Memory' -> 'Allocation in new TLAB' e registrará eventos de GC.
+     */
+    private static void pressaoAlocacaoMemoria(int quantidade) {
+        List<byte[]> listaTemporaria = new ArrayList<>();
+        for (int i = 0; i < 50; i++) {
+            // Blocos de 64 KB alocados e descartados rapidamente
+            listaTemporaria.add(new byte[64 * 1024]);
+        }
+    }
+
+    /**
+     * Contenção de Threads: múltiplas threads disputam o mesmo monitor.
+     * Como a seção crítica retém o lock por tempo mensurável (~15ms), o JFR
+     * registra eventos 'jdk.JavaMonitorEnter' na aba 'Lock Instances' do JMC.
+     */
+    private static void simularContencaoDeLock() {
+        synchronized (MONITOR_LOCK) {
+            contadorCompartilhado++;
+            try {
+                // Simula latência dentro da seção crítica
+                Thread.sleep(15);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }
+    }
+}
 ```
 
-O arquivo `diagnostico.jfr` armazena:
-- Métricas detalhadas de CPU por método Java;
-- Todas as pausas e coletas do Garbage Collector;
-- Contenção de locks e threads bloqueadas aguardando sincronização;
-- Estatísticas de I/O de rede e arquivos.
+##### 1. Compilação e Gravação na Inicialização da JVM
 
-Para visualizar, basta baixar a ferramenta gráfica gratuita **JDK Mission Control (JMC)** (disponível pelo pacote `openjdk-jmc` ou pelo site oficial).
+Para compilar e iniciar a gravação do Flight Recorder com o perfil completo (`settings=profile`), use os argumentos `-XX:StartFlightRecording`:
+
+```bash
+# 1. Compilar o arquivo Java:
+$ javac ExemploJFR.java
+
+# 2. Executar gravando 20 segundos de eventos em 'gravacao.jfr':
+$ java -XX:StartFlightRecording=duration=20s,filename=gravacao.jfr,settings=profile ExemploJFR
+```
+
+Durante a execução, o JFR grava em um buffer circular na memória e, ao término dos 20 segundos (ou quando a aplicação termina), despeja o arquivo `gravacao.jfr` no disco.
+
+##### 2. Gravação Dinâmica em Produção (Sem Reiniciar a JVM)
+
+Se a sua aplicação já está rodando em produção e começou a apresentar lentidão ou consumo anômalo de memória, você não precisa reiniciá-la nem recompilá-la. O comando `jcmd` permite disparar o JFR sob demanda:
+
+```bash
+# 1. Localizar o PID do processo Java ativo:
+$ jps -l
+18492 ExemploJFR
+
+# 2. Iniciar a gravação JFR no processo em execução:
+$ jcmd 18492 JFR.start name=diagnostico duration=30s filename=producao.jfr settings=profile
+
+# 3. (Opcional) Gerar um dump intermediário sem interromper a gravação:
+$ jcmd 18492 JFR.dump name=diagnostico filename=producao_parcial.jfr
+
+# 4. Parar antecipadamente a gravação se necessário:
+$ jcmd 18492 JFR.stop name=diagnostico
+```
+
+##### 3. Inspecionando o Arquivo `.jfr` pelo Terminal (`jfr`)
+
+O próprio JDK disponibiliza o utilitário de linha de comando `jfr` para inspecionar gravações diretamente no servidor, sem precisar de interface gráfica:
+
+```bash
+# Exibir o sumário com contagem e volume de todos os tipos de eventos:
+$ jfr summary gravacao.jfr
+
+# Filtrar eventos específicos (ex.: coletas de GC e contenção de locks):
+$ jfr summary gravacao.jfr | grep -E "ExecutionSample|Allocation|Monitor|GarbageCollection"
+# Saída:
+#  jdk.ObjectAllocationSample               1069         14895
+#  jdk.ThreadSleep                           292          5248
+#  jdk.ExecutionSample                        41           410
+#  jdk.GarbageCollection                      31           619
+#  jdk.JavaMonitorEnter                       14           317
+
+# Inspecionar detalhes e stack traces dos eventos de CPU (hotspots):
+$ jfr print --events jdk.ExecutionSample gravacao.jfr | head -n 35
+```
+
+##### 4. Análise Gráfica com JDK Mission Control (JMC)
+
+Para uma análise visual completa, abra o arquivo `gravacao.jfr` no **JDK Mission Control (JMC)** (disponível pelo pacote `openjdk-jmc` ou pelo portal de adoção Eclipse/Adoptium):
+
+- **Página de Resultados Automatizados (*Automated Analysis Results*):** O JMC avalia automaticamente as regras de boas práticas e exibe alertas coloridos (verde, amarelo, vermelho) indicando se há excesso de tempo em GC, contenção severa de locks ou métodos bloqueantes.
+- **Aba Java Application -> Method Profiling:** Apresenta a árvore de chamadas e a lista de métodos mais executados (*Hot Methods*). No nosso exemplo, `processamentoIntensivoCpu` e `Math.sin`/`cos` aparecem no topo.
+- **Aba Memory -> GC Pauses & Allocation in new TLAB:** Mostra exatamente o ritmo de alocação de memória por segundo e as pausas de coleta de lixo geradas pelas matrizes descartáveis de `pressaoAlocacaoMemoria`.
+- **Aba Threads -> Lock Instances:** Destaca o objeto `MONITOR_LOCK` e as threads bloqueadas em `simularContencaoDeLock`, indicando o tempo total que as threads passaram esperando a liberação do lock.
 
 ---
 
