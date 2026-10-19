@@ -282,7 +282,9 @@
           <div class="card highlight-card">
             <h4>🎓 Ferramental Complementar</h4>
             <p>
-              A graduação foca nos sólidos fundamentos conceituais (algoritmos, cálculo, OOP). Este material atua como um <strong>complemento prático</strong>: o ecossistema de ferramentas (terminal, Git, automação) que potencializa seus estudos, pesquisas e projetos.
+              A graduação foca nos sólidos fundamentos conceituais (algoritmos, cálculo, OOP). Este material atua como
+              um <strong>complemento prático</strong>: o ecossistema de ferramentas (terminal, Git, automação) que
+              potencializa seus estudos, pesquisas e projetos.
             </p>
           </div>
 
@@ -412,50 +414,21 @@
       <section data-transition="slide">
         <span class="badge-pill">Arquitetura</span>
         <h2>O que é o Shell?</h2>
-        <p class="subtitle">A evolução da ponte entre o usuário e o núcleo do sistema operacional:</p>
+        <p class="subtitle">A concha interpretadora entre a interface gráfica e o núcleo do sistema operacional:</p>
 
-        <div class="grid-3" style="align-items: stretch;">
-          <div class="card" style="text-align: center;">
-            <img src="img/vt100.jpg" alt="Terminal DEC VT100" class="img-frame"
-              style="width: 100%; height: 100px; margin-bottom: 0.4em !important;">
-            <h4 style="text-align: center; justify-content: center;">1. O Terminal Físico</h4>
-            <p style="font-size: 0.55em;">
-              Hardware de 1978 (DEC VT100): teclado e tela de fósforo conectados a um mainframe remoto.
-            </p>
-          </div>
-
-          <div class="card">
-            <h4>2. O Emulador Moderno</h4>
-            <p style="font-size: 0.55em; margin-bottom: 0.35em;">
-              A <strong>janela gráfica</strong> na sua tela (<em>iTerm2, Alacritty, Terminal</em>).
-            </p>
-            <p style="font-size: 0.55em;">
-              Ele apenas desenha texto e repassa teclas digitadas, emulando virtualmente o hardware VT100.
-            </p>
-          </div>
-
-          <div class="card highlight-card">
-            <h4>3. O Shell (O Maestro)</h4>
-            <p style="font-size: 0.55em; margin-bottom: 0.35em;">
-              O <strong>interpretador</strong> (<em>Bash, Zsh, Fish</em>) que roda dentro da janela.
-            </p>
-            <p style="font-size: 0.55em;">
-              Interpreta comandos, resolve variáveis e solicita ao <strong>Kernel</strong> a execução de programas.
-            </p>
-          </div>
-        </div>
-
-        <div class="card"
-          style="margin-top: 0.6rem; padding: 0.45rem 0.8rem; text-align: center; border-left: 3.5px solid var(--event-orange);">
-          <p style="font-size: 0.55em; font-family: 'Fira Code', monospace; color: #ffffff; margin: 0;">
-            Você (Teclado) ➔ <strong>Emulador</strong> (Janela) ➔ <strong>Shell</strong> (Interpretador) ➔
-            <strong style="color: var(--event-yellow);">Kernel</strong> (Hardware/SO)
-          </p>
+        <div style="margin: 0.4rem auto 0 auto; max-width: 1120px;">
+          <img src="img/infografico-shell.svg" alt="Diagrama de Arquitetura: Emulador de Terminal, Shell e Kernel"
+            style="width: 100%; height: auto; display: block; filter: drop-shadow(0 8px 24px rgba(0,0,0,0.35));">
         </div>
 
         <aside class="notes">
-          - Distinção fundamental: o emulador de terminal é a "janela"; o shell é o interpretador de comandos que roda
-          dentro dela.
+          - Percorrer o fluxo visual da esquerda para a direita:
+          - 1. Emulador de Terminal: a janela gráfica (iTerm2, Alacritty) que lê teclas e desenha texto, virtualizando o
+          VT100 de antigamente.
+          - 2. O Shell (Destaque): o interpretador (Bash, Zsh) que recebe comandos pelo stdin, expande variáveis, cria
+          pipes e aciona syscalls.
+          - 3. O Kernel: o núcleo do SO que gerencia processos, memória e arquivos no disco.
+          - 4. O fluxo de retorno (verde): stdout e stderr retornam até a janela para o usuário ver os resultados.
         </aside>
       </section>
 
@@ -500,76 +473,7 @@
         </aside>
       </section>
 
-      <!-- SLIDE 8: O SUPERPODER DO $PATH -->
-      <section data-transition="slide">
-        <span class="badge-pill">Execução</span>
-        <h2>O Superpoder da Variável <code>$PATH</code></h2>
-        <p class="subtitle">Como o sistema sabe onde está o comando que você digitou?</p>
-
-        <pre><code class="language-bash"># O shell busca nos diretórios listados no $PATH, da esquerda para a direita:
-$ echo $PATH
-/usr/local/bin:/usr/bin:/bin:/usr/sbin
-
-# Para descobrir o caminho exato do binário que será executado:
-$ which python3
-/usr/bin/python3
-
-$ which gcc
-/usr/bin/gcc</code></pre>
-
-        <div class="card highlight-card" style="margin-top: 0.6rem; text-align: left;">
-          <p style="font-size: 0.6em;">
-            💡 <strong>Regra de Ouro:</strong> Entender o <code>$PATH</code> resolve 80% dos erros de <em>"command not
-              found"</em> ao instalar NodeJS, Python, Java, Rust ou Docker!
-          </p>
-        </div>
-
-        <aside class="notes">
-          - Enfatizar que se um script ou binário local não roda direto sem ./, é porque o diretório atual '.' não fica
-          no $PATH por segurança.
-        </aside>
-      </section>
-
-      <!-- SLIDE 9: PERMISSÕES DE ACESSO -->
-      <section data-transition="slide">
-        <span class="badge-pill">Segurança</span>
-        <h2>Permissões de Acesso (<code>chmod</code>)</h2>
-        <p class="subtitle">Segurança e controle de execução em nível de arquivo:</p>
-
-        <pre style="margin: 0.3em auto !important;"><code class="language-text">- r w x  r - x  r - x   1  marcelo  staff   meu_script.sh
-  └──┬──┘  └──┬──┘  └──┬──┘
-     │        │        └── Outros (o):  leitura + execução (4+0+1 = 5)
-     │        └─────────── Grupo (g):    leitura + execução (4+0+1 = 5)
-     └──────────────────── Dono (u):     leitura + escrita + execução (4+2+1 = 7)</code></pre>
-
-        <div class="grid-2" style="margin-top: 0.6rem;">
-          <div class="card">
-            <h4>Cálculo Octal</h4>
-            <p>
-              • <strong>r</strong> (read) = <strong>4</strong> &nbsp;|&nbsp;
-              • <strong>w</strong> (write) = <strong>2</strong> &nbsp;|&nbsp;
-              • <strong>x</strong> (exec) = <strong>1</strong><br>
-              <span style="color: var(--event-yellow); font-weight: 700;">755</span> = Dono edita e roda; demais só
-              executam.
-            </p>
-          </div>
-
-          <div class="card">
-            <h4>Tornando Executável</h4>
-            <p>
-              Todo script recém-criado precisa de permissão explícita:<br>
-              <code class="language-bash">$ chmod +x meu_script.sh</code><br>
-              <code class="language-bash">$ ./meu_script.sh</code>
-            </p>
-          </div>
-        </div>
-
-        <aside class="notes">
-          - Explicar por que scripts em Linux não são executáveis por acidente: requerem a flag 'x'.
-        </aside>
-      </section>
-
-      <!-- SLIDE 10: ROTEIRO DA OFICINA -->
+      <!-- SLIDE 8: ROTEIRO DA OFICINA -->
       <section data-transition="zoom">
         <span class="badge-pill">Próximos Passos</span>
         <h2>Roteiro da Oficina</h2>
@@ -610,7 +514,7 @@ $ which gcc
         <div style="margin-top: 1rem;">
           <p
             style="font-size: 0.88em; font-weight: 800; color: var(--event-yellow); margin: 0; text-shadow: 0 2px 8px rgba(0,0,0,0.4);">
-            Menos cliques, mais poder. Vamos abrir o terminal! 🚀
+            Esqueça o mouse, vamos abrir o terminal! 🚀
           </p>
         </div>
 
