@@ -1,0 +1,608 @@
+<!doctype html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>06. Git e Trabalho Colaborativo — Manual de Sobrevivência de Programação</title>
+
+  <!-- Reveal.js CSS Core & Theme -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/black.css" id="theme">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/monokai.css">
+
+  <!-- Google Fonts: Inter, Outfit & Fira Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800;900&display=swap"
+    rel="stylesheet">
+
+  <style>
+    :root {
+      --event-blue: #4f7bf8;
+      --event-blue-dark: #375fd9;
+      --event-grid: rgba(255, 255, 255, 0.16);
+      --event-yellow: #ffe600;
+      --event-orange: #f7941d;
+      --event-gradient: linear-gradient(135deg, #ffe600 0%, #f7941d 100%);
+      --card-bg: rgba(15, 23, 42, 0.82);
+      --card-border: rgba(255, 255, 255, 0.22);
+      --text-bright: #ffffff;
+      --text-muted: #e2e8f0;
+    }
+
+    .reveal {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      color: var(--text-bright);
+      background-color: var(--event-blue);
+      background-image:
+        linear-gradient(var(--event-grid) 1px, transparent 1px),
+        linear-gradient(90deg, var(--event-grid) 1px, transparent 1px);
+      background-size: 36px 36px;
+    }
+
+    .reveal .slides section {
+      box-sizing: border-box;
+      padding: 0.5rem 1.5rem;
+    }
+
+    .reveal h1,
+    .reveal h2,
+    .reveal h3,
+    .reveal h4 {
+      font-family: 'Outfit', sans-serif;
+      text-transform: none;
+      letter-spacing: -0.02em;
+    }
+
+    .reveal h1 {
+      font-size: 2.1em;
+      font-weight: 900;
+      line-height: 1.1;
+      margin: 0.2em 0 0.15em 0;
+      color: #ffffff;
+      text-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+    }
+
+    .reveal h2 {
+      font-size: 1.55em;
+      font-weight: 800;
+      color: #ffffff;
+      margin: 0.2em 0 0.25em 0;
+      line-height: 1.15;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .subtitle {
+      font-size: 0.65em !important;
+      color: #ffffff !important;
+      opacity: 0.92;
+      margin: 0 0 0.8em 0 !important;
+      line-height: 1.3 !important;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .badge-pill {
+      display: inline-block;
+      padding: 0.25em 0.85em;
+      font-size: 0.4em;
+      font-weight: 800;
+      font-family: 'Outfit', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      border-radius: 9999px;
+      background: #0f172a;
+      color: var(--event-yellow);
+      border: 1.5px solid var(--event-orange);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      margin-bottom: 0.4em;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1.5px solid var(--card-border);
+      border-radius: 12px;
+      padding: 1rem 1.25rem;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(8px);
+      text-align: left;
+    }
+
+    .card h4 {
+      font-size: 0.82em;
+      color: var(--event-yellow);
+      margin: 0 0 0.4em 0;
+      font-weight: 700;
+    }
+
+    .card p,
+    .card li {
+      font-size: 0.58em;
+      line-height: 1.45;
+      color: var(--text-muted);
+      margin: 0;
+    }
+
+    .card ul {
+      margin: 0.3em 0 0 1.2em;
+      padding: 0;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.2rem;
+      margin-top: 0.4rem;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1rem;
+      margin-top: 0.4rem;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 0.1em 0.45em;
+      border-radius: 4px;
+      font-size: 0.82em;
+      font-family: 'Fira Code', monospace;
+      background: rgba(255, 230, 0, 0.18);
+      color: var(--event-yellow);
+      border: 1px solid rgba(255, 230, 0, 0.4);
+    }
+
+    /* Estados do arquivo no Git */
+    .tag-untracked {
+      background: rgba(148, 163, 184, 0.22);
+      color: #cbd5e1;
+      border-color: rgba(148, 163, 184, 0.5);
+    }
+
+    .tag-modified {
+      background: rgba(248, 113, 113, 0.22);
+      color: #f87171;
+      border-color: rgba(248, 113, 113, 0.5);
+    }
+
+    .tag-staged {
+      background: rgba(250, 204, 21, 0.18);
+      color: #facc15;
+      border-color: rgba(250, 204, 21, 0.45);
+    }
+
+    .tag-committed {
+      background: rgba(74, 222, 128, 0.18);
+      color: #4ade80;
+      border-color: rgba(74, 222, 128, 0.45);
+    }
+
+    pre code {
+      font-family: 'Fira Code', monospace !important;
+      font-size: 0.72em !important;
+      line-height: 1.35 !important;
+      border-radius: 8px !important;
+      border: 1px solid rgba(255, 255, 255, 0.2) !important;
+      background: #090d16 !important;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <!-- SLIDE 1: CAPA DO MÓDULO 06 -->
+      <section data-transition="zoom">
+        <span class="badge-pill">Módulo 06 • Estudo Assíncrono / Sessão Estendida</span>
+        <h1 style="font-size: 1.85em; margin: 0.2em 0;">Git e Trabalho Colaborativo</h1>
+        <p class="subtitle">O que trava não são os comandos, é o modelo mental: áreas, commits, branches e conflitos sem
+          pânico</p>
+
+        <div style="display: flex; align-items: center; justify-content: center; gap: 2rem; margin-top: 1.2rem;">
+          <div class="card" style="display: flex; align-items: center; gap: 1rem; padding: 0.6rem 1.2rem;">
+            <img src="img/prof_edson.png" alt="Prof. Edson"
+              style="width: 50px; height: 50px; border-radius: 50%; border: 2px solid var(--event-yellow);">
+            <div>
+              <strong style="color: var(--event-yellow); font-size: 0.7em; display: block;">Prof. Edson Ifarraguirre
+                Moreno</strong>
+              <span style="font-size: 0.52em; color: #cbd5e1;">Escola Politécnica • PUCRS</span>
+            </div>
+          </div>
+        </div>
+
+        <aside class="notes">
+          - Este módulo não entra no período de 1h30 da oficina: fica como estudo autônomo no portal e como roteiro para
+          sessões estendidas (2h a 3h), com cerca de 17 minutos.
+          - Mensagem central: quem entende as áreas e o que é um commit para de "decorar receitas" e para de ter medo de
+          conflito.
+        </aside>
+      </section>
+
+      <!-- SLIDE 2: FILOSOFIA EM TRÊS IDEIAS -->
+      <section data-transition="slide">
+        <span class="badge-pill" style="margin-bottom: 0.25em; font-size: 0.38em;">Origem e Filosofia</span>
+        <h2 style="font-size: 1.4em; margin: 0.1em 0 0.15em 0;">O Git em Três Ideias</h2>
+        <p class="subtitle" style="font-size: 0.56em !important; margin-bottom: 0.55em !important;">2005: Linus Torvalds
+          interrompe o kernel Linux para escrever a ferramenta que o versionaria</p>
+
+        <div class="grid-3" style="gap: 0.85rem;">
+          <div class="card" style="padding: 0.8rem 1rem;">
+            <h4 style="font-size: 0.76em; margin-bottom: 0.35em;">1. Distribuído</h4>
+            <p style="font-size: 0.52em; line-height: 1.4;">
+              <strong>Todo clone é um repositório completo</strong>, com o histórico integral do projeto.
+            </p>
+            <p style="font-size: 0.50em; line-height: 1.4; margin-top: 0.5em;">
+              Dá para commitar, criar branches e consultar o log <strong>offline</strong>, no avião ou sem internet.
+            </p>
+          </div>
+
+          <div class="card" style="padding: 0.8rem 1rem;">
+            <h4 style="font-size: 0.76em; margin-bottom: 0.35em;">2. Snapshots</h4>
+            <p style="font-size: 0.52em; line-height: 1.4;">
+              Cada commit é uma <strong>fotografia do projeto inteiro</strong>, não uma lista de diferenças.
+            </p>
+            <p style="font-size: 0.50em; line-height: 1.4; margin-top: 0.5em;">
+              Arquivo que não mudou vira só um ponteiro para a versão já guardada: sem desperdício de espaço.
+            </p>
+          </div>
+
+          <div class="card" style="padding: 0.8rem 1rem;">
+            <h4 style="font-size: 0.76em; margin-bottom: 0.35em;">3. Hashes</h4>
+            <p style="font-size: 0.52em; line-height: 1.4;">
+              Cada commit inclui o <strong>hash do commit anterior</strong>.
+            </p>
+            <p style="font-size: 0.50em; line-height: 1.4; margin-top: 0.5em;">
+              Alterar o passado muda o hash daquele commit e de todos os seguintes: qualquer adulteração é
+              <strong>detectável</strong>.
+            </p>
+          </div>
+        </div>
+
+        <div class="card"
+          style="margin-top: 0.85rem; padding: 0.55rem 1rem; border-color: rgba(239, 68, 68, 0.45); background: rgba(239, 68, 68, 0.14);">
+          <p style="font-size: 0.52em; color: #ffffff; text-align: center;">
+            ⚠️ Todo o histórico mora na pasta oculta <code>.git/</code>. <strong>Apagá-la destrói o histórico</strong>
+            daquela cópia (os arquivos atuais ficam, os commits se perdem).
+          </p>
+        </div>
+
+        <aside class="notes">
+          - 2 minutos. Contar a história do BitKeeper em uma frase e seguir para as três ideias.
+          - Reforçar o alerta do .git/: é um erro comum ao "limpar" o projeto ou copiar pastas.
+        </aside>
+      </section>
+
+      <!-- SLIDE 3: AS QUATRO ÁREAS E OS ESTADOS DO ARQUIVO -->
+      <section data-transition="slide">
+        <span class="badge-pill" style="margin-bottom: 0.25em; font-size: 0.38em;">Modelo Mental</span>
+        <h2 style="font-size: 1.4em; margin: 0.1em 0 0.15em 0;">As Quatro Áreas e os Estados do Arquivo</h2>
+        <p class="subtitle" style="font-size: 0.56em !important; margin-bottom: 0.45em !important;">A jornada de uma
+          alteração entre o seu teclado e o repositório da equipe:</p>
+
+        <div class="grid-2" style="grid-template-columns: 0.9fr 1.1fr; gap: 1rem; align-items: center;">
+          <div>
+            <div class="card" style="padding: 0.65rem 0.9rem; margin-bottom: 0.45rem;">
+              <h4 style="font-size: 0.74em; margin-bottom: 0.3em;">Do Teclado ao Repositório</h4>
+              <div style="display: flex; flex-wrap: wrap; gap: 0.35rem; align-items: center; margin-bottom: 0.35em;">
+                <span class="tag tag-untracked" style="font-size: 0.4em;">Untracked</span>
+                <span class="tag tag-modified" style="font-size: 0.4em;">Modified</span>
+                <span style="font-size: 0.42em;">➔ <code>add</code> ➔</span>
+                <span class="tag tag-staged" style="font-size: 0.4em;">Staged</span>
+                <span style="font-size: 0.42em;">➔ <code>commit</code> ➔</span>
+                <span class="tag tag-committed" style="font-size: 0.4em;">Committed</span>
+              </div>
+              <pre style="margin: 0.2em 0;"><code class="language-bash" style="font-size: 0.6em !important; line-height: 1.25 !important; padding: 0.45rem 0.7rem !important;">git status                    # o que mudou?
+git add arquivo.c             # prepara (Staging)
+git status
+git commit -m "Adiciona soma" # grava o snapshot
+git log --oneline             # histórico resumido
+git push                      # envia ao remoto</code></pre>
+            </div>
+
+            <div class="card" style="padding: 0.55rem 0.9rem;">
+              <h4 style="font-size: 0.7em; margin-bottom: 0.2em;">Por que a Staging Area existe?</h4>
+              <p style="font-size: 0.5em; line-height: 1.38;">
+                Ela permite <strong>escolher o que entra em cada commit</strong>: quebrar uma grande edição em commits
+                pequenos, atômicos e explicáveis.
+              </p>
+            </div>
+          </div>
+
+          <div
+            style="background: rgba(15, 23, 42, 0.6); padding: 0.5rem; border-radius: 12px; border: 1.5px solid var(--card-border); box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);">
+            <img src="img/linux-git-workflow.svg" alt="As quatro áreas do Git e o fluxo de trabalho"
+              style="width: 100%; max-height: 420px; object-fit: contain; display: block;">
+          </div>
+        </div>
+
+        <aside class="notes">
+          - 4 minutos. Ao vivo: git status; git add arquivo; git status; git commit -m "..."; git log --oneline.
+          - Mostrar como o git status muda de "Untracked/Modified" para "Changes to be committed".
+        </aside>
+      </section>
+
+      <!-- SLIDE 4: O .GITIGNORE -->
+      <section data-transition="slide">
+        <span class="badge-pill" style="margin-bottom: 0.25em; font-size: 0.38em;">Higiene do Repositório</span>
+        <h2 style="font-size: 1.4em; margin: 0.1em 0 0.15em 0;">O <code>.gitignore</code>: o que NUNCA Versionar</h2>
+        <p class="subtitle" style="font-size: 0.56em !important; margin-bottom: 0.55em !important;">Binários e senhas
+          versionados são os erros clássicos dos trabalhos em grupo</p>
+
+        <div class="grid-2" style="grid-template-columns: 0.85fr 1.15fr; gap: 1rem;">
+          <div class="card" style="padding: 0.65rem 1rem;">
+            <h4 style="font-size: 0.76em; margin-bottom: 0.3em;">Modelo do Material</h4>
+            <pre style="margin: 0;"><code class="language-bash" style="font-size: 0.66em !important; line-height: 1.25 !important; padding: 0.45rem 0.75rem !important;"># Dependências
+node_modules/
+venv/
+
+# Binários e compilados
+*.o
+*.class
+
+# Logs
+*.log
+
+# Credenciais e segredos!
+.env
+*.pem</code></pre>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 0.6rem;">
+            <div class="card" style="padding: 0.65rem 1rem;">
+              <h4 style="font-size: 0.76em; margin-bottom: 0.3em;">Não Comece do Zero</h4>
+              <p style="font-size: 0.52em; line-height: 1.4;">
+                O repositório <strong>github/gitignore</strong> tem modelos prontos por linguagem
+                (<code>C</code>, <code>Python</code>, <code>Java</code>, <code>Node</code>...):
+              </p>
+              <pre style="margin: 0.35em 0 0 0;"><code class="language-bash" style="font-size: 0.5em !important; line-height: 1.25 !important; padding: 0.4rem 0.65rem !important;">curl -o .gitignore https://raw.githubusercontent.com/\
+  github/gitignore/main/Python.gitignore</code></pre>
+            </div>
+
+            <div class="card"
+              style="padding: 0.65rem 1rem; border-color: rgba(239, 68, 68, 0.45); background: rgba(239, 68, 68, 0.14);">
+              <h4 style="color: #f87171; font-size: 0.76em; margin-bottom: 0.3em;">🔑 Commitou uma senha?</h4>
+              <p style="font-size: 0.52em; line-height: 1.4; color: #ffffff;">
+                Apagá-la num commit novo <strong>não basta</strong>: ela continua no histórico, em todos os clones.
+                <span style="color: var(--event-yellow);">É preciso trocar a credencial.</span>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <aside class="notes">
+          - 1 minuto. O alerta da senha é o ponto mais importante: consequências reais (chaves de nuvem vazadas em
+          repositórios públicos são exploradas em minutos).
+        </aside>
+      </section>
+
+      <!-- SLIDE 5: BRANCHES E OS DOIS TIPOS DE MERGE -->
+      <section data-transition="slide">
+        <span class="badge-pill" style="margin-bottom: 0.25em; font-size: 0.38em;">O Superpoder do Git</span>
+        <h2 style="font-size: 1.4em; margin: 0.1em 0 0.15em 0;">Branches e os Dois Tipos de Merge</h2>
+        <p class="subtitle" style="font-size: 0.56em !important; margin-bottom: 0.45em !important;">Regra de ouro:
+          nunca trabalhe direto na <code>main</code></p>
+
+        <div class="grid-2" style="grid-template-columns: 0.9fr 1.1fr; gap: 1rem; align-items: center;">
+          <div>
+            <div class="card" style="padding: 0.6rem 0.9rem; margin-bottom: 0.45rem;">
+              <pre style="margin: 0;"><code class="language-bash" style="font-size: 0.62em !important; line-height: 1.25 !important; padding: 0.45rem 0.7rem !important;">git switch -c feature/login  # cria e muda
+# ...edita e commita na branch...
+git switch main
+git merge feature/login</code></pre>
+            </div>
+
+            <div class="card" style="padding: 0.6rem 0.9rem;">
+              <ul style="font-size: 0.68em; line-height: 1.38; margin-left: 1.1em; padding-left: 0;">
+                <li style="margin-bottom: 0.35em;"><strong>Fast-forward:</strong> a <code>main</code> não mudou desde
+                  que a branch nasceu. O ponteiro só avança; o histórico segue em linha reta.</li>
+                <li style="margin-bottom: 0.35em;"><strong>Merge commit:</strong> os dois lados mudaram. Surge um
+                  commit especial <strong>com dois pais</strong> unindo as linhas.</li>
+                <li style="color: var(--event-yellow);">Históricos divergentes <strong>na maioria das vezes NÃO geram
+                    conflito</strong>: se mexeram em linhas diferentes, o Git combina sozinho.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div
+            style="background: rgba(15, 23, 42, 0.6); padding: 0.5rem; border-radius: 12px; border: 1.5px solid var(--card-border); box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);">
+            <img src="img/linux-git-merge-sem-conflito.svg" alt="Merge sem conflito: branches alteraram linhas diferentes"
+              style="width: 100%; max-height: 420px; object-fit: contain; display: block;">
+          </div>
+        </div>
+
+        <aside class="notes">
+          - 3 minutos. Mostrar a palavra "Fast-forward" na saída do merge e, no outro caso, "Merge made by the 'ort'
+          strategy".
+          - Preparar o terreno: o conflito só é possível no segundo caso.
+        </aside>
+      </section>
+
+      <!-- SLIDE 6: CONFLITO, SEM PÂNICO -->
+      <section data-transition="slide">
+        <span class="badge-pill" style="margin-bottom: 0.25em; font-size: 0.38em;">Sem Pânico</span>
+        <h2 style="font-size: 1.4em; margin: 0.1em 0 0.15em 0;">Conflito de Merge: o Git Pedindo Ajuda</h2>
+        <p class="subtitle" style="font-size: 0.56em !important; margin-bottom: 0.45em !important;">A
+          <code>main</code> define a porta <code>8080</code>; a <code>feature/login</code> define <code>9000</code>, na
+          <strong>mesma linha</strong> do <code>config.h</code>
+        </p>
+
+        <div class="grid-2" style="grid-template-columns: 1.05fr 0.95fr; gap: 1rem; align-items: start;">
+          <div class="card" style="padding: 0.6rem 0.9rem;">
+            <pre style="margin: 0;"><code class="language-bash" style="font-size: 0.58em !important; line-height: 1.25 !important; padding: 0.45rem 0.7rem !important;">git merge feature/login
+# CONFLICT (content): Merge conflict in config.h
+git status          # both modified: config.h
+cat config.h
+
+# editar: escolher a versão e apagar os marcadores
+git add config.h    # marca como resolvido
+git commit -m "merge: resolve conflito de porta"</code></pre>
+            <pre style="margin: 0.4em 0 0 0;"><code class="language-c" style="font-size: 0.58em !important; line-height: 1.25 !important; padding: 0.45rem 0.7rem !important;">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+#define PORTA_SERVIDOR 8080   // versão da main
+=======
+#define PORTA_SERVIDOR 9000   // versão da feature
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; feature/login</code></pre>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+            <div
+              style="background: rgba(15, 23, 42, 0.6); padding: 0.4rem; border-radius: 12px; border: 1.5px solid var(--card-border); box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);">
+              <img src="img/linux-git-merge-com-conflito.svg" alt="Merge com conflito: branches alteraram a mesma linha"
+                style="width: 100%; max-height: 220px; object-fit: contain; display: block;">
+            </div>
+            <div class="card" style="padding: 0.55rem 0.9rem;">
+              <p style="font-size: 0.52em; line-height: 1.4; color: #ffffff;">
+                O conflito <strong>não é bug</strong>: é o Git se recusando a adivinhar e pedindo que um humano decida.
+              </p>
+              <p style="font-size: 0.5em; line-height: 1.4; margin-top: 0.4em; color: var(--event-yellow);">
+                🚪 Saída de emergência: <code>git merge --abort</code> devolve tudo ao estado anterior, sem perder nada.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <aside class="notes">
+          - 5 minutos. Usar o mini-repositório preparado (main com 8080, feature/login com 9000 no config.h).
+          - Comparar com o diagrama do slide anterior: o histórico é igual, só que agora as duas branches mexeram na
+          mesma linha.
+          - É o momento em que os alunos mais travam em trabalhos em grupo.
+        </aside>
+      </section>
+
+      <!-- SLIDE 7: SINCRONIZANDO COM O REMOTO E PULL REQUESTS -->
+      <section data-transition="slide">
+        <span class="badge-pill" style="margin-bottom: 0.25em; font-size: 0.38em;">Trabalho em Equipe</span>
+        <h2 style="font-size: 1.4em; margin: 0.1em 0 0.15em 0;">Remoto e Pull Requests</h2>
+        <p class="subtitle" style="font-size: 0.56em !important; margin-bottom: 0.45em !important;">O primeiro susto de
+          quem começa a usar o GitHub em grupo:</p>
+
+        <div class="grid-2" style="gap: 1rem;">
+          <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+            <div class="card" style="padding: 0.6rem 0.9rem;">
+              <h4 style="font-size: 0.74em; margin-bottom: 0.3em;"><code>git fetch</code> vs. <code>git pull</code></h4>
+              <ul style="font-size: 0.88em; line-height: 1.38; margin-left: 1.1em; padding-left: 0;">
+                <li style="margin-bottom: 0.3em;"><strong>fetch:</strong> só baixa; <strong>não toca nos seus
+                    arquivos</strong>. Seguro para olhar.</li>
+                <li><strong>pull = fetch + merge</strong>: por isso um <code>pull</code> também pode gerar conflito!</li>
+              </ul>
+            </div>
+
+            <div class="card"
+              style="padding: 0.6rem 0.9rem; border-color: rgba(239, 68, 68, 0.45); background: rgba(239, 68, 68, 0.12);">
+              <h4 style="color: #f87171; font-size: 0.72em; margin-bottom: 0.25em;">O erro "divergent branches"</h4>
+              <pre style="margin: 0;"><code class="language-text" style="font-size: 0.56em !important; line-height: 1.25 !important; padding: 0.4rem 0.65rem !important;">hint: You have divergent branches and need to
+hint: specify how to reconcile them.
+fatal: Need to specify how to reconcile divergent branches.</code></pre>
+              <p style="font-size: 0.5em; line-height: 1.35; margin-top: 0.35em; color: #ffffff;">
+                Resolva <strong>uma vez por todas</strong>:
+              </p>
+              <pre style="margin: 0.2em 0 0 0;"><code class="language-bash" style="font-size: 0.58em !important; line-height: 1.25 !important; padding: 0.4rem 0.65rem !important;">git config --global pull.rebase false</code></pre>
+            </div>
+          </div>
+
+          <div class="card" style="padding: 0.6rem 0.9rem;">
+            <h4 style="font-size: 0.74em; margin-bottom: 0.3em;">O Fluxo do Pull Request</h4>
+            <p style="font-size: 0.52em; line-height: 1.4;">
+              Na equipe, <strong>ninguém faz merge direto na <code>main</code></strong> do servidor:
+            </p>
+            <pre style="margin: 0.35em 0;"><code class="language-bash" style="font-size: 0.6em !important; line-height: 1.25 !important; padding: 0.45rem 0.7rem !important;"># envia a branch e cria o vínculo (-u)
+git push -u origin feature/login</code></pre>
+            <ol style="font-size: 0.88em; line-height: 1.5; margin: 0.3em 0 0 1.2em; padding: 0; color: var(--text-muted);">
+              <li><strong>push</strong> da branch</li>
+              <li>abrir o <strong>Pull Request</strong> no GitHub/GitLab</li>
+              <li><strong>revisão</strong> pelos colegas (e ajustes)</li>
+              <li>só então o <strong>merge</strong> na <code>main</code></li>
+            </ol>
+            <p style="font-size: 0.5em; line-height: 1.4; margin-top: 0.5em; color: var(--event-yellow);">
+              🎯 O PR garante que outra pessoa sempre olhe o código antes de ele chegar à <code>main</code>.
+            </p>
+          </div>
+        </div>
+
+        <aside class="notes">
+          - 2 minutos. Conectar: o pull que falha é um merge, e já sabemos lidar com merge e com conflito.
+          - O resto (--amend, revert, reflog, chaves SSH) fica para estudo no material.
+        </aside>
+      </section>
+
+      <!-- SLIDE 8: FECHAMENTO E CONTINUIDADE DO ESTUDO -->
+      <section data-transition="zoom">
+        <span class="badge-pill">Encerramento & Próximos Passos</span>
+        <h2>A Oficina Inteira em Uma Narrativa</h2>
+        <p class="subtitle">Cada módulo resolve o problema que o anterior deixou em aberto:</p>
+
+        <div class="grid-3" style="gap: 0.7rem;">
+          <div class="card" style="padding: 0.55rem 0.8rem;">
+            <p style="font-size: 0.52em;"><strong style="color: var(--event-yellow);">01</strong> Os comandos escrevem
+              texto.</p>
+          </div>
+          <div class="card" style="padding: 0.55rem 0.8rem;">
+            <p style="font-size: 0.52em;"><strong style="color: var(--event-yellow);">02</strong> O texto flui e se
+              combina por pipes.</p>
+          </div>
+          <div class="card" style="padding: 0.55rem 0.8rem;">
+            <p style="font-size: 0.52em;"><strong style="color: var(--event-yellow);">03</strong> Cada programa em
+              execução é um processo.</p>
+          </div>
+          <div class="card" style="padding: 0.55rem 0.8rem;">
+            <p style="font-size: 0.52em;"><strong style="color: var(--event-yellow);">04</strong> Sequências manuais
+              viram scripts.</p>
+          </div>
+          <div class="card" style="padding: 0.55rem 0.8rem;">
+            <p style="font-size: 0.52em;"><strong style="color: var(--event-yellow);">05</strong> O código gera logs e
+              é medido por profilers.</p>
+          </div>
+          <div class="card" style="padding: 0.55rem 0.8rem; border-color: var(--event-yellow);">
+            <p style="font-size: 0.52em;"><strong style="color: var(--event-yellow);">06</strong> A evolução do código e
+              a equipe vão para o Git.</p>
+          </div>
+        </div>
+
+        <div class="card"
+          style="background: rgba(15, 23, 42, 0.9); border-color: var(--event-yellow); margin-top: 0.9rem; text-align: center;">
+          <h4 style="font-size: 0.85em; margin-bottom: 0.3em;">📚 Continue no Manual Online</h4>
+          <p style="font-size: 0.5em; color: #ffffff;">
+            Fica para estudo: <code>git commit --amend</code>, <code>git revert</code>, a rede de segurança
+            <code>git reflog</code> e a autenticação com chaves SSH.<br>
+            <a href="06_git_colaborativo.html" style="color: var(--event-yellow);">Módulo 06 completo ↗</a>
+            &nbsp;•&nbsp;
+            <a href="index.html" style="color: var(--event-yellow);">Índice do manual ↗</a>
+          </p>
+        </div>
+
+        <aside class="notes">
+          - Recapitular em uma frase por módulo.
+          - Indicar os exemplos do repositório para reproduzir em casa ou no laboratório.
+          - Abrir para perguntas finais.
+        </aside>
+      </section>
+
+    </div>
+  </div>
+
+  <!-- Reveal.js & Plugins via CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/highlight.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/notes/notes.js"></script>
+
+  <script>
+    Reveal.initialize({
+      width: 1200,
+      height: 675,
+      margin: 0.04,
+      minScale: 0.2,
+      maxScale: 2.0,
+      hash: true,
+      slideNumber: 'c/t',
+      controls: true,
+      progress: true,
+      center: true,
+      transition: 'slide',
+      plugins: [RevealHighlight, RevealNotes]
+    });
+  </script>
+</body>
+
+</html>

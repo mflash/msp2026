@@ -163,6 +163,7 @@ Identificando gargalos de CPU e vazamentos de memória usando ferramentas gratui
 
 Filosofia e princípios do Git distribuído, os três estados de arquivos, ramificações (branches) e resolução prática de conflitos em equipe.
 
+- **Apresentação em Slides:** [Acessar Slides do Módulo 06 (Reveal.js)](slides_06_git_colaborativo.html).
 - **Filosofia do Git:** Linus Torvalds, sistemas distribuídos vs. centralizados, snapshots e hashes criptográficos.
 - **As Quatro Áreas:** Working Directory, Staging Area (Index), Repositório Local (.git) e Remoto.
 - **Ciclo de Vida:** `git status`, `git diff`, `git add`, `git commit`, `git log` e o arquivo `.gitignore`.
