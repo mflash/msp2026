@@ -54,6 +54,9 @@ copy-assets: | $(DIST_DIR)
 	@for html in $(wildcard $(SRC_DIR)/*.html); do \
 		cp "$$html" $(DIST_DIR)/ && echo "Copied $$html -> $(DIST_DIR)/"; \
 	done
+	@for js in $(wildcard $(SRC_DIR)/*.js); do \
+		cp "$$js" $(DIST_DIR)/ && echo "Copied $$js -> $(DIST_DIR)/"; \
+	done
 
 $(DIST_DIR)/.nojekyll: | $(DIST_DIR)
 	@touch $(DIST_DIR)/.nojekyll
