@@ -585,27 +585,80 @@ $ python3 -m cProfile -s tottime teste_gargalo.py | head -n 15
 #### B. `py-spy` (Sampling Profiler com Flame Graphs)
 O **`py-spy`** é um profiler moderno escrito em Rust. Sua grande vantagem é ler o estado da pilha de execução da memória do processo Python externamente, **sem modificar o interpretador e sem desacelerar o código**.
 
-##### Código de Exemplo (`fibonacci.py`):
-Para demonstrar a criação do Flame Graph, utilizaremos um cálculo clássico de Fibonacci usando recursão simples sem memorização. Como a função faz chamadas recursivas duplas (`fibonacci(n-1) + fibonacci(n-2)`), o custo computacional cresce exponencialmente ($O(2^n)$), gerando uma pilha profunda e intensiva em CPU:
+##### Código de Exemplo (`analise_logs.py`):
+Para demonstrar o potencial de um Flame Graph realista com múltiplos ramos bem definidos, utilizaremos um pipeline de processamento e auditoria de logs. Este script simula quatro etapas clássicas de serviços de backend, incluindo parsing de JSON, validação por Regex, cálculo criptográfico de integridade e um **gargalo didático proposital** (busca linear $O(N)$ em lista vs. conjunto $O(1)$):
 
 ```python
+import json
+import hashlib
+import re
 import time
+import random
 
-def fibonacci(n: int):
-    if n <= 0:
-        return 0
-    elif n == 1:
-        return 1
-    else:
-        return fibonacci(n - 1) + fibonacci(n - 2)
+# 1. Simulação: gera registros brutos em JSON
+def gerar_dados_brutos(qtd=20000):
+    ips = [f"192.168.1.{i}" for i in range(1, 255)]
+    metodos = ["GET", "POST", "PUT", "DELETE"]
+    rotas = ["/api/login", "/api/checkout", "/home", "/static/css"]
+    
+    logs = []
+    for _ in range(qtd):
+        registro = {
+            "ip": random.choice(ips),
+            "metodo": random.choice(metodos),
+            "url": random.choice(rotas),
+            "status": random.choice([200, 201, 400, 403, 500]),
+            "timestamp": time.time()
+        }
+        logs.append(json.dumps(registro))
+    return logs
+
+# Ramo 1: Ingestão, Desserialização e Regex
+def parse_e_validacao(logs_raw):
+    padrao_ip = re.compile(r"^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$")
+    registros = []
+    for raw in logs_raw:
+        item = json.loads(raw)
+        if padrao_ip.match(item["ip"]):
+            registros.append(item)
+    return registros
+
+# Ramo 2: Criptografia e Hashing SHA-256
+def auditoria_hashes(registros):
+    hashes = []
+    for reg in registros:
+        conteudo = f"{reg['timestamp']}:{reg['ip']}:{reg['url']}".encode('utf-8')
+        hashes.append(hashlib.sha256(conteudo).hexdigest())
+    return hashes
+
+# Ramo 3: GARGALO DIDÁTICO (Busca linear em Lista O(N))
+def verificar_blacklist(registros):
+    # Propositalmente mantido como lista para gerar gargalo de busca linear
+    ips_bloqueados = [f"192.168.1.{i}" for i in range(100, 160)]
+    suspeitos = []
+    for reg in registros:
+        if reg["ip"] in ips_bloqueados:  # Custo O(N) repetido a cada registro!
+            suspeitos.append(reg)
+    return suspeitos
+
+# Ramo 4: Ordenação e Agregações Estatísticas
+def gerar_estatisticas(registros):
+    ordenados = sorted(registros, key=lambda x: (x["status"], x["url"]))
+    contadores = {}
+    for r in ordenados:
+        s = r["status"]
+        contadores[s] = contadores.get(s, 0) + 1
+    return contadores
 
 def main():
-    for n in range(2, 40):
-        start_time = time.time()
-        result = fibonacci(n)
-        end_time = time.time()
-        print(f"Resultado de Fibonacci({n}): {result}")
-        print(f"Tempo: {end_time - start_time:.2f} segundos")
+    print("Iniciando pipeline de análise de logs...")
+    for _ in range(3):
+        dados_brutos = gerar_dados_brutos(15000)
+        registros = parse_e_validacao(dados_brutos)
+        hashes = auditoria_hashes(registros)
+        bloqueados = verificar_blacklist(registros)
+        stats = gerar_estatisticas(registros)
+    print("Pipeline finalizado com sucesso!")
 
 if __name__ == "__main__":
     main()
@@ -618,15 +671,19 @@ if __name__ == "__main__":
 $ pip install py-spy
 
 # 1. Visualização ao vivo tipo 'top' de um script ou processo Python ativo:
-$ py-spy top -- python3 fibonacci.py
+$ py-spy top -- python3 analise_logs.py
 # Ou monitorando um processo já rodando pelo PID:
 $ py-spy top --pid 4520
 
 # 2. Gerar diretamente um Flame Graph interativo em SVG:
-$ py-spy record -o perfil_execucao.svg -- python3 fibonacci.py
+$ py-spy record -o perfil_execucao.svg -- python3 analise_logs.py
 ```
 
-O arquivo `perfil_execucao.svg` gerado pode ser aberto em qualquer navegador, permitindo clicar nos blocos para dar zoom nas funções mais lentas. Observe que essa saída do `py-spy` gera o *flame graph* invertido (*icicle graph*), ou seja, de cima para baixo: a função raiz (`main`) fica no topo e as chamadas recursivas vão descendo em cascata.
+O arquivo `perfil_execucao.svg` gerado é um gráfico interativo em SVG (*icicle graph* — visualização de cima para baixo). Você pode abrir este arquivo em qualquer navegador e:
+- **Identificar os grandes blocos funcionais** de trabalho lado a lado (`gerar_dados_brutos`, `parse_e_validacao`, `auditoria_hashes`, `verificar_blacklist` e `gerar_estatisticas`);
+- **Detectar o gargalo imediato:** a função `verificar_blacklist` ocupa mais de **34% de toda a CPU** por conta da busca linear `in` sobre a lista `ips_bloqueados` (uma simples substituição de lista por `set` eliminaria o problema);
+- **Clicar em qualquer bloco** para aplicar zoom na função desejada e inspecionar suas subchamadas;
+- **Pesquisar:** use o botão *Search* no canto superior direito (ou digite uma expressão regular) para destacar funções na cor magenta.
 
 [![Flame Graph gerado pelo py-spy (clique para abrir e interagir)](img/perfil_execucao.svg)](img/perfil_execucao.svg)
 
@@ -636,7 +693,7 @@ Se você preferir visualizar o perfil no formato clássico (de baixo para cima),
 
 ```bash
 # Gerar o arquivo de perfil no formato do Speedscope (JSON):
-$ py-spy record -f speedscope -o perfil.json -- python3 fibonacci.py
+$ py-spy record -f speedscope -o perfil.json -- python3 analise_logs.py
 ```
 
 Para visualizar:
