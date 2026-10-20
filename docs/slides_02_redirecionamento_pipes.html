@@ -328,13 +328,14 @@ ls -l /root 2> /dev/null
       </section>
 
       <!-- SLIDE 5: CONSTRUÇÃO PROGRESSIVA DE PIPELINE -->
-      <section>
-        <span class="badge-pill">Demonstração Interativa</span>
-        <h2>Construindo um Pipeline Passo a Passo</h2>
-        <p class="subtitle">Desafio: <em>"Quais são os shells mais utilizados pelos usuários do sistema?"</em></p>
+      <section data-transition="slide">
+        <span class="badge-pill" style="margin-bottom: 0.25em; font-size: 0.38em;">Demonstração Interativa</span>
+        <h2 style="font-size: 1.4em; margin: 0.1em 0 0.15em 0;">Construindo um Pipeline Passo a Passo</h2>
+        <p class="subtitle" style="font-size: 0.56em !important; margin-bottom: 0.45em !important;">Desafio: <em>"Quais
+            são os shells mais utilizados pelos usuários do sistema?"</em></p>
 
-        <div class="card">
-          <pre><code class="language-bash"># 1. Dado cru (campos separados por ':' no /etc/passwd)
+        <div class="card" style="padding: 0.6rem 0.9rem; margin-bottom: 0.4rem;">
+          <pre style="margin: 0;"><code class="language-bash" style="font-size: 0.82em !important; line-height: 1.24 !important; padding: 0.45rem 0.75rem !important;"># 1. Dado cru (campos separados por ':' no /etc/passwd)
 cat /etc/passwd | head -n 3
 
 # 2. Extrai apenas o 7º campo (o caminho do shell)
@@ -351,8 +352,8 @@ cut -d':' -f7 /etc/passwd | sort | uniq -c | sort -nr</code></pre>
         </div>
 
         <div class="card"
-          style="margin-top: 0.8rem; background: rgba(247, 148, 29, 0.2); border-color: var(--event-orange);">
-          <p style="font-size: 0.62em; color: #ffffff;">
+          style="padding: 0.55rem 0.9rem; background: rgba(247, 148, 29, 0.2); border-color: var(--event-orange);">
+          <p style="font-size: 0.50em; line-height: 1.35; color: #ffffff; margin: 0;">
             💡 <strong>Regra de Ouro do <code>uniq</code>:</strong> O comando <code>uniq</code> só elimina repetições
             <em>imediatamente vizinhas</em>. Por isso o <code>sort</code> deve sempre vir antes!
           </p>
@@ -372,7 +373,7 @@ cut -d':' -f7 /etc/passwd | sort | uniq -c | sort -nr</code></pre>
 
         <div class="card" style="padding: 0.65rem 0.9rem;">
           <h4 style="font-size: 0.75em; margin-bottom: 0.25em;">Extraindo e Limpando Emails de uma API JSON</h4>
-          <pre style="margin: 0.2em 0;"><code class="language-bash" style="font-size: 0.65em !important; line-height: 1.25 !important; padding: 0.5rem 0.8rem !important;">curl -s https://jsonplaceholder.typicode.com/users \
+          <pre style="margin: 0.2em 0;"><code class="language-bash" style="font-size: 0.75em !important; line-height: 1.25 !important; padding: 0.5rem 0.8rem !important;">curl -s https://jsonplaceholder.typicode.com/users \
   | grep '"email"' \
   | cut -d':' -f2 \
   | tr -d '", ' \
@@ -467,7 +468,8 @@ cut -d':' -f7 /etc/passwd | sort | uniq -c | sort -nr</code></pre>
         </div>
 
         <p style="font-size: 0.88em; font-weight: 800; color: var(--event-yellow); margin-top: 1rem;">
-          ➔ Módulo 03: Gerenciamento de Processos e Monitoramento <a href="slides_03_processos_monitoramento.html">⚡</a>
+          <a href="slides_03_processos_monitoramento.html" style="color: var(--event-yellow); text-decoration: none;">
+            ➔ Módulo 03: Gerenciamento de Processos e Monitoramento ⚡</a>
         </p>
 
         <aside class="notes">
