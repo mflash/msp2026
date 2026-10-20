@@ -275,41 +275,88 @@
       <section data-transition="slide">
         <span class="badge-pill" style="margin-bottom: 0.25em; font-size: 0.38em;">Diagnóstico Confiável</span>
         <h2 style="font-size: 1.4em; margin: 0.1em 0 0.15em 0;">Do <code>print</code> ao Logging Estruturado</h2>
-        <p class="subtitle" style="font-size: 0.56em !important; margin-bottom: 0.55em !important;">Por que abandonar
-          prints espalhados pelo código:</p>
+        <p class="subtitle" style="font-size: 0.56em !important; margin-bottom: 0.55em !important;">Por que a engenharia
+          de software substitui prints espalhados por logs com metadados:</p>
 
         <div class="grid-2" style="gap: 1rem;">
           <div class="card" style="padding: 0.75rem 1rem;">
-            <h4 style="font-size: 0.76em; margin-bottom: 0.3em;">O Problema do <code>print</code></h4>
-            <ul style="font-size: 0.71em; line-height: 1.38; margin-left: 1.1em; padding-left: 0;">
-              <li style="margin-bottom: 0.35em;">Fica esquecido em produção poluindo saídas.</li>
-              <li style="margin-bottom: 0.35em;">Não informa data/hora, nível de severidade nem arquivo/linha.</li>
-              <li>Em C/C++, o buffer do <code>stdout</code> pode não ser descarregado antes de um <strong>Segmentation
-                  fault</strong>, mascarando a linha do erro!</li>
+            <h4 style="font-size: 0.76em; margin-bottom: 0.35em;">As Limitações do <code>print</code></h4>
+            <ul style="font-size: 0.72em; line-height: 1.4; margin-left: 1.1em; padding-left: 0;">
+              <li style="margin-bottom: 0.35em;"><strong>Polui a saída padrão:</strong> mistura depuração com dados do
+                pipeline no <code>stdout</code>.</li>
+              <li style="margin-bottom: 0.35em;"><strong>Falta contexto essencial:</strong> não traz data/hora,
+                severidade nem arquivo/linha.</li>
+              <li style="margin-bottom: 0.35em;"><strong>Perda em falhas críticas:</strong> em crashes (como
+                <em>Segfault</em> em C), o buffer do <code>stdout</code> pode não descarregar a tempo.</li>
+              <li><strong>Sem controle seletivo:</strong> impossível silenciar sem editar ou apagar o código antes de ir
+                para produção.</li>
             </ul>
-            <div
-              style="margin-top: 0.5rem; border-top: 1px solid rgba(255,255,255,0.15); padding-top: 0.35rem; display: flex; flex-wrap: wrap; gap: 0.35rem; align-items: center;">
-              <span class="tag tag-debug" style="font-size: 0.72em; padding: 0.08em 0.38em;">DEBUG</span>
-              <span class="tag tag-info" style="font-size: 0.72em; padding: 0.08em 0.38em;">INFO</span>
-              <span class="tag tag-warn" style="font-size: 0.72em; padding: 0.08em 0.38em;">WARNING</span>
-              <span class="tag tag-error" style="font-size: 0.72em; padding: 0.08em 0.38em;">ERROR</span>
-              <span class="tag tag-critical" style="font-size: 0.72em; padding: 0.08em 0.38em;">CRITICAL</span>
-            </div>
-            <p style="margin-top: 0.3em; font-size: 0.48em; line-height: 1.35;">
-              O <strong>filtro global</strong> em produção oculta os <code>DEBUG</code> sem alterar uma única linha de
-              código.
-            </p>
           </div>
 
           <div class="card" style="padding: 0.75rem 1rem;">
-            <h4 style="font-size: 0.76em; margin-bottom: 0.3em;">Analisando Logs com o Módulo 02!</h4>
-            <pre style="margin: 0.2em 0;"><code class="language-bash" style="font-size: 0.65em !important; line-height: 1.25 !important; padding: 0.55rem 0.8rem !important;"># 1. Executa direcionando logs (stderr) para arquivo
+            <h4 style="font-size: 0.76em; margin-bottom: 0.35em;">Logging Estruturado e seus Níveis</h4>
+            <p style="font-size: 0.51em; line-height: 1.38; margin-bottom: 0.35em;">
+              Canalizado por padrão ao <span class="tag" style="font-size: 0.85em;">stderr</span> com metadados
+              automáticos:
+            </p>
+            <div style="display: flex; flex-wrap: wrap; gap: 0.35rem; align-items: center; margin-bottom: 0.4rem;">
+              <span class="tag tag-debug" style="font-size: 0.70em; padding: 0.08em 0.38em;">DEBUG</span>
+              <span class="tag tag-info" style="font-size: 0.70em; padding: 0.08em 0.38em;">INFO</span>
+              <span class="tag tag-warn" style="font-size: 0.70em; padding: 0.08em 0.38em;">WARNING</span>
+              <span class="tag tag-error" style="font-size: 0.70em; padding: 0.08em 0.38em;">ERROR</span>
+              <span class="tag tag-critical" style="font-size: 0.70em; padding: 0.08em 0.38em;">CRITICAL</span>
+            </div>
+            <p style="font-size: 0.49em; line-height: 1.38; margin: 0;">
+              💡 <strong>O poder do Filtro Global:</strong> Em produção, basta ajustar o nível mínimo para <span
+                class="tag tag-info" style="font-size: 0.8em;">INFO</span> para ocultar todos os <code>DEBUG</code>
+              automaticamente — sem tocar em nenhuma linha de código da aplicação!
+            </p>
+          </div>
+        </div>
+
+        <aside class="notes">
+          - Lembrar que logging escreve no stderr (canal 2) por boa prática, mantendo o stdout livre para dados.
+          - Destacar que o nível é hierárquico: definir INFO descarta DEBUG; definir WARNING descarta INFO e DEBUG.
+        </aside>
+      </section>
+
+      <!-- SLIDE 4: LOGGING NA PRÁTICA: CÓDIGO E TERMINAL -->
+      <section data-transition="slide">
+        <span class="badge-pill" style="margin-bottom: 0.25em; font-size: 0.38em;">Instrumentação Prática</span>
+        <h2 style="font-size: 1.4em; margin: 0.1em 0 0.15em 0;">Logging na Prática: Código e Terminal</h2>
+        <p class="subtitle" style="font-size: 0.56em !important; margin-bottom: 0.45em !important;">Como instrumentar
+          código em Python e processar eventos no terminal:</p>
+
+        <div class="grid-2" style="gap: 1rem;">
+          <div class="card" style="padding: 0.7rem 0.95rem;">
+            <h4 style="font-size: 0.75em; margin-bottom: 0.25em;">Código Python com <code>logging</code>
+              (<code>faturamento.py</code>)</h4>
+            <pre style="margin: 0;"><code class="language-python" style="font-size: 0.58em !important; line-height: 1.25 !important; padding: 0.45rem 0.7rem !important;">import logging
+
+logging.basicConfig(
+    level=logging.DEBUG,
+    format="%(asctime)s [%(levelname)s] %(message)s"
+)
+logger = logging.getLogger("Faturamento")
+
+def calcular_desconto(preco, percentual):
+    logger.debug(f"Calculando: {preco=}, {percentual=}")
+    if percentual > 50:
+        logger.warning(f"Desconto suspeito: {percentual}%")
+    if percentual < 0:
+        logger.error(f"Percentual invalido: {percentual}")
+    return preco * (1 - percentual / 100)</code></pre>
+          </div>
+
+          <div class="card" style="padding: 0.7rem 0.95rem;">
+            <h4 style="font-size: 0.75em; margin-bottom: 0.25em;">Uso e Filtragem no Terminal (Módulo 02)</h4>
+            <pre style="margin: 0;"><code class="language-bash" style="font-size: 0.62em !important; line-height: 1.25 !important; padding: 0.45rem 0.7rem !important;"># 1. Executa direcionando logs (stderr) para arquivo
 python3 faturamento.py 2> app.log
 
-# 2. Filtra apenas anomalias graves
+# 2. Filtra apenas anomalias graves (tempo real)
 grep -E "WARNING|ERROR" app.log
 
-# 3. Estatística de severidade por pipeline Unix!
+# 3. Estatística de severidade com pipeline Unix!
 grep -oE "\[(DEBUG|INFO|WARNING|ERROR|CRITICAL)" app.log \
   | sort | uniq -c</code></pre>
             <p style="margin-top: 0.3em; color: var(--event-yellow); font-size: 0.48em; line-height: 1.35;">
@@ -319,7 +366,8 @@ grep -oE "\[(DEBUG|INFO|WARNING|ERROR|CRITICAL)" app.log \
         </div>
 
         <aside class="notes">
-          - Lembrar que logging escreve no stderr (canal 2) por boa prática, mantendo o stdout livre para dados.
+          - Mostrar a conexão direta entre o módulo de logging em Python e as ferramentas Unix do Módulo 02 (grep, sort,
+          uniq, 2>).
         </aside>
       </section>
 
@@ -495,37 +543,37 @@ valgrind --leak-check=full ./vazamento</code></pre>
         </aside>
       </section>
 
-      <!-- SLIDE 8: PANORAMA DAS FERRAMENTAS POR LINGUAGEM -->
-      <section>
-        <span class="badge-pill">Guia de Bolso</span>
-        <h2>Panorama de Profilers por Ecossistema</h2>
-        <p class="subtitle">A ferramenta certa para a sua stack:</p>
+      <!-- SLIDE 8: PANORAMA DAS FERRAMENTAS POR LINGUAGEM (TEXTO) -->
+      <!--section data-transition="slide">
+        <span class="badge-pill" style="margin-bottom: 0.25em; font-size: 0.38em;">Guia de Bolso</span>
+        <h2 style="font-size: 1.4em; margin: 0.1em 0 0.15em 0;">Panorama de Profilers por Ecossistema</h2>
+        <p class="subtitle" style="font-size: 0.56em !important; margin-bottom: 0.55em !important;">A ferramenta certa para a sua stack:</p>
 
-        <div class="grid-3">
-          <div class="card">
-            <h4>C / C++ / Rust</h4>
-            <ul>
-              <li><strong>perf:</strong> profiling de CPU e hardware via contadores do kernel Linux (overhead mínimo).
+        <div class="grid-3" style="gap: 0.85rem;">
+          <div class="card" style="padding: 0.8rem 1rem;">
+            <h4 style="font-size: 0.76em; margin-bottom: 0.35em;">C / C++ / Rust</h4>
+            <ul style="font-size: 0.51em; line-height: 1.38; margin-left: 1.1em; padding-left: 0;">
+              <li style="margin-bottom: 0.35em;"><strong>perf:</strong> profiling de CPU e hardware via contadores do kernel Linux (overhead mínimo).
               </li>
-              <li><strong>Callgrind / KCachegrind:</strong> contagem exata de instruções e grafo de chamadas.</li>
+              <li style="margin-bottom: 0.35em;"><strong>Callgrind / KCachegrind:</strong> contagem exata de instruções e grafo de chamadas.</li>
               <li><strong>Valgrind:</strong> detecção de vazamentos e ponteiros inválidos.</li>
             </ul>
           </div>
 
-          <div class="card">
-            <h4>Python</h4>
-            <ul>
-              <li><strong>cProfile:</strong> instrumentação nativa por função (<code>tottime</code> /
+          <div class="card" style="padding: 0.8rem 1rem;">
+            <h4 style="font-size: 0.76em; margin-bottom: 0.35em;">Python</h4>
+            <ul style="font-size: 0.51em; line-height: 1.38; margin-left: 1.1em; padding-left: 0;">
+              <li style="margin-bottom: 0.35em;"><strong>cProfile:</strong> instrumentação nativa por função (<code>tottime</code> /
                 <code>cumtime</code>).
               </li>
               <li><strong>py-spy:</strong> amostragem em produção com geração de Flame Graphs interativos em SVG.</li>
             </ul>
           </div>
 
-          <div class="card">
-            <h4>Java / JVM</h4>
-            <ul>
-              <li><strong>JDK Flight Recorder (JFR):</strong> instrumentação nativa embutida na HotSpot (&lt; 1%
+          <div class="card" style="padding: 0.8rem 1rem;">
+            <h4 style="font-size: 0.76em; margin-bottom: 0.35em;">Java / JVM</h4>
+            <ul style="font-size: 0.51em; line-height: 1.38; margin-left: 1.1em; padding-left: 0;">
+              <li style="margin-bottom: 0.35em;"><strong>JDK Flight Recorder (JFR):</strong> instrumentação nativa embutida na HotSpot (&lt; 1%
                 overhead).</li>
               <li><strong>JDK Mission Control (JMC) / VisualVM:</strong> análise visual de threads e consumo de heap.
               </li>
@@ -535,6 +583,28 @@ valgrind --leak-check=full ./vazamento</code></pre>
 
         <aside class="notes">
           - Mencionar que o repositório traz o ExemploJFR.java pronto para quem desenvolve na JVM.
+        </aside>
+      </section-->
+
+      <!-- SLIDE 8B: PANORAMA DAS FERRAMENTAS (INFOGRÁFICO SVG) -->
+      <section data-transition="slide">
+        <span class="badge-pill" style="margin-bottom: 0.25em; font-size: 0.38em;">Infográfico Síntese</span>
+        <h2 style="font-size: 1.4em; margin: 0.1em 0 0.15em 0;">Infográfico: Profilers por Ecossistema</h2>
+        <p class="subtitle" style="font-size: 0.56em !important; margin-bottom: 0.4em !important;">Visão comparativa de
+          ferramentas, overhead e critérios de escolha:</p>
+
+        <div
+          style="background: rgba(15, 23, 42, 0.6); padding: 0.5rem; border-radius: 12px; border: 1.5px solid var(--card-border); text-align: center; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4); max-width: 1120px; width: 98%; margin: 0 auto;">
+          <a href="img/linux-profilers-ecossistema.svg" target="_blank"
+            title="Clique para abrir o SVG vetorial em nova aba" style="display: block; text-decoration: none;">
+            <img src="img/linux-profilers-ecossistema.svg" alt="Infográfico de Profilers por Ecossistema"
+              style="width: 100%; max-height: 440px; object-fit: contain; display: block; margin: 0 auto; cursor: pointer;">
+          </a>
+        </div>
+
+        <aside class="notes">
+          - Infográfico comparativo: contrastar amostragem (&lt;1% em produção) com instrumentação/emulação em
+          desenvolvimento.
         </aside>
       </section>
 
