@@ -34,6 +34,8 @@ Este material é fortemente inspirado pelo [Missing Semester](https://missing.cs
 
 > 📊 **Slides de Abertura:** Acompanhe a contextualização e a motivação inicial do curso através dos [Slides da Introdução](slides_introducao.html).  
 
+> 🗳️ **Exemplos:** [Zip com todos os exemplos (scripts e dados) apresentados](img/exemplos.zip).  
+
 ---
 
 ### Índice dos Módulos do Tutorial
