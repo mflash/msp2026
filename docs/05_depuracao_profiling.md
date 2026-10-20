@@ -680,6 +680,7 @@ $ py-spy record -o perfil_execucao.svg -- python3 analise_logs.py
 ```
 
 O arquivo `perfil_execucao.svg` gerado é um gráfico interativo em SVG (*icicle graph* — visualização de cima para baixo). Você pode abrir este arquivo em qualquer navegador e:
+
 - **Identificar os grandes blocos funcionais** de trabalho lado a lado (`gerar_dados_brutos`, `parse_e_validacao`, `auditoria_hashes`, `verificar_blacklist` e `gerar_estatisticas`);
 - **Detectar o gargalo imediato:** a função `verificar_blacklist` ocupa mais de **34% de toda a CPU** por conta da busca linear `in` sobre a lista `ips_bloqueados` (uma simples substituição de lista por `set` eliminaria o problema);
 - **Clicar em qualquer bloco** para aplicar zoom na função desejada e inspecionar suas subchamadas;
