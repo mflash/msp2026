@@ -3,7 +3,7 @@
 **Semana Acadêmica Integrada — PUCRS / Escola Politécnica (2026)**  
 **Duração total:** 1h30 (90 minutos)  
 **Ministrantes:** Profs. Edson Ifarraguirre Moreno e Marcelo Cohen  
-**Premissa pedagógica:** Os módulos 01 e 02 (fundamentos) recebem 15 minutos cada. O Módulo 03 (Processos) vira uma pílula de 4 minutos, só com o essencial para destravar a máquina, e o tempo liberado reforça o 04 (12 min), o 05 (17 min) e o 06 (17 min). Todos os exemplos vêm do material publicado em `docs/`, para que os alunos possam reproduzir em casa exatamente o que viram na apresentação.
+**Premissa pedagógica:** Para garantir um ritmo confortável, prático e interativo no período de 1h30, o **Módulo 06 (Git e Trabalho Colaborativo) não será apresentado ao vivo**, ficando como recomendação de estudo autônomo no portal online (`06_git_colaborativo.html`). O tempo liberado foi redistribuído para aprofundar os módulos 01 ao 05: os fundamentos de Shell (01) e Pipes (02) recebem 18 e 20 minutos; o Módulo 03 (Processos) tem 6 minutos; Automação e Scripts (04) recebe 16 minutos; e Depuração e Profiling (05) ganha 20 minutos completos para explorar o pipeline `analise_logs.py` e ferramentas como `py-spy`, Callgrind e Valgrind sem correria. Todos os exemplos vêm do material publicado em `docs/`, permitindo reprodução direta pelos estudantes.
 
 **Como ler este roteiro:** cada seção traz três partes:
 - **Por que apresentar:** a motivação para dar aos alunos;
@@ -17,13 +17,13 @@
 | Bloco / Seção | Duração | Horário Relativo | Foco Pedagógico | Formato Principal |
 | :--- | :---: | :---: | :--- | :--- |
 | **Abertura & Motivação** | **5 min** | 00:00 – 00:05 | *Missing Semester*, onipresença do Linux e filosofia Unix. | Slides (`slides_introducao.html`) |
-| **01. Shell e Comandos Básicos** | **15 min** | 00:05 – 00:20 | Shell vs. terminal, FHS, navegação, `$PATH` e `chmod`. | Terminal ao vivo + diagramas |
-| **02. Redirecionamento, Pipes e Filtros** | **15 min** | 00:20 – 00:35 | `stdin`/`stdout`/`stderr`, `>`/`2>`, pipe e montagem de pipelines. | Terminal ao vivo |
-| **03. Gerenciamento de Processos** | **4 min** | 00:35 – 00:39 | PID, `ps`/`htop` e sinais (`kill` antes de `kill -9`). | Pílula relâmpago |
-| **04. Automação e Shell Scripting** | **12 min** | 00:39 – 00:51 | Shebang, modo estrito, argumentos, `$?`, decisões com `[[ ]]`, um script real e `cron`. | Editor + terminal (scripts prontos) |
-| **05. Depuração e Profiling** | **17 min** | 00:51 – 01:08 | Medir antes de otimizar: logging, flame graph, `cProfile`, Callgrind e Valgrind/Memcheck. | Terminal + navegador |
-| **06. Git e Trabalho Colaborativo** | **17 min** | 01:08 – 01:25 | As quatro áreas, `.gitignore`, branches, conflito e sincronização com o remoto. | Terminal + diagramas |
-| **Encerramento & Dúvidas** | **5 min** | 01:25 – 01:30 | Onde está o material e como continuar estudando. | Diálogo |
+| **01. Shell e Comandos Básicos** | **18 min** | 00:05 – 00:23 | Shell vs. terminal, FHS, navegação, `$PATH` e `chmod`. | Terminal ao vivo + diagramas |
+| **02. Redirecionamento, Pipes e Filtros** | **20 min** | 00:23 – 00:43 | `stdin`/`stdout`/`stderr`, `>`/`2>`, pipe e montagem de pipelines. | Terminal ao vivo |
+| **03. Gerenciamento de Processos** | **6 min** | 00:43 – 00:49 | PID, `ps`/`htop` e sinais (`kill` antes de `kill -9`). | Demonstração contínua |
+| **04. Automação e Shell Scripting** | **16 min** | 00:49 – 01:05 | Shebang, modo estrito, argumentos, `$?`, decisões com `[[ ]]`, script real e `cron`. | Editor + terminal (scripts prontos) |
+| **05. Depuração e Profiling** | **20 min** | 01:05 – 01:25 | Medir antes de otimizar: logs, flame graph (`analise_logs.py`), `py-spy`, Callgrind e Valgrind. | Terminal + navegador |
+| **Encerramento, Indicação do Git & Dúvidas** | **5 min** | 01:25 – 01:30 | Conexão com o Módulo 06 (Git) para estudo assíncrono, portal online e dúvidas. | Diálogo + portal web |
+| *[Módulo 06: Git e Colaborativo]* | *Assíncrono* | *Pós-oficina* | *As quatro áreas, branches, conflitos e PRs (disponível no manual online).* | *Estudo no site* |
 
 ---
 
@@ -48,7 +48,7 @@
 
 ---
 
-### Módulo 01: Shell e Comandos Básicos (15 min | 00:05 – 00:20)
+### Módulo 01: Shell e Comandos Básicos (18 min | 00:05 – 00:23)
 
 **Por que apresentar:** antes de compor comandos, o aluno precisa de um mapa mental: onde está, quem interpreta o que ele digita e por que às vezes recebe `command not found` ou `Permission denied`. Esses dois erros são os mais frequentes de quem está começando, e o módulo explica a causa dos dois.
 
@@ -57,14 +57,14 @@
    - **Explicação:** o terminal físico só enviava teclas e exibia texto. Quem interpretava os comandos era um programa no computador central: o **shell**.
    - Hoje o terminal virou uma janela (emulador), mas o shell faz o mesmo trabalho de sempre.
    - **Por quê:** desfaz a confusão comum entre "terminal", "shell" e "bash".
-2. **Sistema de arquivos e FHS (3 min):** diagrama `linux-filesystem.svg`. Enfatize quatro princípios:
+2. **Sistema de arquivos e FHS (4 min):** diagrama `linux-filesystem.svg`. Enfatize quatro princípios:
    - raiz única `/` (não existe `C:`);
    - diferença entre maiúsculas e minúsculas;
    - "tudo é um arquivo";
    - arquivos ocultos começam com `.`.
 
-   Aponte só os diretórios que eles vão usar: `/home`, `/bin` e `/usr/bin`, `/etc`, `/tmp` e `/dev/null` (que volta no Módulo 02).
-3. **Navegação ao vivo (3 min):**
+   Aponte com calma os diretórios essenciais: `/home`, `/bin` e `/usr/bin`, `/etc`, `/tmp` e `/dev/null` (o "buraco negro" que volta no Módulo 02).
+3. **Navegação ao vivo (4 min):**
    ```bash
    pwd
    ls -la          # mostra os ocultos (.bashrc, .git)
@@ -80,10 +80,10 @@
    ```
    - **Explicação:** o shell percorre os diretórios do `$PATH` da esquerda para a direita. Se não achar o comando em nenhum deles, mostra `command not found` (`01_shell.md`, seção 7).
    - **Por quê:** é a resposta para "instalei, mas o terminal não acha", e prepara o `./script.sh` do Módulo 04.
-5. **Permissões e `chmod` (4 min):** diagrama `linux-permissions.svg`.
+5. **Permissões e `chmod` (5 min):** diagrama `linux-permissions.svg`.
    - Leia uma linha de `ls -l`: tipo, depois dono, grupo e outros, com `r=4`, `w=2`, `x=1`.
    - **Demonstração com o erro primeiro:** crie `script.sh` com `echo 'echo oi' > script.sh` e rode `./script.sh`. Aparece `Permission denied`. Em seguida, rode `chmod +x script.sh` e `./script.sh` de novo.
-   - Mostre a diferença entre `644` (arquivos comuns) e `755` (executáveis). Cite `700` e `600` para `~/.ssh`, que volta no Módulo 06.
+   - Mostre a diferença entre `644` (arquivos comuns) e `755` (executáveis). Cite `700` e `600` para `~/.ssh`.
    - **Por quê:** mostrar o erro antes da solução fixa por que a permissão existe: arquivo novo não nasce executável, por segurança.
 
 - *Armadilha a evitar:* não percorra `cp`, `mv`, `rm`, `nano` e `set`/`export` em sala. Estão no material para estudo; diga isso e siga em frente.
@@ -92,7 +92,7 @@
 
 ---
 
-### Módulo 02: Redirecionamento, Pipes e Filtros de Texto (15 min | 00:20 – 00:35)
+### Módulo 02: Redirecionamento, Pipes e Filtros de Texto (20 min | 00:23 – 00:43)
 
 **Por que apresentar:** é o momento de maior impacto conceitual da oficina. Aqui a filosofia Unix deixa de ser frase e vira prática: programas pequenos, combinados, resolvem em uma linha o que exigiria um programa inteiro em outra linguagem.
 
@@ -100,7 +100,7 @@
 1. **Os três fluxos (3 min):** tabela de `stdin` (0), `stdout` (1) e `stderr` (2), mais o diagrama `linux-redirection-pipes.svg`.
    - **Pergunta para a turma:** *"Se os dois aparecem na tela, por que separar saída e erro?"*
    - **Resposta:** para salvar um relatório limpo sem misturar avisos nele.
-2. **Redirecionamento ao vivo (3 min):**
+2. **Redirecionamento ao vivo (4 min):**
    ```bash
    date > agora.txt ; cat agora.txt
    date >> agora.txt ; cat agora.txt           # > sobrescreve, >> acrescenta
@@ -109,11 +109,11 @@
    ```
    - Mostre `cat ok.txt` e `cat erros.log` para provar que são canais distintos.
    - Explique o `2>&1` lendo-o em voz alta: "mande o canal 2 para onde o canal 1 aponta".
-3. **O pipe (2 min):** `|` conecta o `stdout` de um programa ao `stdin` do seguinte. Explique por que é eficiente (`02_redirecionamento_pipes.md`):
+3. **O pipe e buffer em RAM (3 min):** `|` conecta o `stdout` de um programa ao `stdin` do seguinte. Explique por que é eficiente (`02_redirecionamento_pipes.md`):
    - nenhum arquivo intermediário em disco;
-   - um buffer em RAM;
-   - os dois programas rodam **ao mesmo tempo**.
-4. **Pipeline montado peça por peça (5 min):** *"Quais shells são mais usados nesta máquina?"* Rode cada linha e mostre a saída antes de acrescentar o próximo filtro:
+   - um buffer em memória RAM gerenciado pelo kernel;
+   - os dois programas rodam **em paralelo ao mesmo tempo**.
+4. **Pipeline montado peça por peça (6 min):** *"Quais shells são mais usados nesta máquina?"* Rode cada linha e mostre a saída antes de acrescentar o próximo filtro:
    ```bash
    cat /etc/passwd | head -n 3                           # o dado cru: campos separados por ':'
    cut -d':' -f7 /etc/passwd | head                      # só o 7º campo (o shell)
@@ -121,66 +121,68 @@
    cut -d':' -f7 /etc/passwd | sort | uniq -c            # uniq -c conta cada grupo
    cut -d':' -f7 /etc/passwd | sort | uniq -c | sort -nr # do mais usado ao menos usado
    ```
-   - **Por que este exemplo:** roda em qualquer Linux sem preparar arquivo nenhum, e cada filtro tem um efeito visível.
+   - **Por que este exemplo:** roda em qualquer Linux sem preparar arquivo nenhum, e cada filtro tem um efeito visível imediato.
    - Destaque que o `uniq` só conta repetições vizinhas. Por isso o `sort` vem antes.
-5. **Caso real com a web (2 min):** a mesma ideia aplicada a uma API pública (o "Exemplo 1" do material):
+5. **Caso real com a web e `tee` (4 min):** a mesma ideia aplicada a uma API pública (o "Exemplo 1" do material):
    ```bash
    curl -s https://jsonplaceholder.typicode.com/users | grep '"email"' | cut -d':' -f2 | tr -d '", ' | sort | head -n 5 | tee emails_top5.txt
    ```
-   - Explique o `tee`: mostra na tela e salva em arquivo ao mesmo tempo.
-   - **Por quê:** prova que os mesmos filtros servem para dados da internet, não só para arquivos do sistema.
+   - Explique o `tee`: mostra na tela e salva em arquivo ao mesmo tempo (o "divisor em T").
+   - **Por quê:** prova que os mesmos filtros servem para dados da internet e APIs REST, não só para arquivos locais do sistema.
    - *Plano B sem internet:* o Exemplo 4 (`du -ah ~ | sort -rh | head -n 5`, os maiores arquivos).
 
 **Ponte para o 03:** *"Vimos que, num pipe, os dois programas rodam ao mesmo tempo. Cada um deles é um **processo**. Vamos ver como enxergar e controlar esses processos."*
 
 ---
 
-### Módulo 03: Gerenciamento de Processos e Monitoramento (4 min | 00:35 – 00:39)
-> **Abordagem: pílula relâmpago. Uma única demonstração contínua, sem slides.**
+### Módulo 03: Gerenciamento de Processos e Monitoramento (6 min | 00:43 – 00:49)
+> **Abordagem: demonstração contínua e prática, sem slides.**
 
-**Por que apresentar:** dar ao estudante o mínimo para destravar a própria máquina, ou um servidor remoto, sem reiniciar: achar o processo e encerrá-lo do jeito certo. Também corrige um vício comum: usar `kill -9` como primeira opção.
+**Por que apresentar:** dar ao estudante o repertório indispensável para destravar a própria máquina ou um servidor remoto sem reiniciar: achar o processo e encerrá-lo do jeito correto. Também corrige um vício muito comum: usar `kill -9` como primeira opção.
 
 **O que e como apresentar** (um único fio de demonstração):
-1. **Processo e PID (1 min):**
-   - O programa é um arquivo passivo no disco; o processo é esse programa em execução, com memória, CPU e um **PID**.
+1. **Processo e PID (2 min):**
+   - O programa é um arquivo passivo no disco; o processo é esse programa carregado em execução, com contexto de memória, CPU e um **PID** único atribuído pelo kernel.
    - Para criar um processo "de estimação" para o resto da demonstração, rode:
    ```bash
    python3 -m http.server 8080 &    # o & libera o terminal; o shell mostra [1] (job) e o PID
    ```
-2. **Achar o processo (1,5 min):**
+   - Explique o `&` de segundo plano e como o terminal continua disponível para outros comandos.
+2. **Achar o processo (2 min):**
    ```bash
    ps aux | grep "[p]ython"     # lá está o PID do servidor
    htop                          # P ordena por CPU, M por memória; q sai
    ```
-   - **Explique o truque `[p]ython`:** evita que o próprio `grep` apareça no resultado.
-   - **Por quê:** é o pipe do Módulo 02 resolvendo um problema real.
-3. **Encerrar na ordem certa (1,5 min):**
-   - `Ctrl+C` envia `SIGINT` (programa em primeiro plano);
-   - `kill <PID>` envia `SIGTERM`, o padrão: o programa pode salvar e fechar conexões;
-   - só se ele ignorar, use `kill -9 <PID>` (`SIGKILL`): o kernel descarta o processo sem conversa.
+   - **Explique o truque `[p]ython`:** evita que o próprio comando `grep` apareça poluindo o resultado.
+   - **Por quê:** é o pipe do Módulo 02 resolvendo um problema real de administração.
+   - No `htop`, mostre as barras coloridas de CPU e memória.
+3. **Encerrar na ordem certa (2 min):**
+   - `Ctrl+C` envia `SIGINT` (interrupção do teclado para programa em primeiro plano);
+   - `kill <PID>` envia `SIGTERM`, o padrão civilizado: o programa tem a chance de salvar estado, descarregar buffers e fechar conexões de rede;
+   - só se ele travar ou ignorar, use `kill -9 <PID>` (`SIGKILL`): o kernel descarta o processo sem diálogo.
    - Encerre o `http.server` com `kill` simples, ao vivo.
-   - **Por quê:** o `-9` pode deixar arquivos corrompidos e conexões abertas. É o último recurso, não o primeiro.
+   - **Por quê:** o `-9` pode deixar arquivos corrompidos e portas bloqueadas. É o último recurso, não o primeiro.
 
-- **Fica para estudo no material** (diga isso em uma frase): árvore de processos (`pstree`), *job control* (`Ctrl+Z`, `bg`, `fg`), `nohup`, `watch`, `nice` e `systemctl`, todos em `03_processos_monitoramento.md`.
+- **Fica para estudo no material** (diga isso em uma frase): árvore de processos (`pstree`), *job control* (`Ctrl+Z`, `bg`, `fg`), `nohup`, `watch`, `nice` e `systemctl`, todos detalhados em `03_processos_monitoramento.md`.
 
 **Ponte para o 04:** *"Até agora digitamos tudo à mão. E se essas sequências de comandos virassem um programa que roda sozinho?"*
 
 ---
 
-### Módulo 04: Automação e Shell Scripting (12 min | 00:39 – 00:51)
+### Módulo 04: Automação e Shell Scripting (16 min | 00:49 – 01:05)
 > **Abordagem: scripts já escritos.** Abra os scripts no editor e execute-os. Não os digite ao vivo.
 
 **Por que apresentar:** mostrar que um script é só "o que eu já digito no terminal, salvo num arquivo". O aluno descobre que já sabe 80% do shell scripting por causa dos módulos anteriores, e que automatizar é o que separa uma tarefa manual de uma ferramenta reproduzível.
 
 **O que e como apresentar:**
-1. **Anatomia de um script (3 min):** `backup_simples.sh` (`04_automacao_shell_scripting.md`, "Anatomia e Execução"):
+1. **Anatomia de um script (4 min):** `backup_simples.sh` (`04_automacao_shell_scripting.md`, "Anatomia e Execução"):
    - **Shebang `#!/bin/bash`:** o kernel lê esses primeiros bytes e sabe qual interpretador chamar.
    - **`set -euo pipefail`:** para no primeiro erro, trata variável inexistente como erro e considera falhas no meio de um pipe.
      - **Por quê:** sem isso, um script com erro continua rodando "em silêncio", e um backup quebrado parece ter funcionado.
    - **`$(whoami)` e `$(date ...)`:** guardam a saída de um comando numa variável.
    - **Execução:** `chmod +x backup_simples.sh && ./backup_simples.sh`.
      - **Por que o `./`:** o diretório atual não está no `$PATH` (Módulo 01). Isso fecha uma pergunta que ficou aberta lá.
-2. **Argumentos, validação e código de saída (3 min):** `converter_imagem.sh` (seção "Argumentos de Linha de Comando"):
+2. **Argumentos, validação e código de saída (4 min):** `converter_imagem.sh` (seção "Argumentos de Linha de Comando"):
    ```bash
    ./converter_imagem.sh ; echo $?          # sem argumentos: mensagem de uso e código 1
    ./converter_imagem.sh foto.png jpg ; echo $?   # correto: código 0
@@ -189,7 +191,7 @@
    - A mensagem de erro vai para o `stderr` (`>&2`), como no Módulo 02.
    - `$?`: 0 é sucesso, qualquer outro valor é erro.
    - **Por quê:** um script que valida a entrada e devolve um código de saída correto pode ser usado por outros scripts, pelo `cron` e pelo CI.
-3. **Decisões com `[[ ... ]]` (1 min, novo):** trecho do `backup_sistema.sh` ("Exemplos do Mundo Real", Exemplo 1):
+3. **Decisões com `[[ ... ]]` (2 min):** trecho do `backup_sistema.sh` ("Exemplos do Mundo Real", Exemplo 1):
    ```bash
    if [[ ! -d "$DIR_ORIGEM" ]]; then
        echo "Erro: Diretório de origem '$DIR_ORIGEM' não encontrado!" >&2
@@ -209,20 +211,20 @@
 5. **Um script real (3 min):** execute o `monitor_saude.sh` ("Exemplos do Mundo Real", Exemplo 2) e leia três trechos com a turma:
    - `df -P / | awk 'NR==2 {print $5}' | tr -d '%'`: pipes e filtros do Módulo 02;
    - `free -m`: memória disponível, um recurso do sistema como os do Módulo 03;
-   - `if (( USO_DISCO >= LIMITE ))`: a decisão que gera o alerta.
+   - `if (( USO_DISCO >= LIMITE ))`: a decisão aritmética que gera o alerta.
    - **Por quê:** este script junta os módulos anteriores numa ferramenta útil de verdade.
-6. **Agendamento com `cron` (1 min, novo):** mostre o diagrama dos cinco campos (`minuto hora dia mês dia-da-semana`) e a linha do material:
+6. **Agendamento com `cron` (2 min):** mostre o diagrama dos cinco campos (`minuto hora dia mês dia-da-semana`) e a linha do material:
    ```bash
    */15 * * * * /home/marcelo/scripts/monitor_saude.sh >> $HOME/logs/saude.log 2>&1
    ```
    - Leia a linha em voz alta: "a cada 15 minutos, rode o monitor e acrescente saída e erros ao log". É o `>>` e o `2>&1` do Módulo 02 de novo.
-   - **Por quê:** fecha o arco da automação. O script deixa de depender de alguém lembrar de rodá-lo, e é o fechamento da primeira metade da oficina.
+   - **Por quê:** fecha o arco da automação. O script deixa de depender de alguém lembrar de rodá-lo, concluindo o ciclo de controle do sistema operacional.
 
 **Ponte para o 05:** *"Automatizamos tarefas. Mas e quando o programa, em vez de dar erro, simplesmente fica lento? Ou quando dá erro e não sabemos onde?"*
 
 ---
 
-### Módulo 05: Depuração e Profiling (17 min | 00:51 – 01:08)
+### Módulo 05: Depuração e Profiling (20 min | 01:05 – 01:25)
 > **Abordagem: visual e demonstrativa. Medir antes de otimizar.**
 
 **Por que apresentar:** alunos depuram com `print` e otimizam "no olhômetro". O módulo troca as duas coisas por método: **logs** para entender *por que* falhou e **profilers** para medir *onde* o tempo é gasto. A mensagem central: *a intuição erra; a medição não*.
@@ -236,7 +238,7 @@
      - acelerar 4× uma função que ocupa 80% do tempo deixa o programa **2,5× mais rápido**;
      - deixar *infinitamente* rápida uma função que ocupa 5% dá só **5% de ganho**.
    - **Por quê:** com números concretos, a turma entende que otimizar o trecho errado é esforço jogado fora.
-2. **Do `print` ao logging (3 min):**
+2. **Do `print` ao logging (4 min):**
    - Problemas do `print`: fica esquecido no código, não traz data, nível nem linha, e em C o `stdout` bufferizado pode "esconder" o último print antes de um *segfault*.
    - Mostre a tabela de níveis (`DEBUG` … `CRITICAL`) e a ideia do **filtro global**: em produção basta subir o nível para `INFO` e os `DEBUG` somem sem mudar código.
    - Ao vivo, com `faturamento.py`:
@@ -247,18 +249,18 @@
      grep -oE "\[(DEBUG|INFO|WARNING|ERROR|CRITICAL)" app.log | sort | uniq -c
      ```
    - **Por quê:** o `logging` escreve no `stderr` (Módulo 02), e o último comando é o pipeline `sort | uniq -c` do Módulo 02 aplicado a logs. Os alunos reconhecem a ferramenta.
-3. **Como ler um Flame Graph (2 min):** diagrama `linux-profiling-flamegraph.svg`.
-   - Eixo X: proporção do tempo (inclusivo). A ordem horizontal é alfabética, não cronológica.
-   - Eixo Y: profundidade da pilha.
-   - **O gargalo não é o bloco mais largo** (a `main` sempre ocupa 100%). São os **platôs do topo**, blocos largos sem nada empilhado acima. No exemplo, `parse_json()` é larga, mas o tempo é de `regex_match()`.
+3. **Como ler um Flame Graph (3 min):** diagrama `linux-profiling-flamegraph.svg`.
+   - Eixo X: proporção do tempo (inclusivo). A ordem horizontal é alfabética/agrupada, não cronológica.
+   - Eixo Y: profundidade da pilha de chamadas.
+   - **O gargalo não é o bloco mais largo** (a `main` sempre ocupa 100%). São os **platôs do topo**, blocos largos sem nada empilhado acima.
    - **Por quê:** é o erro de leitura mais comum, e o mesmo conceito reaparece como `cumtime` vs. `tottime`.
-4. **Python: `cProfile` e `py-spy` (3 min):**
-   - Ao vivo, `python3 -m cProfile -s tottime teste_gargalo.py | head -n 15` (cerca de 11 s). Explique `ncalls`, `tottime` (só a função) e `cumtime` (função e filhas).
-   - **Atenção:** confira o Problema 1 no fim deste roteiro antes de apresentar.
-   - Em seguida, abra o `perfil_execucao.svg`, gerado antes com `py-spy record -o perfil_execucao.svg -- python3 fibonacci.py`.
-     - Clique num bloco para dar zoom e use a busca.
-     - Avise que o `py-spy` desenha o gráfico **invertido** (*icicle*): a `main` fica no topo.
-   - **Por quê:** o `cProfile` não exige instalação. O `py-spy` não desacelera o programa, então pode ser usado em produção.
+4. **Python: `cProfile` e Flame Graph com `py-spy` (4 min):**
+   - Ao vivo, `python3 -m cProfile -s tottime teste_gargalo.py | head -n 15`. Explique `ncalls`, `tottime` (só a função) e `cumtime` (função e filhas).
+   - Em seguida, abra o [img/perfil_execucao.svg](file:///Users/marcelocohen/teach/git/msp2026/img/perfil_execucao.svg) no navegador, gerado com `py-spy record -o perfil_execucao.svg -- python3 analise_logs.py`:
+     - Mostre a riqueza das 5 ramificações funcionais lado a lado (`gerar_dados_brutos`, `parse_e_validacao`, `auditoria_hashes`, `verificar_blacklist` e `gerar_estatisticas`).
+     - **Destaque o gargalo evidente:** aponte para o platô largo de `verificar_blacklist` consumindo **34% de toda a CPU** devido à busca linear em lista (`in list`), e explique como trocar para `set` resolveria o problema.
+     - Demonstre a interatividade: clique para zoom, reset zoom e busca de funções via *Search*.
+   - **Por quê:** o `cProfile` é nativo e dispensa instalação; o `py-spy` faz amostragem sem interferir no tempo de execução, viabilizando o uso em produção.
 5. **C: a história do `processamento.c` com Callgrind (3 min):** mostre a saída já gerada do `callgrind_annotate` e o KCachegrind (`linux-kcachegrind.svg`). Conte como investigação:
    - `funcao_lenta_gargalo` responde por quase 100% (inclusivo), mas só 10% é código dela.
    - O gargalo real é **`cos()`**, com cerca de 40 milhões de chamadas. Só que `cos(j)` só assume **2.000 valores distintos**: o programa recalcula os mesmos cossenos 20 mil vezes.
@@ -266,7 +268,7 @@
    - Correção: uma tabela com os 2.000 cossenos. O tempo cai de 0,63 s para 0,13 s (**5× mais rápido**) com poucas linhas, no ponto exato que o profiler apontou.
    - **Por quê:** é o ciclo completo (medir, diagnosticar, corrigir, medir de novo) num exemplo pequeno.
    - **Não rode o Callgrind ao vivo:** ele é mais de 100× mais lento.
-6. **C: vazamento de memória com Valgrind/Memcheck (2 min, novo):** mostre o `vazamento.c` do material (um `malloc` sem `free`) e a saída de `valgrind --leak-check=full ./vazamento`.
+6. **C: vazamento de memória com Valgrind/Memcheck (2 min):** mostre o `vazamento.c` do material (um `malloc` sem `free`) e a saída de `valgrind --leak-check=full ./vazamento`.
    - Destaque a linha `4,000 bytes in 1 blocks are definitely lost`, seguida de `by 0x10915E: funcao_com_vazamento (vazamento.c:4)`.
    - **Explicação:** o Valgrind aponta **a função e a linha** que alocou a memória esquecida, sem precisar mudar o código. Lembre de compilar com `-g`.
    - **Por quê:** vazamento de memória é o bug mais típico das disciplinas de C, e quase ninguém conhece uma ferramenta que o encontra sozinha. Também mostra que "depuração" vai além de logs.
@@ -277,13 +279,14 @@
 
    Diga que o `ExemploJFR.java` está no repositório para quem programa em Java.
 
-**Ponte para o 06:** *"Otimizamos o código, e agora? Como guardar essa versão, compará-la com a anterior e trabalhar em equipe sem um sobrescrever o outro?"*
+**Ponte para o Encerramento:** *"Otimizamos o código e identificamos gargalos com ferramentas modernas. Mas como guardar essas versões, compará-las com as anteriores e trabalhar em equipe sem que um desenvolvedor sobrescreva o trabalho do outro? É aí que entra o Git, o tema do Módulo 06 disponível no portal online."*
 
 ---
 
-### Módulo 06: Git e Trabalho Colaborativo (17 min | 01:08 – 01:25)
+### Módulo 06: Git e Trabalho Colaborativo (Material Complementar — Estudo Assíncrono)
+> 📌 **Nota sobre o formato:** Este módulo **não será apresentado ao vivo** no período de 1h30 para garantir o ritmo aprofundado e prático dos módulos 01 a 05. Seu roteiro completo é preservado abaixo como guia para sessões estendidas (oficinas de 2h a 3h) e para direcionamento do estudo autônomo dos participantes no portal online ([06_git_colaborativo.html](file:///Users/marcelocohen/teach/git/msp2026/dist/06_git_colaborativo.html)).
 
-**Por que apresentar:** o Git é o padrão absoluto da indústria, e o que trava os alunos não são os comandos, é o **modelo mental**. Quem entende as áreas e o que é um commit para de "decorar receitas" e para de ter medo de conflito.
+**Por que apresentar (em formato estendido):** o Git é o padrão absoluto da indústria, e o que trava os alunos não são os comandos, é o **modelo mental**. Quem entende as áreas e o que é um commit para de "decorar receitas" e para de ter medo de conflito.
 
 **O que e como apresentar:**
 1. **Filosofia em três ideias (2 min):** (`06_git_colaborativo.md`, "Origem e Filosofia")
@@ -300,7 +303,7 @@
      git status ; git add arquivo ; git status ; git commit -m "..." ; git log --oneline
      ```
    - **Por que a Staging Area existe:** permite escolher o que entra em cada commit e fazer commits pequenos e explicáveis.
-3. **O `.gitignore` (1 min, novo):** mostre o modelo do material (`node_modules/`, `*.o`, `*.class`, `*.log`, `.env`, `*.pem`).
+3. **O `.gitignore` (1 min):** mostre o modelo do material (`node_modules/`, `*.o`, `*.class`, `*.log`, `.env`, `*.pem`).
    - Cite o repositório [github/gitignore](https://github.com/github/gitignore), com modelos prontos por linguagem.
    - **Alerta do material:** se uma senha foi commitada, apagá-la num commit novo **não basta**, porque ela continua no histórico. É preciso trocar a credencial.
    - **Por quê:** binários e senhas no repositório são erros clássicos de trabalhos em grupo, e o segundo pode ter consequências reais.
@@ -327,7 +330,7 @@
    - **Mensagem:** o conflito não é bug; é o Git se recusando a adivinhar e pedindo que um humano decida.
    - Apresente a saída de emergência `git merge --abort`.
    - **Por quê:** é o momento em que os alunos mais travam em trabalhos em grupo.
-6. **Sincronizando com o remoto e Pull Requests (2 min, ampliado):**
+6. **Sincronizando com o remoto e Pull Requests (2 min):**
    - `git push -u origin feature/x` envia a branch.
    - **`git fetch` vs. `git pull`:** o `fetch` só baixa e não toca nos seus arquivos, então é seguro para olhar. O `pull` é `fetch` seguido de `merge`.
    - Mostre o erro *"divergent branches"* do material e a solução de uma vez por todas: `git config --global pull.rebase false`.
@@ -337,20 +340,22 @@
 
 ---
 
-### Encerramento & Dúvidas (5 min | 01:25 – 01:30)
-- **Recapitule em uma frase por módulo, mostrando a ponte entre eles:**
+### Encerramento, Indicação do Git & Dúvidas (5 min | 01:25 – 01:30)
+- **Recapitule em uma frase por módulo a narrativa que conecta toda a oficina:**
   - os comandos escrevem texto (01);
-  - o texto flui por pipes (02);
-  - cada programa é um processo (03);
-  - os processos viram scripts (04);
-  - os scripts geram logs e são medidos (05);
-  - tudo vai para o Git (06).
-- Exiba a página inicial do manual (`index.html`) e mostre os botões de cada módulo.
-- Indique os exemplos no repositório, prontos para reproduzir em casa ou no laboratório:
-  - `processamento.c` e `logging.c`;
-  - `teste_gargalo.py`, `fibonacci.py` e `faturamento.py`;
-  - `ExemploJFR.java`.
-- Abra para perguntas.
+  - o texto flui e se combina por pipes (02);
+  - cada programa em execução é um processo monitorável (03);
+  - as sequências manuais viram scripts automatizados (04);
+  - os scripts e códigos geram logs e são medidos por profilers (05);
+  - a evolução do código e o trabalho em equipe vão para o Git (06 — material online).
+- **Apresente o portal online:** abra a página inicial do manual (`index.html`) no navegador:
+  - Mostre os cards de cada módulo;
+  - Destaque que o **Módulo 06 (Git)** está integralmente disponível online, com diagramas vetoriais de merge e resolução de conflitos passo a passo para estudo pós-oficina;
+  - Indique os exemplos no repositório, prontos para reproduzir em casa ou no laboratório:
+    - `processamento.c` e `logging.c`;
+    - `teste_gargalo.py`, `analise_logs.py` e `faturamento.py`;
+    - `ExemploJFR.java`.
+- **Abra para perguntas finais e discussão com a turma.**
 
 ---
 
@@ -358,12 +363,12 @@
 
 - [ ] **Terminal:** fonte grande (mínimo 18pt), tema de alto contraste, prompt curto (só o diretório atual).
 - [ ] **Pasta de demonstração** com:
-  - **Módulo 04:** `backup_simples.sh`, `converter_imagem.sh`, `backup_sistema.sh` e `monitor_saude.sh`, copiados do `docs/04_automacao_shell_scripting.md` (hoje eles existem só dentro do `.md`), já com `chmod +x`, e um `foto.png` qualquer;
-  - **Módulo 05:** `vazamento.c` copiado do `docs/05_depuracao_profiling.md` (também só existe no `.md`), compilado com `gcc -g`, e a saída do Valgrind já gerada como reserva;
-  - **Módulo 05:** `faturamento.py` e `teste_gargalo.py` (do `docs/`);
-  - **Módulo 05:** `perfil_execucao.svg` já gerado com `py-spy` (existe em `img/`);
+  - **Módulo 04:** `backup_simples.sh`, `converter_imagem.sh`, `backup_sistema.sh` e `monitor_saude.sh`, copiados do `docs/04_automacao_shell_scripting.md`, já com `chmod +x`, e um `foto.png` qualquer;
+  - **Módulo 05:** `vazamento.c` copiado do `docs/05_depuracao_profiling.md`, compilado com `gcc -g`, e a saída do Valgrind já gerada como reserva;
+  - **Módulo 05:** `faturamento.py`, `teste_gargalo.py` e `analise_logs.py`;
+  - **Módulo 05:** `perfil_execucao.svg` interativo aberto no navegador;
   - **Módulo 05:** saída do `callgrind_annotate` do `processamento.c` já gerada, ou o arquivo `callgrind.out.*` aberto no KCachegrind;
-  - **Módulo 06:** mini-repositório Git com a `main` (`PORTA_SERVIDOR 8080`) e a `feature/login` (`PORTA_SERVIDOR 9000`) no `config.h`, pronto para o conflito, e uma cópia de reserva para repetir a demonstração.
+  - **Módulo 06 (opcional / reserva):** mini-repositório Git com a `main` (`PORTA_SERVIDOR 8080`) e a `feature/login` (`PORTA_SERVIDOR 9000`) no `config.h`, pronto caso haja tempo de demonstrar um conflito rápido.
 - [ ] **Ferramentas instaladas:** `htop`, `curl`, `py-spy`, `valgrind` e `kcachegrind` (ou só a saída pronta).
 - [ ] **Internet** para o `curl` do Módulo 02. Plano B: o exemplo com `du`.
 - [ ] **Abas do navegador abertas:**

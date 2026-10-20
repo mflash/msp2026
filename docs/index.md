@@ -55,7 +55,7 @@ Navegue pelos módulos disponíveis abaixo para acessar o conteúdo teórico, di
 
 Fundamentos históricos do Unix/Linux, arquitetura do sistema de arquivos, comandos essenciais de inspeção, variáveis de ambiente, navegação de diretórios e controle de permissões de arquivos.
 
-- **Apresentação em Slides:** [Acessar Slides da Introdução (Reveal.js)](slides_introducao.html).
+- **Apresentação em Slides:** [Acessar Slides do Módulo 01 (Reveal.js)](slides_01_shell.html).
 - **Histórico & Relevância:** Das origens nos Bell Labs à nuvem, IoT, Android e supercomputadores.
 - **Linha do Tempo Visual:** Evolução do Unix, BSD, GNU e Linux.
 - **O Shell & Terminais:** O conceito de shell e o legado de terminais físicos como o DEC VT100.
@@ -79,6 +79,7 @@ Fundamentos históricos do Unix/Linux, arquitetura do sistema de arquivos, coman
 
 A filosofia Unix em ação: combinando programas pequenos através de canais e manipulando grandes volumes de texto no terminal.
 
+- **Apresentação em Slides:** [Acessar Slides do Módulo 02 (Reveal.js)](slides_02_redirecionamento_pipes.html).
 - **Streams padrão:** Entrada (`stdin`), Saída (`stdout`) e Erros (`stderr`).
 - **Operadores de redirecionamento:** `>`, `>>`, `<` e `2>&1`.
 - **O operador de encadeamento:** *pipe* (`|`).
@@ -99,6 +100,7 @@ A filosofia Unix em ação: combinando programas pequenos através de canais e m
 
 Como o sistema operacional gerencia recursos, memória e CPU, e como inspecionar e controlar processos ativos pelo shell.
 
+- **Apresentação em Slides:** [Acessar Slides do Módulo 03 (Reveal.js)](slides_03_processos_monitoramento.html).
 - **Ciclo de vida:** Identificadores de processos (`PID`, `PPID`).
 - **Inspeção de processos:** Monitoramento com `ps`, `top` e `htop`.
 - **Controle de tarefas:** Primeiro plano (`fg`), segundo plano (`bg`, `&`) e `jobs`.
@@ -119,6 +121,7 @@ Como o sistema operacional gerencia recursos, memória e CPU, e como inspecionar
 
 Construindo scripts executáveis em Bash para automatizar rotinas, pipelines de compilação e tarefas de administração.
 
+- **Apresentação em Slides:** [Acessar Slides do Módulo 04 (Reveal.js)](slides_04_automacao_shell_scripting.html).
 - **Criação de scripts:** Permissão de execução e o *Shebang* (`#!/bin/bash`).
 - **Parâmetros de linha de comando:** `$1`, `$2`, `$#`, `$@`.
 - **Controle de fluxo:** `if / then / else` e testes condicionais (`[ ... ]`).
@@ -139,6 +142,7 @@ Construindo scripts executáveis em Bash para automatizar rotinas, pipelines de 
 
 Identificando gargalos de CPU e vazamentos de memória usando ferramentas gratuitas e de código aberto para C/C++, Python e Java.
 
+- **Apresentação em Slides:** [Acessar Slides do Módulo 05 (Reveal.js)](slides_05_depuracao_profiling.html).
 - **Depuração & Logging:** Do "print debugging" ao logging estruturado, níveis de severidade, macros em C, `logging` nativo em Python e SLF4J/Logback em Java.
 - **Conceitos de Profiling:** Tracing vs. Sampling e anatomia dos Flame Graphs.
 - **Ecossistema C/C++:** `perf` (hardware counters), `Valgrind` (Memory Leaks com Memcheck) e `Callgrind`.

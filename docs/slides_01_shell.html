@@ -1,0 +1,457 @@
+<!doctype html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>01. Shell e Comandos Básicos — Manual de Sobrevivência de Programação</title>
+
+  <!-- Reveal.js CSS Core & Theme -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/black.css" id="theme">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/monokai.css">
+
+  <!-- Google Fonts: Inter, Outfit & Fira Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800;900&display=swap"
+    rel="stylesheet">
+
+  <style>
+    :root {
+      --event-blue: #4f7bf8;
+      --event-blue-dark: #375fd9;
+      --event-grid: rgba(255, 255, 255, 0.16);
+      --event-yellow: #ffe600;
+      --event-orange: #f7941d;
+      --event-gradient: linear-gradient(135deg, #ffe600 0%, #f7941d 100%);
+      --card-bg: rgba(15, 23, 42, 0.82);
+      --card-border: rgba(255, 255, 255, 0.22);
+      --text-bright: #ffffff;
+      --text-muted: #e2e8f0;
+    }
+
+    .reveal {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      color: var(--text-bright);
+      background-color: var(--event-blue);
+      background-image:
+        linear-gradient(var(--event-grid) 1px, transparent 1px),
+        linear-gradient(90deg, var(--event-grid) 1px, transparent 1px);
+      background-size: 36px 36px;
+    }
+
+    .reveal .slides section {
+      box-sizing: border-box;
+      padding: 0.5rem 1.5rem;
+    }
+
+    .reveal h1,
+    .reveal h2,
+    .reveal h3,
+    .reveal h4 {
+      font-family: 'Outfit', sans-serif;
+      text-transform: none;
+      letter-spacing: -0.02em;
+    }
+
+    .reveal h1 {
+      font-size: 2.1em;
+      font-weight: 900;
+      line-height: 1.1;
+      margin: 0.2em 0 0.15em 0;
+      color: #ffffff;
+      text-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+    }
+
+    .reveal h2 {
+      font-size: 1.55em;
+      font-weight: 800;
+      color: #ffffff;
+      margin: 0.2em 0 0.25em 0;
+      line-height: 1.15;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .subtitle {
+      font-size: 0.65em !important;
+      color: #ffffff !important;
+      opacity: 0.92;
+      margin: 0 0 0.8em 0 !important;
+      line-height: 1.3 !important;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .badge-pill {
+      display: inline-block;
+      padding: 0.25em 0.85em;
+      font-size: 0.4em;
+      font-weight: 800;
+      font-family: 'Outfit', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      border-radius: 9999px;
+      background: #0f172a;
+      color: var(--event-yellow);
+      border: 1.5px solid var(--event-orange);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      margin-bottom: 0.4em;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1.5px solid var(--card-border);
+      border-radius: 12px;
+      padding: 1rem 1.25rem;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(8px);
+      text-align: left;
+    }
+
+    .card h4 {
+      font-size: 0.82em;
+      color: var(--event-yellow);
+      margin: 0 0 0.4em 0;
+      font-weight: 700;
+    }
+
+    .card p,
+    .card li {
+      font-size: 0.58em;
+      line-height: 1.45;
+      color: var(--text-muted);
+      margin: 0;
+    }
+
+    .card ul {
+      margin: 0.3em 0 0 1.2em;
+      padding: 0;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.2rem;
+      margin-top: 0.4rem;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1rem;
+      margin-top: 0.4rem;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 0.1em 0.45em;
+      border-radius: 4px;
+      font-size: 0.82em;
+      font-family: 'Fira Code', monospace;
+      background: rgba(255, 230, 0, 0.18);
+      color: var(--event-yellow);
+      border: 1px solid rgba(255, 230, 0, 0.4);
+    }
+
+    pre code {
+      font-family: 'Fira Code', monospace !important;
+      font-size: 0.75em !important;
+      line-height: 1.35 !important;
+      border-radius: 8px !important;
+      border: 1px solid rgba(255, 255, 255, 0.2) !important;
+      background: #090d16 !important;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <!-- SLIDE 1: CAPA DO MÓDULO 01 -->
+      <section data-transition="zoom">
+        <span class="badge-pill">Módulo 01 • 18 Minutos</span>
+        <h1 style="font-size: 1.85em; margin: 0.2em 0;">Shell e Comandos Básicos</h1>
+        <p class="subtitle">O mapa mental do terminal: entendendo quem interpreta o que você digita</p>
+
+        <div style="display: flex; align-items: center; justify-content: center; gap: 2rem; margin-top: 1.2rem;">
+          <div class="card" style="display: flex; align-items: center; gap: 1rem; padding: 0.6rem 1.2rem;">
+            <img src="img/prof_edson.png" alt="Prof. Edson"
+              style="width: 50px; height: 50px; border-radius: 50%; border: 2px solid var(--event-yellow);">
+            <div>
+              <strong style="color: var(--event-yellow); font-size: 0.7em; display: block;">Prof. Edson Ifarraguirre
+                Moreno</strong>
+              <span style="font-size: 0.52em; color: #cbd5e1;">Escola Politécnica • PUCRS</span>
+            </div>
+          </div>
+        </div>
+
+        <aside class="notes">
+          - Apresentar o propósito deste módulo: antes de rodar pipes ou scripts, criar um mapa mental de onde estamos.
+          - Eliminar os 2 erros mais comuns de quem começa: "command not found" e "Permission denied".
+        </aside>
+      </section>
+
+      <!-- SLIDE 2: TERMINAL VS SHELL -->
+      <section data-transition="slide">
+        <span class="badge-pill">Conceito Central</span>
+        <h2>A Ilusão da Janela: Terminal vs. Shell</h2>
+        <p class="subtitle">Por que chamamos a mesma janela preta por nomes diferentes?</p>
+
+        <div class="grid-2">
+          <div class="card" style="display: flex; flex-direction: column; align-items: center; text-align: center;">
+            <h4>O Terminal Físico (1978)</h4>
+            <img src="img/vt100.jpg" alt="DEC VT100" style="max-height: 180px; border-radius: 6px; margin: 0.4rem 0;">
+            <p>O <strong>DEC VT100</strong> não tinha CPU própria. Apenas lia teclas, enviava por cabo serial e
+              desenhava texto na tela de fósforo.</p>
+          </div>
+
+          <div class="card" style="display: flex; flex-direction: column; justify-content: center;">
+            <h4>O Emulador Moderno vs. O Shell</h4>
+            <ul style="font-size: 0.62em; line-height: 1.55;">
+              <li><strong>Emulador de Terminal:</strong> A janela gráfica (iTerm2, Alacritty, GNOME Terminal, Windows
+                Terminal). Ela virtualiza a tela do VT100.</li>
+              <li><strong>O Shell:</strong> O programa que roda do outro lado (Bash, Zsh, Fish). Ele é um
+                <em>interpretador de comandos</em> com linguagem própria.
+              </li>
+              <li>Recebe teclas via <code>stdin</code>, expande variáveis, cria pipes e aciona chamadas de sistema
+                (<em>syscalls</em>) ao kernel.</li>
+            </ul>
+          </div>
+        </div>
+
+        <aside class="notes">
+          - Explicar a distinção entre a janela que desenha (terminal) e o processo que interpreta comandos (shell).
+          - Hoje emulamos em software o que antigamente era uma máquina física de 15 kg.
+        </aside>
+      </section>
+
+      <!-- SLIDE 3: ARQUITETURA SHELL -->
+      <section data-transition="slide">
+        <span class="badge-pill">Arquitetura</span>
+        <h2>O Shell como Maestro do Sistema</h2>
+        <p class="subtitle">Como o comando digitado no teclado chega ao processador e ao disco:</p>
+
+        <div style="max-width: 1100px; margin: 0 auto;">
+          <img src="img/infografico-shell.svg" alt="Arquitetura do Shell"
+            style="width: 100%; height: auto; border-radius: 8px;">
+        </div>
+
+        <aside class="notes">
+          - Percorrer o diagrama da esquerda para a direita:
+          - 1. Emulador lê teclado e envia stdin.
+          - 2. Shell analisa sintaxe, busca no PATH, faz expansões e invoca syscalls.
+          - 3. Kernel executa as operações e aciona drivers/hardware.
+          - 4. Retorno verde (stdout/stderr) volta até o terminal.
+        </aside>
+      </section>
+
+      <!-- SLIDE 4: FHS E SISTEMA DE ARQUIVOS -->
+      <section data-transition="slide">
+        <span class="badge-pill" style="margin-bottom: 0.25em; font-size: 0.38em;">Estrutura de Arquivos</span>
+        <h2 style="font-size: 1.45em; margin: 0.1em 0 0.15em 0;">O Padrão FHS (Filesystem Hierarchy Standard)</h2>
+        <p class="subtitle" style="font-size: 0.58em !important; margin-bottom: 0.6em !important;">Princípios
+          fundamentais e diretórios essenciais:</p>
+
+        <div class="grid-2" style="gap: 1rem;">
+          <div class="card" style="padding: 0.8rem 1.1rem;">
+            <h4 style="font-size: 0.8em; margin-bottom: 0.35em;">🌳 4 Princípios do Linux</h4>
+            <ul style="font-size: 0.58em; line-height: 1.45; margin-left: 1.1em;">
+              <li style="margin-bottom: 0.45em;"><strong>Raiz Única (<code>/</code>):</strong> Sem unidades separadas
+                (<code>C:</code>, <code>D:</code>). Tudo brota da raiz <code>/</code>.</li>
+              <li style="margin-bottom: 0.45em;"><strong>Case-Sensitive:</strong> <code>codigo.c</code> e
+                <code>Codigo.c</code> são arquivos distintos.
+              </li>
+              <li style="margin-bottom: 0.45em;"><strong>"Tudo é um arquivo":</strong> Dispositivos e métricas são
+                acessados como arquivos.</li>
+              <li><strong>Arquivos Ocultos:</strong> Começam com ponto (ex: <code>.bashrc</code>, <code>.git</code>).
+              </li>
+            </ul>
+          </div>
+
+          <div class="card" style="padding: 0.8rem 1.1rem;">
+            <h4 style="font-size: 0.8em; margin-bottom: 0.35em;">📂 Diretórios Vitais da Árvore</h4>
+            <ul style="font-size: 0.58em; line-height: 1.45; margin-left: 1.1em;">
+              <li style="margin-bottom: 0.35em;"><span class="tag" style="font-size: 0.82em;">/bin</span>, <span
+                  class="tag" style="font-size: 0.82em;">/usr/bin</span>: Executáveis do sistema (<code>ls</code>,
+                <code>python3</code>).
+              </li>
+              <li style="margin-bottom: 0.35em;"><span class="tag" style="font-size: 0.82em;">/home/usuario</span>: Seus
+                arquivos pessoais (<span class="tag" style="font-size: 0.82em;">~</span>).</li>
+              <li style="margin-bottom: 0.35em;"><span class="tag" style="font-size: 0.82em;">/etc</span>: Configurações
+                globais do sistema operacional.</li>
+              <li style="margin-bottom: 0.35em;"><span class="tag" style="font-size: 0.82em;">/dev/null</span>: O
+                "buraco negro" — descarta dados sem erro.</li>
+              <li><span class="tag" style="font-size: 0.82em;">/tmp</span>: Arquivos temporários limpos no reboot.</li>
+            </ul>
+          </div>
+        </div>
+
+        <aside class="notes">
+          - Enfatizar a raiz única e a diferença entre maiúsculas/minúsculas.
+          - Mencionar que /dev/null será muito útil nos redirecionamentos do Módulo 02.
+        </aside>
+      </section>
+
+      <!-- SLIDE 5: NAVEGAÇÃO E ATALHOS -->
+      <section data-transition="slide">
+        <span class="badge-pill" style="margin-bottom: 0.25em; font-size: 0.38em;">Prática ao Vivo</span>
+        <h2 style="font-size: 1.45em; margin: 0.1em 0 0.15em 0;">Navegação Ágil e Produtividade</h2>
+        <p class="subtitle" style="font-size: 0.58em !important; margin-bottom: 0.6em !important;">Comandos fundamentais
+          e atalhos de terminal:</p>
+
+        <div class="grid-2" style="gap: 1rem;">
+          <div class="card" style="padding: 0.8rem 1.1rem;">
+            <h4 style="font-size: 0.8em; margin-bottom: 0.35em;">Comandos Fundamentais</h4>
+            <pre style="margin: 0.2em 0;"><code class="language-bash" style="font-size: 0.7em !important; line-height: 1.35 !important; padding: 0.6rem 0.85rem !important;">pwd              # Onde estou? (Print Working Dir)
+ls -la           # Lista completa (com ocultos)
+cd /etc          # Caminho absoluto
+cd ..            # Sobe para o diretório pai
+cd ~             # Diretório pessoal ($HOME)
+cd -             # Alterna para o diretório anterior!</code></pre>
+          </div>
+
+          <div class="card" style="border-left: 3.5px solid var(--event-yellow); padding: 0.8rem 1.1rem;">
+            <h4 style="font-size: 0.8em; margin-bottom: 0.35em;">⚡ Superpoderes do Teclado</h4>
+            <ul style="font-size: 0.58em; line-height: 1.45; margin-left: 1.1em;">
+              <li style="margin-bottom: 0.45em;"><span class="tag" style="font-size: 0.82em;">Tab</span>: Autocompleta
+                comandos e caminhos. 2× lista opções.</li>
+              <li style="margin-bottom: 0.45em;"><span class="tag" style="font-size: 0.82em;">Ctrl + R</span>: Busca
+                reversa no histórico de comandos digitados.</li>
+              <li style="margin-bottom: 0.45em;"><span class="tag" style="font-size: 0.82em;">Ctrl + C</span>:
+                Interrompe imediatamente o comando (<code>SIGINT</code>).</li>
+              <li><span class="tag" style="font-size: 0.82em;">Ctrl + L</span>: Limpa a tela preservando a posição do
+                cursor.</li>
+            </ul>
+          </div>
+        </div>
+
+        <aside class="notes">
+          - Dizer explicitamente: use Tab para tudo. Ele previne 95% dos erros de digitação.
+          - Demonstrar Ctrl+R para buscar comandos longos do histórico.
+        </aside>
+      </section>
+
+      <!-- SLIDE 6: O PATH -->
+      <section data-transition="slide">
+        <span class="badge-pill" style="margin-bottom: 0.2em; font-size: 0.35em;">Variáveis de Ambiente</span>
+        <h2 style="font-size: 1.35em; margin: 0.1em 0 0.15em 0;">O Mistério do <code>$PATH</code></h2>
+        <p class="subtitle" style="font-size: 0.52em !important; margin-bottom: 0.5em !important;">Por que o terminal
+          acha <code>ls</code> mas retorna <code>command not found</code> em outros?</p>
+
+        <div class="grid-2" style="gap: 0.8rem;">
+          <div class="card" style="padding: 0.65rem 0.9rem;">
+            <h4 style="font-size: 0.72em; margin-bottom: 0.25em;">Como o Shell Busca Comandos</h4>
+            <p style="font-size: 0.5em; line-height: 1.35; margin: 0 0 0.4em 0;">O shell <strong>não</strong> vasculha o
+              disco inteiro. Ele consulta a lista de pastas do <code>$PATH</code> da esquerda para a direita:</p>
+            <pre style="margin: 0.2em 0;"><code class="language-bash" style="font-size: 0.62em !important; line-height: 1.25 !important; padding: 0.5rem 0.7rem !important;">$ echo $PATH
+/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</code></pre>
+            <p style="font-size: 0.48em; color: var(--event-yellow); margin-top: 0.4em;">
+              Se o binário não estiver em nenhum desses diretórios ➔ <code>command not found</code>!
+            </p>
+          </div>
+
+          <div class="card" style="border-left: 3.5px solid var(--event-orange); padding: 0.65rem 0.9rem;">
+            <h4 style="font-size: 0.72em; margin-bottom: 0.25em;">Localizando com <code>which</code> &amp; O Erro Típico
+            </h4>
+            <pre style="margin: 0.2em 0;"><code class="language-bash" style="font-size: 0.62em !important; line-height: 1.25 !important; padding: 0.5rem 0.7rem !important;">$ which ls
+/bin/ls
+
+$ which python3
+/usr/bin/python3</code></pre>
+            <div style="margin-top: 0.4em; padding-top: 0.35em; border-top: 1px solid rgba(255,255,255,0.15);">
+              <strong style="color: var(--event-orange); font-size: 0.52em; display: block;">🚨 E o script na pasta
+                atual?</strong>
+              <p style="font-size: 0.48em; line-height: 1.3; margin: 0.2em 0 0 0;">
+                Por segurança, o diretório atual (<code>.</code>) não fica no <code>$PATH</code>. É obrigatório
+                explicitar o caminho: <code>./script.sh</code>!
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <aside class="notes">
+          - A pergunta clássica do aluno: "Instalei mas não funciona".
+          - Mostrar que o PATH é uma lista separada por dois pontos percorrida da esquerda para a direita.
+        </aside>
+      </section>
+
+      <!-- SLIDE 7: PERMISSÕES E CHMOD -->
+      <section data-transition="slide">
+        <span class="badge-pill" style="margin-bottom: 0.2em; font-size: 0.35em;">Segurança</span>
+        <h2 style="font-size: 1.45em; margin: 0.1em 0 0.15em 0;">Permissões de Acesso e <code>chmod</code></h2>
+        <p class="subtitle" style="font-size: 0.58em !important; margin-bottom: 0.5em !important;">Arquivos novos não
+          nascem executáveis por design de segurança:</p>
+
+        <div style="max-width: 960px; margin: 0.2rem auto; text-align: center;">
+          <img src="img/linux-permissions.svg" alt="Anatomia das Permissões Linux"
+            style="width: 100%; max-height: 440px; object-fit: contain; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.45); display: block; margin: 0 auto;">
+        </div>
+
+        <aside class="notes">
+          - Percorrer o diagrama das permissões detalhadamente:
+          - Tipo de arquivo (d = diretório, - = arquivo regular)
+          - Três blocos de rwx: Dono (Usuário), Grupo e Outros
+          - Valores: r = leitura (4), w = escrita (2), x = execução (1)
+          - Demonstrar o fluxo do erro ao vivo no terminal:
+          1. echo "echo oi" > teste.sh
+          2. ./teste.sh ➔ Permission denied (bloqueado por padrão!)
+          3. chmod +x teste.sh
+          4. ./teste.sh ➔ oi
+        </aside>
+      </section>
+
+      <!-- SLIDE 8: FECHAMENTO E PONTE -->
+      <section data-transition="zoom">
+        <span class="badge-pill">Próximo Passo</span>
+        <h2>O Fio Condutor da Oficina</h2>
+        <p class="subtitle">Do Shell para a Composição de Programas:</p>
+
+        <div class="card" style="text-align: center; padding: 1.8rem; margin: 1.5rem auto; max-width: 800px;">
+          <p style="font-size: 0.85em; font-weight: 600; color: #ffffff; line-height: 1.45;">
+            Todos os comandos que vimos até agora recebem texto e escrevem texto na tela.<br>
+            <span style="color: var(--event-yellow); font-size: 1.1em; display: block; margin-top: 0.6em;">
+              E se, em vez da tela, a saída de um programa fosse canalizada diretamente para a entrada do próximo?
+            </span>
+          </p>
+        </div>
+
+        <p style="font-size: 0.88em; font-weight: 800; color: var(--event-yellow); margin-top: 1rem;">
+          ➔ Módulo 02: Redirecionamento, Pipes e Filtros de Texto! <a
+            href="slides_02_redirecionamento_pipes.html">🔀</a>
+        </p>
+
+        <aside class="notes">
+          - Fazer a ponte para o Módulo 02: o poder do Unix não está em comandos isolados, mas na combinação deles via
+          pipes.
+        </aside>
+      </section>
+
+    </div>
+  </div>
+
+  <!-- Reveal.js & Plugins via CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/highlight.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/notes/notes.js"></script>
+
+  <script>
+    Reveal.initialize({
+      width: 1200,
+      height: 675,
+      margin: 0.04,
+      minScale: 0.2,
+      maxScale: 2.0,
+      hash: true,
+      slideNumber: 'c/t',
+      controls: true,
+      progress: true,
+      center: true,
+      transition: 'slide',
+      plugins: [RevealHighlight, RevealNotes]
+    });
+  </script>
+</body>
+
+</html>

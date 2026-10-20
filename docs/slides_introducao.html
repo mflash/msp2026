@@ -153,6 +153,19 @@
       border-left: 3.5px solid var(--event-orange) !important;
     }
 
+    .section-link-card {
+      display: block;
+      text-decoration: none;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+      cursor: pointer;
+    }
+
+    .section-link-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.55);
+      border-color: var(--event-yellow) !important;
+    }
+
     .metric-big {
       font-family: 'Outfit', sans-serif;
       font-size: 1.7em;
@@ -414,116 +427,78 @@
         </aside>
       </section>
 
-      <!-- SLIDE 6: O QUE É O SHELL? -->
-      <section data-transition="slide">
-        <span class="badge-pill">Arquitetura</span>
-        <h2>O que é o Shell?</h2>
-        <p class="subtitle">A concha interpretadora entre a interface gráfica e o núcleo do sistema operacional:</p>
-
-        <div style="margin: 0.15rem auto 0 auto; max-width: 1160px; width: 100%;">
-          <img src="img/infografico-shell.svg" alt="Diagrama de Arquitetura: Emulador de Terminal, Shell e Kernel"
-            style="width: 100%; height: auto; display: block; filter: drop-shadow(0 10px 28px rgba(0,0,0,0.4)); margin: 0 auto;">
-        </div>
-
-        <aside class="notes">
-          - Percorrer o fluxo visual da esquerda para a direita:
-          - 1. Emulador de Terminal: a janela gráfica (iTerm2, Alacritty) que lê teclas e desenha texto, virtualizando o
-          VT100 de antigamente.
-          - 2. O Shell (Destaque): o interpretador (Bash, Zsh) que recebe comandos pelo stdin, expande variáveis, cria
-          pipes e aciona syscalls.
-          - 3. O Kernel: o núcleo do SO que gerencia processos, memória e arquivos no disco.
-          - 4. O fluxo de retorno (verde): stdout e stderr retornam até a janela para o usuário ver os resultados.
-        </aside>
-      </section>
-
-      <!-- SLIDE 7: O SISTEMA DE ARQUIVOS (FHS) -->
-      <section data-transition="slide">
-        <span class="badge-pill">Estrutura</span>
-        <h2>O Sistema de Arquivos (FHS)</h2>
-        <p class="subtitle">A organização lógica de pastas e regras fundamentais:</p>
-
-        <div class="grid-2" style="margin-bottom: 0.6rem;">
-          <div class="card">
-            <h4>🌳 Raiz Única (<code>/</code>)</h4>
-            <p>
-              Sem unidades separadas (<code>C:</code>, <code>D:</code>). Tudo brota da raiz <code>/</code>. Discos e
-              pendrives são montados em pastas dessa árvore.
-            </p>
-          </div>
-
-          <div class="card">
-            <h4>🔤 Case-Sensitive</h4>
-            <p>
-              Diferencia maiúsculas e minúsculas: <code>relatorio.txt</code> e <code>Relatorio.txt</code> são arquivos
-              totalmente independentes.
-            </p>
-          </div>
-        </div>
-
-        <div class="card" style="text-align: left;">
-          <h4 style="margin-bottom: 0.2em;">Pastas Essenciais da Árvore:</h4>
-          <ul style="font-size: 0.55em; column-count: 2; column-gap: 1.5rem;">
-            <li><span class="tag">/bin</span>, <span class="tag">/usr/bin</span>: Programas executáveis.</li>
-            <li><span class="tag">/etc</span>: Configurações do sistema operacional.</li>
-            <li><span class="tag">/home/usuario</span>: Seus arquivos pessoais (<span class="tag">~</span>).</li>
-            <li><span class="tag">/dev</span>: Dispositivos de hardware mapeados.</li>
-            <li><span class="tag">/proc</span>: Métricas e processos em tempo real.</li>
-            <li><span class="tag">/tmp</span>: Arquivos temporários (limpos no reboot).</li>
-          </ul>
-        </div>
-
-        <aside class="notes">
-          - O padrão FHS (Filesystem Hierarchy Standard) garante consistência entre qualquer distribuição Linux.
-        </aside>
-      </section>
-
-      <!-- SLIDE 8: ROTEIRO DA OFICINA -->
+      <!-- SLIDE 6: ROTEIRO DA OFICINA & ACESSO ÀS SEÇÕES -->
       <section data-transition="zoom">
-        <span class="badge-pill">Próximos Passos</span>
-        <h2>Roteiro da Oficina</h2>
-        <p class="subtitle">Nossa jornada de 90 minutos para transformar seu fluxo de trabalho:</p>
+        <span class="badge-pill" style="margin-bottom: 0.2em; font-size: 0.35em;">Navegação da Oficina</span>
+        <h2 style="font-size: 1.35em; margin: 0.1em 0 0.15em 0;">Roteiro da Oficina</h2>
+        <p class="subtitle" style="font-size: 0.52em !important; margin-bottom: 0.5em !important;">
+          Selecione uma seção para abrir os respectivos slides:
+        </p>
 
-        <div class="grid-3" style="font-size: 0.85em;">
-          <div class="card" style="border-left: 3.5px solid var(--event-yellow);">
-            <strong style="color: var(--event-yellow); font-size: 0.85em;">01. Shell & Navegação</strong><br>
-            <p style="font-size: 0.6em; margin-top: 0.2em;">Comandos essenciais, $PATH e permissões (Agora!)</p>
-          </div>
+        <div class="grid-3" style="gap: 0.6rem; margin-top: 0.1rem;">
+          <a href="slides_01_shell.html" class="card section-link-card" style="border-left: 3.5px solid var(--event-yellow); padding: 0.55rem 0.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.2em;">
+              <strong style="color: var(--event-yellow); font-size: 0.68em;">01. Shell e Comandos</strong>
+              <span class="tag" style="font-size: 0.5em; padding: 0.1em 0.35em;">18 min</span>
+            </div>
+            <p style="font-size: 0.48em; line-height: 1.3; color: #cbd5e1; margin: 0;">Shell vs terminal, árvore FHS, <code>$PATH</code> e permissões <code>chmod</code>.</p>
+            <div style="margin-top: 0.3em; font-size: 0.46em; font-weight: 700; color: var(--event-yellow);">➔ Slides (Prof. Edson)</div>
+          </a>
 
-          <div class="card" style="border-left: 3.5px solid var(--event-orange);">
-            <strong style="color: var(--event-orange); font-size: 0.85em;">02. Pipes & Filtros</strong><br>
-            <p style="font-size: 0.6em; margin-top: 0.2em;">stdin/stdout, grep, sort, uniq e pipelines compostos</p>
-          </div>
+          <a href="slides_02_redirecionamento_pipes.html" class="card section-link-card" style="border-left: 3.5px solid var(--event-orange); padding: 0.55rem 0.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.2em;">
+              <strong style="color: var(--event-orange); font-size: 0.68em;">02. Pipes e Filtros</strong>
+              <span class="tag" style="font-size: 0.5em; padding: 0.1em 0.35em;">20 min</span>
+            </div>
+            <p style="font-size: 0.48em; line-height: 1.3; color: #cbd5e1; margin: 0;">Canais 0/1/2, <code>&gt;</code>/<code>2&gt;</code>, buffer em RAM, composição e <code>tee</code>.</p>
+            <div style="margin-top: 0.3em; font-size: 0.46em; font-weight: 700; color: var(--event-orange);">➔ Slides (Prof. Marcelo)</div>
+          </a>
 
-          <div class="card" style="border-left: 3.5px solid var(--event-yellow);">
-            <strong style="color: var(--event-yellow); font-size: 0.85em;">03. Processos</strong><br>
-            <p style="font-size: 0.6em; margin-top: 0.2em;">htop, PID e matando processos travados (kill -9)</p>
-          </div>
+          <a href="slides_03_processos_monitoramento.html" class="card section-link-card" style="border-left: 3.5px solid var(--event-yellow); padding: 0.55rem 0.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.2em;">
+              <strong style="color: var(--event-yellow); font-size: 0.68em;">03. Processos</strong>
+              <span class="tag" style="font-size: 0.5em; padding: 0.1em 0.35em;">6 min</span>
+            </div>
+            <p style="font-size: 0.48em; line-height: 1.3; color: #cbd5e1; margin: 0;">Programa vs Processo, PID, <code>&amp;</code>, <code>htop</code> e <code>SIGTERM</code>.</p>
+            <div style="margin-top: 0.3em; font-size: 0.46em; font-weight: 700; color: var(--event-yellow);">➔ Slides (Prof. Edson)</div>
+          </a>
 
-          <div class="card" style="border-left: 3.5px solid var(--event-orange);">
-            <strong style="color: var(--event-orange); font-size: 0.85em;">04. Shell Scripting</strong><br>
-            <p style="font-size: 0.6em; margin-top: 0.2em;">Automação, parâmetros ($1) e laços de repetição</p>
-          </div>
+          <a href="slides_04_automacao_shell_scripting.html" class="card section-link-card" style="border-left: 3.5px solid var(--event-orange); padding: 0.55rem 0.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.2em;">
+              <strong style="color: var(--event-orange); font-size: 0.68em;">04. Shell Scripting</strong>
+              <span class="tag" style="font-size: 0.5em; padding: 0.1em 0.35em;">16 min</span>
+            </div>
+            <p style="font-size: 0.48em; line-height: 1.3; color: #cbd5e1; margin: 0;">Shebang, <code>-euo pipefail</code>, argumentos, <code>[[ ]]</code> e <code>cron</code>.</p>
+            <div style="margin-top: 0.3em; font-size: 0.46em; font-weight: 700; color: var(--event-orange);">➔ Slides (Prof. Marcelo)</div>
+          </a>
 
-          <div class="card" style="border-left: 3.5px solid var(--event-yellow);">
-            <strong style="color: var(--event-yellow); font-size: 0.85em;">05. Profiling</strong><br>
-            <p style="font-size: 0.6em; margin-top: 0.2em;">Flame Graphs interativos, Valgrind, py-spy e JFR</p>
-          </div>
+          <a href="slides_05_depuracao_profiling.html" class="card section-link-card" style="border-left: 3.5px solid var(--event-yellow); padding: 0.55rem 0.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.2em;">
+              <strong style="color: var(--event-yellow); font-size: 0.68em;">05. Profiling e Debug</strong>
+              <span class="tag" style="font-size: 0.5em; padding: 0.1em 0.35em;">20 min</span>
+            </div>
+            <p style="font-size: 0.48em; line-height: 1.3; color: #cbd5e1; margin: 0;">Logs estruturados, Flame Graph, <code>py-spy</code>, Callgrind e Valgrind.</p>
+            <div style="margin-top: 0.3em; font-size: 0.46em; font-weight: 700; color: var(--event-yellow);">➔ Slides (Prof. Marcelo)</div>
+          </a>
 
-          <div class="card" style="border-left: 3.5px solid var(--event-orange);">
-            <strong style="color: var(--event-orange); font-size: 0.85em;">06. Git Colaborativo</strong><br>
-            <p style="font-size: 0.6em; margin-top: 0.2em;">Áreas locais, branches e resolução de conflitos</p>
-          </div>
+          <a href="06_git_colaborativo.html" class="card section-link-card" style="border-left: 3.5px solid #64748b; padding: 0.55rem 0.8rem; opacity: 0.9;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.2em;">
+              <strong style="color: #cbd5e1; font-size: 0.68em;">06. Git Colaborativo</strong>
+              <span class="tag" style="font-size: 0.5em; padding: 0.1em 0.35em; background: rgba(148,163,184,0.2); color: #cbd5e1; border-color: #64748b;">Portal</span>
+            </div>
+            <p style="font-size: 0.48em; line-height: 1.3; color: #94a3b8; margin: 0;">4 áreas, branches, commits e resolução de conflitos (Assíncrono).</p>
+            <div style="margin-top: 0.3em; font-size: 0.46em; font-weight: 700; color: #cbd5e1;">➔ Manual Online</div>
+          </a>
         </div>
 
-        <div style="margin-top: 1rem;">
-          <p
-            style="font-size: 0.88em; font-weight: 800; color: var(--event-yellow); margin: 0; text-shadow: 0 2px 8px rgba(0,0,0,0.4);">
-            Esqueça o mouse, vamos abrir o terminal! 🚀
+        <div style="margin-top: 0.6rem;">
+          <p style="font-size: 0.68em; font-weight: 700; color: var(--event-yellow); margin: 0; text-shadow: 0 2px 8px rgba(0,0,0,0.4);">
+            Clique em qualquer módulo acima para abrir seus slides dedicados! 🚀
           </p>
         </div>
 
         <aside class="notes">
-          - Transição direta para o terminal: abrir a janela do shell e começar a demonstração prática!
+          - Apresentar o roteiro da oficina e clicar no Módulo 01 para iniciar a apresentação do Prof. Edson Moreno.
         </aside>
       </section>
 

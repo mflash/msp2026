@@ -1,0 +1,472 @@
+<!doctype html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>04. Automação e Shell Scripting — Manual de Sobrevivência de Programação</title>
+
+  <!-- Reveal.js CSS Core & Theme -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/black.css" id="theme">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/monokai.css">
+
+  <!-- Google Fonts: Inter, Outfit & Fira Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800;900&display=swap"
+    rel="stylesheet">
+
+  <style>
+    :root {
+      --event-blue: #4f7bf8;
+      --event-blue-dark: #375fd9;
+      --event-grid: rgba(255, 255, 255, 0.16);
+      --event-yellow: #ffe600;
+      --event-orange: #f7941d;
+      --event-gradient: linear-gradient(135deg, #ffe600 0%, #f7941d 100%);
+      --card-bg: rgba(15, 23, 42, 0.82);
+      --card-border: rgba(255, 255, 255, 0.22);
+      --text-bright: #ffffff;
+      --text-muted: #e2e8f0;
+    }
+
+    .reveal {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      color: var(--text-bright);
+      background-color: var(--event-blue);
+      background-image:
+        linear-gradient(var(--event-grid) 1px, transparent 1px),
+        linear-gradient(90deg, var(--event-grid) 1px, transparent 1px);
+      background-size: 36px 36px;
+    }
+
+    .reveal .slides section {
+      box-sizing: border-box;
+      padding: 0.5rem 1.5rem;
+    }
+
+    .reveal h1,
+    .reveal h2,
+    .reveal h3,
+    .reveal h4 {
+      font-family: 'Outfit', sans-serif;
+      text-transform: none;
+      letter-spacing: -0.02em;
+    }
+
+    .reveal h1 {
+      font-size: 2.1em;
+      font-weight: 900;
+      line-height: 1.1;
+      margin: 0.2em 0 0.15em 0;
+      color: #ffffff;
+      text-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+    }
+
+    .reveal h2 {
+      font-size: 1.55em;
+      font-weight: 800;
+      color: #ffffff;
+      margin: 0.2em 0 0.25em 0;
+      line-height: 1.15;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .subtitle {
+      font-size: 0.65em !important;
+      color: #ffffff !important;
+      opacity: 0.92;
+      margin: 0 0 0.8em 0 !important;
+      line-height: 1.3 !important;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .badge-pill {
+      display: inline-block;
+      padding: 0.25em 0.85em;
+      font-size: 0.4em;
+      font-weight: 800;
+      font-family: 'Outfit', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      border-radius: 9999px;
+      background: #0f172a;
+      color: var(--event-yellow);
+      border: 1.5px solid var(--event-orange);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      margin-bottom: 0.4em;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1.5px solid var(--card-border);
+      border-radius: 12px;
+      padding: 1rem 1.25rem;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(8px);
+      text-align: left;
+    }
+
+    .card h4 {
+      font-size: 0.82em;
+      color: var(--event-yellow);
+      margin: 0 0 0.4em 0;
+      font-weight: 700;
+    }
+
+    .card p,
+    .card li {
+      font-size: 0.58em;
+      line-height: 1.45;
+      color: var(--text-muted);
+      margin: 0;
+    }
+
+    .card ul {
+      margin: 0.3em 0 0 1.2em;
+      padding: 0;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.2rem;
+      margin-top: 0.4rem;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1rem;
+      margin-top: 0.4rem;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 0.1em 0.45em;
+      border-radius: 4px;
+      font-size: 0.82em;
+      font-family: 'Fira Code', monospace;
+      background: rgba(255, 230, 0, 0.18);
+      color: var(--event-yellow);
+      border: 1px solid rgba(255, 230, 0, 0.4);
+    }
+
+    pre code {
+      font-family: 'Fira Code', monospace !important;
+      font-size: 0.73em !important;
+      line-height: 1.35 !important;
+      border-radius: 8px !important;
+      border: 1px solid rgba(255, 255, 255, 0.2) !important;
+      background: #090d16 !important;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <!-- SLIDE 1: CAPA DO MÓDULO 04 -->
+      <section data-transition="zoom">
+        <span class="badge-pill">Módulo 04 • 16 Minutos</span>
+        <h1 style="font-size: 1.85em; margin: 0.2em 0;">Automação e Shell Scripting</h1>
+        <p class="subtitle">Transformando sequências de terminal em ferramentas robustas, seguras e agendadas</p>
+
+        <div style="display: flex; align-items: center; justify-content: center; gap: 2rem; margin-top: 1.2rem;">
+          <div class="card" style="display: flex; align-items: center; gap: 1rem; padding: 0.6rem 1.2rem;">
+            <img src="img/prof_marcelo.png" alt="Prof. Marcelo"
+              style="width: 50px; height: 50px; border-radius: 50%; border: 2px solid var(--event-yellow);">
+            <div>
+              <strong style="color: var(--event-yellow); font-size: 0.7em; display: block;">Prof. Marcelo Cohen</strong>
+              <span style="font-size: 0.52em; color: #cbd5e1;">Escola Politécnica • PUCRS</span>
+            </div>
+          </div>
+        </div>
+
+        <aside class="notes">
+          - 16 minutos: não digitar scripts ao vivo, abrir os scripts já prontos no editor e executar no terminal.
+          - Mostrar que quem sabe usar o terminal já sabe 80% de shell scripting.
+        </aside>
+      </section>
+
+      <!-- SLIDE 2: ANATOMIA E MODO ESTRITO -->
+      <section>
+        <span class="badge-pill">Boas Práticas Profissionais</span>
+        <h2>Anatomia de um Script & Modo Estrito</h2>
+        <p class="subtitle">O que diferencia um script amador de um script pronto para produção:</p>
+
+        <div class="grid-2">
+          <div class="card">
+            <h4>1. O Shebang e o Modo Estrito</h4>
+            <pre><code class="language-bash">#!/bin/bash
+# Shebang: informa ao SO qual interpretador usar
+
+set -euo pipefail
+# -e: encerra imediatamente se algum comando falhar
+# -u: acusa erro fatal se variável não declarada for lida
+# -o pipefail: falha no meio de um pipe invalida o todo</code></pre>
+            <p style="margin-top: 0.5em; color: var(--event-yellow);">
+              Sem <code>set -euo pipefail</code>, um erro no meio do backup passa despercebido!
+            </p>
+          </div>
+
+          <div class="card">
+            <h4>2. Variáveis e Execução</h4>
+            <pre><code class="language-bash"># Captura saída de comando com $(...)
+DATA_HOJE=$(date +%Y-%m-%d)
+USUARIO=$(whoami)
+
+echo "Iniciando rotina de $USUARIO em $DATA_HOJE..."
+
+# Executando:
+chmod +x meu_script.sh
+./meu_script.sh</code></pre>
+            <p style="margin-top: 0.5em;">
+              <strong>Por que o <code>./</code>?</strong> Como vimos no Módulo 01, a pasta atual não está no
+              <code>$PATH</code> por segurança.
+            </p>
+          </div>
+        </div>
+
+        <aside class="notes">
+          - Conectar com o Módulo 01: o `./` agora faz sentido porque lembram da variável `$PATH`.
+          - Explicar que scripts sem modo estrito mascaram desastres silenciosos em servidores.
+        </aside>
+      </section>
+
+      <!-- SLIDE 3: ARGUMENTOS E VALIDAÇÃO -->
+      <section data-transition="slide">
+        <span class="badge-pill" style="margin-bottom: 0.25em; font-size: 0.38em;">Interatividade</span>
+        <h2 style="font-size: 1.4em; margin: 0.1em 0 0.15em 0;">Argumentos e Códigos de Saída</h2>
+        <p class="subtitle" style="font-size: 0.56em !important; margin-bottom: 0.55em !important;">Criando ferramentas
+          CLI profissionais que informam erros corretamente:</p>
+
+        <div class="grid-2" style="gap: 1rem;">
+          <div class="card" style="padding: 0.75rem 1rem;">
+            <h4 style="font-size: 0.78em; margin-bottom: 0.35em;">Variáveis Especiais de Argumento</h4>
+            <ul style="list-style: none; margin-left: 0; padding-left: 0; font-size: 0.74em; line-height: 1.4;">
+              <li style="margin-bottom: 0.4em;"><span class="tag" style="font-size: 0.85em;">$1, $2, $3</span>:
+                Primeiro, segundo e terceiro argumentos.</li>
+              <li style="margin-bottom: 0.4em;"><span class="tag" style="font-size: 0.85em;">$#</span>: Quantidade total
+                de argumentos recebidos.</li>
+              <li style="margin-bottom: 0.4em;"><span class="tag" style="font-size: 0.85em;">$0</span>: O nome do
+                próprio script invocado.</li>
+              <li><span class="tag" style="font-size: 0.85em;">$?</span>: <strong>Exit code</strong> do último comando
+                (0 = Sucesso, &gt;0 = Erro).</li>
+            </ul>
+          </div>
+
+          <div class="card" style="padding: 0.75rem 1rem;">
+            <h4 style="font-size: 0.78em; margin-bottom: 0.35em;">Validando Parâmetros no
+              <code>converter_imagem.sh</code>
+            </h4>
+            <pre style="margin: 0.2em 0;"><code class="language-bash" style="font-size: 0.65em !important; line-height: 1.28 !important; padding: 0.55rem 0.8rem !important;">if [[ $# -ne 2 ]]; then
+    echo "Uso: $0 <arquivo_origem> <formato_destino>" >&2
+    exit 1
+fi
+
+ARQUIVO="$1"
+FORMATO="$2"
+echo "Convertendo $ARQUIVO para $FORMATO..."
+exit 0</code></pre>
+            <p style="margin-top: 0.35em; font-size: 0.45em; line-height: 1.35;">
+              Aviso enviado ao <span class="tag" style="font-size: 0.85em;">stderr</span> (<code>&gt;&amp;2</code>) e
+              código de saída <span class="tag" style="font-size: 0.85em;">exit 1</span>!
+            </p>
+          </div>
+        </div>
+
+        <aside class="notes">
+          - Demonstrar no terminal: rodar sem argumentos (`echo $?` dá 1), rodar com 2 argumentos (`echo $?` dá 0).
+          - Conectar com o stderr do Módulo 02.
+        </aside>
+      </section>
+
+      <!-- SLIDE 4: DECISÕES E LAÇOS -->
+      <section data-transition="slide">
+        <span class="badge-pill" style="margin-bottom: 0.25em; font-size: 0.38em;">Controle de Fluxo</span>
+        <h2 style="font-size: 1.4em; margin: 0.1em 0 0.15em 0;">Decisões e Laços com Arquivos</h2>
+        <p class="subtitle" style="font-size: 0.56em !important; margin-bottom: 0.55em !important;">Como testar arquivos
+          e processar diretórios com segurança:</p>
+
+        <div class="grid-2" style="gap: 1rem;">
+          <div class="card" style="padding: 0.75rem 1rem;">
+            <h4 style="font-size: 0.76em; margin-bottom: 0.3em;">Testes de Arquivos com <code>[[ ... ]]</code></h4>
+            <pre style="margin: 0.2em 0;"><code class="language-bash" style="font-size: 0.65em !important; line-height: 1.26 !important; padding: 0.55rem 0.8rem !important;"># Espaços dentro dos colchetes são OBRIGATÓRIOS!
+if [[ ! -d "$DIR_BACKUP" ]]; then
+    echo "Criando diretório de backup..."
+    mkdir -p "$DIR_BACKUP"
+fi
+
+if [[ -f "$ARQUIVO_CONFIG" ]]; then
+    source "$ARQUIVO_CONFIG"
+fi</code></pre>
+            <p style="margin-top: 0.35em; font-size: 0.48em; line-height: 1.35;">
+              Operadores comuns: <code>-f</code> (arquivo regular), <code>-d</code> (diretório), <code>-s</code> (não
+              vazio), <code>-x</code> (executável).
+            </p>
+          </div>
+
+          <div class="card" style="padding: 0.75rem 1rem;">
+            <h4 style="font-size: 0.76em; margin-bottom: 0.3em;">Iterando sobre Arquivos com Segurança</h4>
+            <pre style="margin: 0.2em 0;"><code class="language-bash" style="font-size: 0.65em !important; line-height: 1.26 !important; padding: 0.55rem 0.8rem !important;"># Use aspas duplas sempre ao redor de variáveis!
+for doc in docs/*.md; do
+    echo "Processando: $doc"
+    # Aspas evitam que espaços no nome quebrem o comando:
+    wc -w "$doc"
+done</code></pre>
+            <p style="margin-top: 0.35em; font-size: 0.48em; line-height: 1.35; color: var(--event-yellow);">
+              ⚠️ Sem aspas, um arquivo chamado <code>meu relatorio.md</code> vira dois argumentos separados e quebra a
+              rotina!
+            </p>
+          </div>
+        </div>
+
+        <aside class="notes">
+          - Alerta de erro clássico: esquecer o espaço em `[[-f arq]]` faz o Bash procurar um comando chamado `[[-f` e
+          falhar com command not found.
+        </aside>
+      </section>
+
+      <!-- SLIDE 5: SCRIPT REAL COMPLETO -->
+      <section data-transition="slide">
+        <span class="badge-pill" style="margin-bottom: 0.25em; font-size: 0.38em;">Integração Total</span>
+        <h2 style="font-size: 1.4em; margin: 0.1em 0 0.15em 0;">Um Script Real: <code>monitor_saude.sh</code></h2>
+        <p class="subtitle" style="font-size: 0.56em !important; margin-bottom: 0.55em !important;">Conectando comandos,
+          pipes, processos e lógica condicional:</p>
+
+        <div class="grid-2" style="grid-template-columns: 0.82fr 1.18fr; gap: 1.2rem; align-items: center;">
+          <div class="card" style="padding: 0.7rem 0.9rem;">
+            <h4 style="font-size: 0.74em; margin-bottom: 0.3em;">Extração e Decisão Aritmética</h4>
+            <pre style="margin: 0; width: 100%"><code class="language-bash" style="font-size: 0.58em !important; line-height: 1.22 !important; padding: 0.5rem 0.7rem !important;">#!/bin/bash
+set -euo pipefail
+
+LIMITE_DISCO=80
+
+# 1. Extrai uso do disco com pipe e awk
+USO_DISCO=$(df -P / | awk 'NR==2 {print $5}' | tr -d '%')
+
+# 2. Avaliação aritmética com (( ... ))
+if (( USO_DISCO >= LIMITE_DISCO )); then
+    echo "[ALERTA] Uso de disco crítico: ${USO_DISCO}%!" >&2
+    exit 2
+else
+    echo "[OK] Disco em ${USO_DISCO}%. Operação normal."
+    exit 0
+fi</code></pre>
+          </div>
+
+          <div
+            style="background: rgba(15, 23, 42, 0.6); padding: 0.5rem; border-radius: 12px; border: 1.5px solid var(--card-border); box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);">
+            <img src="img/linux-shell-scripting.svg" alt="Estrutura de Shell Scripting"
+              style="width: 100%; max-height: 380px; object-fit: contain; display: block;">
+          </div>
+        </div>
+
+        <aside class="notes">
+          - Mostrar como o script junta os módulos anteriores: `df | awk | tr` (Módulo 02), verificação de recursos de
+          hardware (Módulo 03), e script com shebang e códigos de saída (Módulo 04).
+        </aside>
+      </section>
+
+      <!-- SLIDE 6: AGENDAMENTO AUTOMÁTICO COM CRON -->
+      <section data-transition="slide">
+        <span class="badge-pill" style="margin-bottom: 0.25em; font-size: 0.38em;">Automação Contínua</span>
+        <h2 style="font-size: 1.4em; margin: 0.1em 0 0.15em 0;">Agendamento com <code>cron</code></h2>
+        <p class="subtitle" style="font-size: 0.56em !important; margin-bottom: 0.5em !important;">Executando rotinas
+          periodicamente em servidores sem intervenção humana:</p>
+
+        <div class="card" style="text-align: center; margin-bottom: 0.5rem; padding: 0.6rem 1rem;">
+          <h4 style="margin-bottom: 0.2em; font-size: 0.76em;">A Sintaxe dos Cinco Campos do <code>crontab -e</code>
+          </h4>
+          <div
+            style="display: flex; justify-content: space-around; font-family: 'Fira Code', monospace; font-size: 0.75em; color: var(--event-yellow); padding: 0.2rem 0;">
+            <div><strong>*</strong><br><small style="color: #cbd5e1; font-size: 0.6em;">Minuto<br>(0-59)</small></div>
+            <div><strong>*</strong><br><small style="color: #cbd5e1; font-size: 0.6em;">Hora<br>(0-23)</small></div>
+            <div><strong>*</strong><br><small style="color: #cbd5e1; font-size: 0.6em;">Dia do Mês<br>(1-31)</small>
+            </div>
+            <div><strong>*</strong><br><small style="color: #cbd5e1; font-size: 0.6em;">Mês<br>(1-12)</small></div>
+            <div><strong>*</strong><br><small style="color: #cbd5e1; font-size: 0.6em;">Dia da Semana<br>(0-7)</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="padding: 0.7rem 1rem;">
+          <h4 style="font-size: 0.76em; margin-bottom: 0.25em;">Exemplo de Produção: Monitor a cada 15 minutos</h4>
+          <pre style="margin: 0.2em 0;"><code class="language-bash" style="font-size: 0.88em !important; line-height: 1.25 !important; padding: 0.55rem 0.8rem !important;"># Edita as tarefas do usuário atual:
+crontab -e
+
+# Executa o script a cada 15 min e grava saída e erro em log:
+*/15 * * * * /home/marcelo/scripts/monitor_saude.sh >> $HOME/logs/saude.log 2>&1</code></pre>
+          <p style="margin-top: 0.3em; font-size: 0.55em; line-height: 1.35;">
+            Lê-se: <em>"A cada 15 minutos, rode o monitor_saude.sh e anexe stdout e stderr ao arquivo saude.log."</em>
+          </p>
+        </div>
+
+        <aside class="notes">
+          - Fechar o ciclo: o script não depende de ninguém logar para rodar.
+          - Relembrar o `>>` e `2>&1` do Módulo 02.
+        </aside>
+      </section>
+
+      <!-- SLIDE 7: FECHAMENTO E PONTE -->
+      <section data-transition="zoom">
+        <span class="badge-pill" style="margin-bottom: 0.2em; font-size: 0.36em;">Próximo Passo</span>
+        <h2 style="font-size: 1.3em; margin: 0.1em 0 0.12em 0;">O Desafio da Eficiência e Correção</h2>
+        <p class="subtitle" style="font-size: 0.52em !important; margin-bottom: 0.35em !important;">Quando a automação
+          funciona, mas o sistema fica lento ou falha misteriosamente:</p>
+
+        <div class="card" style="text-align: center; padding: 0.75rem 1.2rem; margin: 0.3rem auto; max-width: 760px;">
+          <p style="font-size: 0.75em; font-weight: 600; color: #ffffff; line-height: 1.32;">
+            Automatizamos pipelines e tarefas.<br>
+            <span
+              style="color: var(--event-yellow); font-size: 1.15em; display: block; margin-top: 0.25em; margin-bottom: 0.35em;">
+              Mas e quando o programa, em vez de dar erro, simplesmente fica lento?<br>
+              Ou consome gigabytes de RAM e não sabemos onde está o vazamento?
+            </span>
+            <span style="display: block; margin-top: 0.35em;">A intuição costuma errar feio onde estão os
+              gargalos.</span>
+          </p>
+        </div>
+
+        <p style="font-size: 0.76em; font-weight: 800; color: var(--event-yellow); margin-top: 0.5rem;">
+          ➔ <a href="slides_05_depuracao_profiling.html"
+            style="color: var(--event-yellow); text-decoration: none;">Módulo 05: Depuração e Profiling (Medir antes de
+            otimizar) ⏱️</a>
+        </p>
+
+        <aside class="notes">
+          - Fazer a ponte para o Módulo 05: sair do amadorismo do "print" e do "achômetro".
+        </aside>
+      </section>
+
+    </div>
+  </div>
+
+  <!-- Reveal.js & Plugins via CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/highlight.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/notes/notes.js"></script>
+
+  <script>
+    Reveal.initialize({
+      width: 1200,
+      height: 675,
+      margin: 0.04,
+      minScale: 0.2,
+      maxScale: 2.0,
+      hash: true,
+      slideNumber: 'c/t',
+      controls: true,
+      progress: true,
+      center: true,
+      transition: 'slide',
+      plugins: [RevealHighlight, RevealNotes]
+    });
+  </script>
+</body>
+
+</html>

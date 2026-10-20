@@ -1,0 +1,504 @@
+<!doctype html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>02. Redirecionamento, Pipes e Filtros de Texto — Manual de Sobrevivência de Programação</title>
+
+  <!-- Reveal.js CSS Core & Theme -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/black.css" id="theme">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/monokai.css">
+
+  <!-- Google Fonts: Inter, Outfit & Fira Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800;900&display=swap"
+    rel="stylesheet">
+
+  <style>
+    :root {
+      --event-blue: #4f7bf8;
+      --event-blue-dark: #375fd9;
+      --event-grid: rgba(255, 255, 255, 0.16);
+      --event-yellow: #ffe600;
+      --event-orange: #f7941d;
+      --event-gradient: linear-gradient(135deg, #ffe600 0%, #f7941d 100%);
+      --card-bg: rgba(15, 23, 42, 0.82);
+      --card-border: rgba(255, 255, 255, 0.22);
+      --text-bright: #ffffff;
+      --text-muted: #e2e8f0;
+    }
+
+    .reveal {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      color: var(--text-bright);
+      background-color: var(--event-blue);
+      background-image:
+        linear-gradient(var(--event-grid) 1px, transparent 1px),
+        linear-gradient(90deg, var(--event-grid) 1px, transparent 1px);
+      background-size: 36px 36px;
+    }
+
+    .reveal .slides section {
+      box-sizing: border-box;
+      padding: 0.5rem 1.5rem;
+    }
+
+    .reveal h1,
+    .reveal h2,
+    .reveal h3,
+    .reveal h4 {
+      font-family: 'Outfit', sans-serif;
+      text-transform: none;
+      letter-spacing: -0.02em;
+    }
+
+    .reveal h1 {
+      font-size: 2.1em;
+      font-weight: 900;
+      line-height: 1.1;
+      margin: 0.2em 0 0.15em 0;
+      color: #ffffff;
+      text-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+    }
+
+    .reveal h2 {
+      font-size: 1.55em;
+      font-weight: 800;
+      color: #ffffff;
+      margin: 0.2em 0 0.25em 0;
+      line-height: 1.15;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .subtitle {
+      font-size: 0.65em !important;
+      color: #ffffff !important;
+      opacity: 0.92;
+      margin: 0 0 0.8em 0 !important;
+      line-height: 1.3 !important;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .badge-pill {
+      display: inline-block;
+      padding: 0.25em 0.85em;
+      font-size: 0.4em;
+      font-weight: 800;
+      font-family: 'Outfit', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      border-radius: 9999px;
+      background: #0f172a;
+      color: var(--event-yellow);
+      border: 1.5px solid var(--event-orange);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      margin-bottom: 0.4em;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1.5px solid var(--card-border);
+      border-radius: 12px;
+      padding: 1rem 1.25rem;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(8px);
+      text-align: left;
+    }
+
+    .card h4 {
+      font-size: 0.82em;
+      color: var(--event-yellow);
+      margin: 0 0 0.4em 0;
+      font-weight: 700;
+    }
+
+    .card p,
+    .card li {
+      font-size: 0.58em;
+      line-height: 1.45;
+      color: var(--text-muted);
+      margin: 0;
+    }
+
+    .card ul {
+      margin: 0.3em 0 0 1.2em;
+      padding: 0;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.2rem;
+      margin-top: 0.4rem;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1rem;
+      margin-top: 0.4rem;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 0.1em 0.45em;
+      border-radius: 4px;
+      font-size: 0.82em;
+      font-family: 'Fira Code', monospace;
+      background: rgba(255, 230, 0, 0.18);
+      color: var(--event-yellow);
+      border: 1px solid rgba(255, 230, 0, 0.4);
+    }
+
+    pre code {
+      font-family: 'Fira Code', monospace !important;
+      font-size: 0.75em !important;
+      line-height: 1.35 !important;
+      border-radius: 8px !important;
+      border: 1px solid rgba(255, 255, 255, 0.2) !important;
+      background: #090d16 !important;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <!-- SLIDE 1: CAPA DO MÓDULO 02 -->
+      <section data-transition="zoom">
+        <span class="badge-pill">Módulo 02 • 20 Minutos</span>
+        <h1 style="font-size: 1.85em; margin: 0.2em 0;">Redirecionamento, Pipes e Filtros</h1>
+        <p class="subtitle">A filosofia Unix na prática: compondo ferramentas simples para resolver problemas complexos
+        </p>
+
+        <div style="display: flex; align-items: center; justify-content: center; gap: 2rem; margin-top: 1.2rem;">
+          <div class="card" style="display: flex; align-items: center; gap: 1rem; padding: 0.6rem 1.2rem;">
+            <img src="img/prof_marcelo.png" alt="Prof. Marcelo"
+              style="width: 50px; height: 50px; border-radius: 50%; border: 2px solid var(--event-yellow);">
+            <div>
+              <strong style="color: var(--event-yellow); font-size: 0.7em; display: block;">Prof. Marcelo Cohen</strong>
+              <span style="font-size: 0.52em; color: #cbd5e1;">Escola Politécnica • PUCRS</span>
+            </div>
+          </div>
+        </div>
+
+        <aside class="notes">
+          - 20 minutos focados no coração do ecossistema Unix.
+          - Conectar com o encerramento do módulo 01: o texto agora flui entre processos em vez de parar na tela.
+        </aside>
+      </section>
+
+      <!-- SLIDE 2: OS TRÊS FLUXOS PADRÃO -->
+      <section data-transition="slide">
+        <span class="badge-pill" style="margin-bottom: 0.25em; font-size: 0.38em;">Fundamento Universal</span>
+        <h2 style="font-size: 1.4em; margin: 0.1em 0 0.15em 0;">Os Três Canais Padrão (File Descriptors)</h2>
+        <p class="subtitle" style="font-size: 0.56em !important; margin-bottom: 0.55em !important;">Todo processo Unix
+          nasce conectado a 3 fluxos:</p>
+
+        <div class="grid-2" style="align-items: center; grid-template-columns: 0.88fr 1.12fr; gap: 1.2rem;">
+          <div class="card" style="padding: 0.8rem 1.1rem;">
+            <h4 style="font-size: 0.82em; margin-bottom: 0.4em;">Descritores de Arquivo</h4>
+            <ul style="list-style: none; margin-left: 0; padding-left: 0; font-size: 0.6em; line-height: 1.42;">
+              <li style="margin-bottom: 0.5em;">
+                <span class="tag" style="font-size: 1.12em; padding: 0.1em 0.4em;">0</span> <strong>stdin</strong>
+                (Entrada Padrão)<br>
+                Teclado por padrão; aceita dados via redirecionamento ou pipe.
+              </li>
+              <li style="margin-bottom: 0.5em;">
+                <span class="tag" style="font-size: 1.12em; padding: 0.1em 0.4em;">1</span> <strong>stdout</strong>
+                (Saída Padrão)<br>
+                Terminal por padrão; resultados normais do comando.
+              </li>
+              <li style="margin-bottom: 0.5em;">
+                <span class="tag" style="font-size: 1.12em; padding: 0.1em 0.4em;">2</span> <strong>stderr</strong>
+                (Saída de Erros)<br>
+                Terminal por padrão; diagnósticos e exceções.
+              </li>
+            </ul>
+            <p
+              style="margin-top: 0.5em; border-top: 1px solid rgba(255,255,255,0.15); padding-top: 0.45em; font-size: 0.55em; line-height: 1.35; color: var(--event-yellow);">
+              ❓ <strong>Por que separar saída e erro?</strong> Para salvar relatórios limpos sem misturar avisos neles!
+            </p>
+          </div>
+
+          <div
+            style="background: rgba(15, 23, 42, 0.6); padding: 0.4rem; border-radius: 12px; border: 1.5px solid var(--card-border); text-align: center;">
+            <img src="img/linux-redirection-pipes.svg" alt="Streams e Pipes"
+              style="width: 100%; max-height: 365px; object-fit: contain; display: block; margin: 0 auto;">
+          </div>
+        </div>
+
+        <aside class="notes">
+          - Fazer a pergunta retórica aos alunos: "Se os dois aparecem na tela do mesmo jeito, por que o Unix criou dois
+          canais diferentes?"
+          - Mostrar a clareza de separar o produto do trabalho das mensagens de controle.
+        </aside>
+      </section>
+
+      <!-- SLIDE 3: OPERADORES DE REDIRECIONAMENTO -->
+      <section>
+        <span class="badge-pill">Na Prática</span>
+        <h2>Operadores de Redirecionamento</h2>
+        <p class="subtitle">Conectando canais a arquivos em disco:</p>
+
+        <div class="grid-2">
+          <div class="card">
+            <h4>Sobrescrita vs. Concatenação</h4>
+            <pre><code class="language-bash"># Sobrescreve o arquivo (cria se não existir)
+date > agora.txt
+cat agora.txt
+
+# Acrescenta ao final sem apagar o conteúdo
+date >> agora.txt
+cat agora.txt</code></pre>
+            <p style="margin-top: 0.4em;">
+              ⚠️ Cuidado com <code>></code>: ele trunca o arquivo instantaneamente antes de executar.
+            </p>
+          </div>
+
+          <div class="card">
+            <h4>Separando Sucesso e Falha</h4>
+            <pre><code class="language-bash"># Canal 1 em ok.txt, Canal 2 em erros.log
+ls -l /root /home 1> ok.txt 2> erros.log
+
+# Silenciando erros no "buraco negro"
+ls -l /root 2> /dev/null
+
+# Fundindo stderr no stdout (lê-se: 2 para onde 1 aponta)
+./meu_script > saida_completa.log 2>&1</code></pre>
+            <p style="margin-top: 0.4em;">
+              O <code>/dev/null</code> descarta dados imediatamente com custo zero de I/O.
+            </p>
+          </div>
+        </div>
+
+        <aside class="notes">
+          - Enfatizar a sintaxe `2>&1`: ler em voz alta "mande o canal 2 para onde o canal 1 está apontando".
+          - Mostrar que a ordem importa: `> arquivo 2>&1` funciona; `2>&1 > arquivo` não.
+        </aside>
+      </section>
+
+      <!-- SLIDE 4: O OPERADOR PIPE -->
+      <section>
+        <span class="badge-pill">O Conector Mágico</span>
+        <h2>O Pipe (<code>|</code>) e o Buffer em RAM</h2>
+        <p class="subtitle">Conectando a saída de um processo à entrada do próximo sem disco:</p>
+
+        <div class="grid-3">
+          <div class="card">
+            <h4>Zero Disco Intermediário</h4>
+            <p>
+              Sem criar arquivos temporários como <code>temp1.txt</code> ou <code>temp2.txt</code> que poluem o sistema
+              de arquivos.
+            </p>
+          </div>
+
+          <div class="card">
+            <h4>Buffer Gerenciado em RAM</h4>
+            <p>
+              O kernel aloca um buffer circular em memória (tipicamente 64 KB). Se encher, o emissor pausa; se esvaziar,
+              o receptor espera.
+            </p>
+          </div>
+
+          <div class="card">
+            <h4>Execução Concorrente</h4>
+            <p>
+              Os programas <strong>rodam ao mesmo tempo em paralelo</strong>, aproveitando múltiplos núcleos da CPU.
+            </p>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top: 0.5rem; text-align: center; border-color: var(--event-yellow);">
+          <p style="font-size: 0.78em; color: #ffffff; margin: 0;">
+            <code style="color: var(--event-yellow); font-size: 1.1em;">comandoA | comandoB</code>
+            ➔ <code>stdout</code> do comandoA é conectado diretamente ao <code>stdin</code> do comandoB!
+          </p>
+        </div>
+
+        <aside class="notes">
+          - Desfazer o mito de que o comando A roda até o fim e só depois o comando B inicia.
+          - Explicar que os processos são criados juntos e transmitem blocos de dados em streaming.
+        </aside>
+      </section>
+
+      <!-- SLIDE 5: CONSTRUÇÃO PROGRESSIVA DE PIPELINE -->
+      <section>
+        <span class="badge-pill">Demonstração Interativa</span>
+        <h2>Construindo um Pipeline Passo a Passo</h2>
+        <p class="subtitle">Desafio: <em>"Quais são os shells mais utilizados pelos usuários do sistema?"</em></p>
+
+        <div class="card">
+          <pre><code class="language-bash"># 1. Dado cru (campos separados por ':' no /etc/passwd)
+cat /etc/passwd | head -n 3
+
+# 2. Extrai apenas o 7º campo (o caminho do shell)
+cut -d':' -f7 /etc/passwd | head
+
+# 3. Ordena para agrupar ocorrências iguais
+cut -d':' -f7 /etc/passwd | sort | head
+
+# 4. Conta as repetições de cada shell vizinho
+cut -d':' -f7 /etc/passwd | sort | uniq -c
+
+# 5. Ordena numericamente reverso (do mais usado ao menos usado!)
+cut -d':' -f7 /etc/passwd | sort | uniq -c | sort -nr</code></pre>
+        </div>
+
+        <div class="card"
+          style="margin-top: 0.8rem; background: rgba(247, 148, 29, 0.2); border-color: var(--event-orange);">
+          <p style="font-size: 0.62em; color: #ffffff;">
+            💡 <strong>Regra de Ouro do <code>uniq</code>:</strong> O comando <code>uniq</code> só elimina repetições
+            <em>imediatamente vizinhas</em>. Por isso o <code>sort</code> deve sempre vir antes!
+          </p>
+        </div>
+
+        <aside class="notes">
+          - Rodar cada linha individualmente no terminal antes de adicionar o próximo pipe.
+          - Mostrar aos alunos o resultado mudando a cada filtro adicionado.
+        </aside>
+      </section>
+
+      <!-- SLIDE 6: WEB APIS E O DIVISOR TEE -->
+      <section>
+        <span class="badge-pill">Mundo Real</span>
+        <h2>Pipelines na Web e o Divisor <code>tee</code></h2>
+        <p class="subtitle">Processando dados de APIs REST ao vivo e gravando em disco:</p>
+
+        <div class="card" style="padding: 0.65rem 0.9rem;">
+          <h4 style="font-size: 0.75em; margin-bottom: 0.25em;">Extraindo e Limpando Emails de uma API JSON</h4>
+          <pre style="margin: 0.2em 0;"><code class="language-bash" style="font-size: 0.65em !important; line-height: 1.25 !important; padding: 0.5rem 0.8rem !important;">curl -s https://jsonplaceholder.typicode.com/users \
+  | grep '"email"' \
+  | cut -d':' -f2 \
+  | tr -d '", ' \
+  | sort \
+  | head -n 5 \
+  | tee emails_top5.txt</code></pre>
+        </div>
+
+        <div class="grid-2" style="margin-top: 0.45rem; gap: 0.8rem;">
+          <div class="card" style="padding: 0.55rem 0.85rem;">
+            <h4 style="font-size: 0.9em; margin-bottom: 0.25em;">O que o comando faz:</h4>
+            <ul style="font-size: 0.62em; line-height: 1.32; margin-left: 1em;">
+              <li><code>curl -s</code>: baixa o JSON silenciosamente sem barra de progresso.</li>
+              <li><code>grep</code> + <code>cut</code> + <code>tr</code>: filtra e limpa aspas/vírgulas.</li>
+              <li><code>sort</code> + <code>head</code>: ordena e seleciona o topo.</li>
+            </ul>
+          </div>
+
+          <div class="card" style="padding: 0.55rem 0.85rem;">
+            <h4 style="font-size: 0.7em; margin-bottom: 0.25em;">O Divisor em "T" (<code>tee</code>):</h4>
+            <p style="font-size: 0.52em; line-height: 1.32; margin: 0;">
+              O <code>tee</code> copia o fluxo de dados em duas direções simultâneas:
+              <br><strong style="color: var(--event-yellow);">1. Exibe o resultado na tela</strong> (stdout)
+              <br><strong style="color: var(--event-yellow);">2. Grava no arquivo</strong>
+              (<code>emails_top5.txt</code>)
+            </p>
+          </div>
+        </div>
+
+        <aside class="notes">
+          - Mostrar que a ferramenta serve para JSON e APIs da nuvem tanto quanto para arquivos de sistema locais.
+          - Ter o plano B em mente caso a internet falhe: `du -ah ~ | sort -rh | head -n 5`.
+        </aside>
+      </section>
+
+      <!-- SLIDE 7: RESUMO DOS PRINCIPAIS FILTROS -->
+      <section data-transition="slide">
+        <span class="badge-pill" style="margin-bottom: 0.25em; font-size: 0.38em;">Repertório</span>
+        <h2 style="font-size: 1.4em; margin: 0.1em 0 0.15em 0;">Caixa de Ferramentas de Filtros de Texto</h2>
+        <p class="subtitle" style="font-size: 0.56em !important; margin-bottom: 0.6em !important;">Comandos essenciais
+          para o dia a dia:</p>
+
+        <div class="grid-3" style="gap: 0.8rem;">
+          <div class="card" style="padding: 0.75rem 0.9rem;">
+            <h4 style="font-size: 0.75em; margin-bottom: 0.35em;">Busca e Seleção</h4>
+            <ul style="font-size: 0.72em; line-height: 1.35; margin-left: 1em;">
+              <li style="margin-bottom: 0.35em;"><code>grep "padrão"</code>: filtra linhas.</li>
+              <li style="margin-bottom: 0.35em;"><code>head -n N</code>: primeiras N linhas.</li>
+              <li><code>tail -n N -f</code>: últimas linhas e tempo real.</li>
+            </ul>
+          </div>
+
+          <div class="card" style="padding: 0.75rem 0.9rem;">
+            <h4 style="font-size: 0.75em; margin-bottom: 0.35em;">Transformação</h4>
+            <ul style="font-size: 0.72em; line-height: 1.35; margin-left: 1em;">
+              <li style="margin-bottom: 0.35em;"><code>cut -d',' -f1,3</code>: colunas por delimitador.</li>
+              <li style="margin-bottom: 0.35em;"><code>tr 'A-Z' 'a-z'</code>: traduz caracteres.</li>
+              <li><code>sed 's/antigo/novo/g'</code>: substituição.</li>
+            </ul>
+          </div>
+
+          <div class="card" style="padding: 0.75rem 0.9rem;">
+            <h4 style="font-size: 0.75em; margin-bottom: 0.35em;">Agrupamento & Estatística</h4>
+            <ul style="font-size: 0.72em; line-height: 1.35; margin-left: 1em;">
+              <li style="margin-bottom: 0.35em;"><code>sort -n -r</code>: ordenação numérica reversa.</li>
+              <li style="margin-bottom: 0.35em;"><code>uniq -c</code>: contagem de repetidos.</li>
+              <li><code>wc -l</code>: contagem de linhas e palavras.</li>
+            </ul>
+          </div>
+        </div>
+
+        <aside class="notes">
+          - Reforçar que não precisam decorar sintaxes exatas agora; o manual online traz a tabela completa de
+          referência rápida.
+        </aside>
+      </section>
+
+      <!-- SLIDE 8: FECHAMENTO E PONTE -->
+      <section data-transition="zoom">
+        <span class="badge-pill">Próximo Passo</span>
+        <h2>Conectando com o Ciclo de Execução</h2>
+        <p class="subtitle">De fluxos de dados para entidades computacionais:</p>
+
+        <div class="card" style="text-align: center; padding: 1.8rem; margin: 1.5rem auto; max-width: 800px;">
+          <p style="font-size: 0.75em; font-weight: 600; color: #ffffff; line-height: 1.35;">
+            Vimos que, num pipe, dois ou mais programas rodam ao mesmo tempo.<br>
+            <span style="color: var(--event-yellow); font-size: 1.0em; display: block; margin-top: 0.2em;">
+              Cada um desses programas em execução é um <strong>PROCESSO</strong> gerenciado pelo Kernel.
+            </span>
+            Como monitorar, pausar e controlar a vida desses processos?
+          </p>
+        </div>
+
+        <p style="font-size: 0.88em; font-weight: 800; color: var(--event-yellow); margin-top: 1rem;">
+          ➔ Módulo 03: Gerenciamento de Processos e Monitoramento <a href="slides_03_processos_monitoramento.html">⚡</a>
+        </p>
+
+        <aside class="notes">
+          - Passar a palavra para o Prof. Edson Moreno conduzir a demonstração de processos.
+        </aside>
+      </section>
+
+    </div>
+  </div>
+
+  <!-- Reveal.js & Plugins via CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/highlight.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/notes/notes.js"></script>
+
+  <script>
+    Reveal.initialize({
+      width: 1200,
+      height: 675,
+      margin: 0.04,
+      minScale: 0.2,
+      maxScale: 2.0,
+      hash: true,
+      slideNumber: 'c/t',
+      controls: true,
+      progress: true,
+      center: true,
+      transition: 'slide',
+      plugins: [RevealHighlight, RevealNotes]
+    });
+  </script>
+</body>
+
+</html>
