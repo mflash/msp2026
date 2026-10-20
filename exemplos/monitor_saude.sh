@@ -49,8 +49,8 @@ if [[ "$OS" == "Darwin" ]]; then
     MEM_DISP=$(( (PAGE_FREE + PAGE_PURGEABLE + PAGE_INACTIVE) * PAGESIZE / 1024 / 1024 ))
 else
     # Padrão Linux usando free
-    MEM_TOTAL=$(free -m | awk '/Mem:/ {print $2}')
-    MEM_DISP=$(free -m | awk '/Mem:/ {print $7}')
+    MEM_TOTAL=$(free -m | awk '/Mem.:/ {print $2}')
+    MEM_DISP=$(free -m | awk '/Mem.:/ {print $7}')
 fi
 
 PERCENTUAL_LIVRE=$(( (MEM_DISP * 100) / MEM_TOTAL ))
