@@ -357,7 +357,7 @@ venv/
                 O repositório <strong>github/gitignore</strong> tem modelos prontos por linguagem
                 (<code>C</code>, <code>Python</code>, <code>Java</code>, <code>Node</code>...):
               </p>
-              <pre style="margin: 0.35em 0 0 0;"><code class="language-bash" style="font-size: 0.5em !important; line-height: 1.25 !important; padding: 0.4rem 0.65rem !important;">curl -o .gitignore https://raw.githubusercontent.com/\
+              <pre style="margin: 0.35em 0 0 0;"><code class="language-bash" style="font-size: 0.7em !important; line-height: 1.25 !important; padding: 0.4rem 0.65rem !important;">curl -o .gitignore https://raw.githubusercontent.com/\
   github/gitignore/main/Python.gitignore</code></pre>
             </div>
 
@@ -408,7 +408,8 @@ git merge feature/login</code></pre>
 
           <div
             style="background: rgba(15, 23, 42, 0.6); padding: 0.5rem; border-radius: 12px; border: 1.5px solid var(--card-border); box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);">
-            <img src="img/linux-git-merge-sem-conflito.svg" alt="Merge sem conflito: branches alteraram linhas diferentes"
+            <img src="img/linux-git-merge-sem-conflito.svg"
+              alt="Merge sem conflito: branches alteraram linhas diferentes"
               style="width: 100%; max-height: 420px; object-fit: contain; display: block;">
           </div>
         </div>
@@ -485,7 +486,8 @@ git commit -m "merge: resolve conflito de porta"</code></pre>
               <ul style="font-size: 0.88em; line-height: 1.38; margin-left: 1.1em; padding-left: 0;">
                 <li style="margin-bottom: 0.3em;"><strong>fetch:</strong> só baixa; <strong>não toca nos seus
                     arquivos</strong>. Seguro para olhar.</li>
-                <li><strong>pull = fetch + merge</strong>: por isso um <code>pull</code> também pode gerar conflito!</li>
+                <li><strong>pull = fetch + merge</strong>: por isso um <code>pull</code> também pode gerar conflito!
+                </li>
               </ul>
             </div>
 
@@ -498,7 +500,8 @@ fatal: Need to specify how to reconcile divergent branches.</code></pre>
               <p style="font-size: 0.5em; line-height: 1.35; margin-top: 0.35em; color: #ffffff;">
                 Resolva <strong>uma vez por todas</strong>:
               </p>
-              <pre style="margin: 0.2em 0 0 0;"><code class="language-bash" style="font-size: 0.58em !important; line-height: 1.25 !important; padding: 0.4rem 0.65rem !important;">git config --global pull.rebase false</code></pre>
+              <pre
+                style="margin: 0.2em 0 0 0;"><code class="language-bash" style="font-size: 0.58em !important; line-height: 1.25 !important; padding: 0.4rem 0.65rem !important;">git config --global pull.rebase false</code></pre>
             </div>
           </div>
 
@@ -509,7 +512,8 @@ fatal: Need to specify how to reconcile divergent branches.</code></pre>
             </p>
             <pre style="margin: 0.35em 0;"><code class="language-bash" style="font-size: 0.6em !important; line-height: 1.25 !important; padding: 0.45rem 0.7rem !important;"># envia a branch e cria o vínculo (-u)
 git push -u origin feature/login</code></pre>
-            <ol style="font-size: 0.88em; line-height: 1.5; margin: 0.3em 0 0 1.2em; padding: 0; color: var(--text-muted);">
+            <ol
+              style="font-size: 0.88em; line-height: 1.5; margin: 0.3em 0 0 1.2em; padding: 0; color: var(--text-muted);">
               <li><strong>push</strong> da branch</li>
               <li>abrir o <strong>Pull Request</strong> no GitHub/GitLab</li>
               <li><strong>revisão</strong> pelos colegas (e ajustes)</li>
