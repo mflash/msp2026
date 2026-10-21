@@ -316,7 +316,7 @@ $ tail -f treino.log
 
 ### Encerrando Processos: `kill`, `killall` e `pkill`
 
-O comando `kill` na verdade não é apenas um "assassino" de processos: ele é um **emissor de sinais** (*signals*) do sistema operacional.
+O comando `kill` é um **emissor de sinais** (*signals*) do sistema operacional: dependendo do sinal, ele pode encerrar o processo ou solicitar que o processo faça alguma outra coisa.
 
 #### Principais Sinais do Linux:
 
