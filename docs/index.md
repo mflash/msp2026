@@ -15,7 +15,7 @@
   })();
 </script>
 
-![](img/mgp.jpg)
+![](img/msp2026.jpg)
 
 ## Semana Acadêmica Integrada - PUCRS / Escola Politécnica - 2026
 

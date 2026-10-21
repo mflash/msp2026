@@ -21,7 +21,7 @@
   <a href="index.html" class="nav-link">← Voltar ao Índice Principal</a>
 </p>
 
-![](img/mgp.jpg)
+![](img/msp2026.jpg)
 
 ## Semana Acadêmica Integrada - PUCRS / Escola Politécnica - 2026
 
