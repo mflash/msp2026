@@ -26,7 +26,8 @@
 ## Semana Acadêmica Integrada - PUCRS / Escola Politécnica - 2026
 
 **Profs. Edson Ifarraguirre Moreno e Marcelo Cohen**  
-*Módulo 02 — Redirecionamento de Entrada/Saída, Encadeamento (Pipes) e Processamento de Texto*
+*Módulo 02 — Redirecionamento de Entrada/Saída, Encadeamento (Pipes) e Processamento de Texto*  
+📊 **Slides da Apresentação:** [Acessar Slides do Módulo 02](slides_02_redirecionamento_pipes.html){target="_blank" rel="noopener"}
 
 ---
 

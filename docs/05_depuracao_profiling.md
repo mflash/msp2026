@@ -26,7 +26,8 @@
 ## Semana Acadêmica Integrada - PUCRS / Escola Politécnica - 2026
 
 **Profs. Edson Ifarraguirre Moreno e Marcelo Cohen**  
-*Módulo 05 — Técnicas de Profiling, Análise de Gargalos e Ferramentas Gratuitas para C, Python e Java*
+*Módulo 05 — Técnicas de Profiling, Análise de Gargalos e Ferramentas Gratuitas para C, Python e Java*  
+📊 **Slides da Apresentação:** [Acessar Slides do Módulo 05](slides_05_depuracao_profiling.html){target="_blank" rel="noopener"}
 
 ---
 

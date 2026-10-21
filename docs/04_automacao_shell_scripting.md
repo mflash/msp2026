@@ -26,7 +26,8 @@
 ## Semana Acadêmica Integrada - PUCRS / Escola Politécnica - 2026
 
 **Profs. Edson Ifarraguirre Moreno e Marcelo Cohen**  
-*Módulo 04 — Construção de Scripts Bash, Parâmetros, Controle de Fluxo e Automação de Tarefas*
+*Módulo 04 — Construção de Scripts Bash, Parâmetros, Controle de Fluxo e Automação de Tarefas*  
+📊 **Slides da Apresentação:** [Acessar Slides do Módulo 04](slides_04_automacao_shell_scripting.html){target="_blank" rel="noopener"}
 
 ---
 

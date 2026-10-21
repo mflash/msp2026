@@ -24,9 +24,11 @@
 
 ![](img/mgp.jpg)
 
-## Semana Acadêmica Integrada - PUCRS/Escola Politécnica - 2026
+## Semana Acadêmica Integrada - PUCRS / Escola Politécnica - 2026
 
-Profs. Edson Ifarraguirre Moreno e Marcelo Cohen
+**Profs. Edson Ifarraguirre Moreno e Marcelo Cohen**  
+*Módulo 01 — Shell Unix, Terminal, Linha de Comando, FHS e Permissões*  
+📊 **Slides da Apresentação:** [Acessar Slides do Módulo 01](slides_01_shell.html){target="_blank" rel="noopener"}
 
 ---
 

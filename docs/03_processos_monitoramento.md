@@ -26,7 +26,8 @@
 ## Semana Acadêmica Integrada - PUCRS / Escola Politécnica - 2026
 
 **Profs. Edson Ifarraguirre Moreno e Marcelo Cohen**  
-*Módulo 03 — Gerenciamento de Processos, Job Control, Sinais e Diagnóstico de Recursos*
+*Módulo 03 — Gerenciamento de Processos, Job Control, Sinais e Diagnóstico de Recursos*  
+📊 **Slides da Apresentação:** [Acessar Slides do Módulo 03](slides_03_processos_monitoramento.html){target="_blank" rel="noopener"}
 
 ---
 

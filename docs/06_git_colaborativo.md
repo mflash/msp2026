@@ -26,7 +26,8 @@
 ## Semana Acadêmica Integrada - PUCRS / Escola Politécnica - 2026
 
 **Profs. Edson Ifarraguirre Moreno e Marcelo Cohen**  
-*Módulo 06 — Sistemas de Controle de Versão Distribuídos, os Três Estados, Branches e Fluxos em Equipe*
+*Módulo 06 — Sistemas de Controle de Versão Distribuídos, os Três Estados, Branches e Fluxos em Equipe*  
+📊 **Slides da Apresentação:** [Acessar Slides do Módulo 06](slides_06_git_colaborativo.html){target="_blank" rel="noopener"}
 
 ---
 
