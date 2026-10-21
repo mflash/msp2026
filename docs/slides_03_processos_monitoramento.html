@@ -210,8 +210,11 @@
         </p>
 
         <div style="max-width: 960px; margin: 0.2rem auto; text-align: center;">
-          <img src="img/linux-process-lifecycle.svg" alt="Ciclo de Vida de Processos no Linux"
-            style="width: 100%; max-height: 440px; object-fit: contain; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.45); display: block; margin: 0 auto;">
+          <a href="img/linux-process-lifecycle.svg" target="_blank" title="Clique para abrir o SVG em nova aba"
+            style="display: block; text-decoration: none;">
+            <img src="img/linux-process-lifecycle.svg" alt="Ciclo de Vida de Processos no Linux"
+              style="width: 100%; max-height: 440px; object-fit: contain; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.45); display: block; margin: 0 auto; cursor: pointer;">
+          </a>
         </div>
 
         <aside class="notes">
@@ -250,21 +253,21 @@ python3 -m http.server 8080 &
 
           <div class="card" style="border-left: 3.5px solid var(--event-yellow); padding: 0.8rem 1.1rem;">
             <h4 style="font-size: 0.82em; margin-bottom: 0.35em;">2. Controle de Tarefas (Job Control)</h4>
-            <ul style="list-style: none; margin-left: 0; padding-left: 0; font-size: 0.56em; line-height: 1.42;">
+            <ul style="list-style: none; margin-left: 0; padding-left: 0; font-size: 0.66em; line-height: 1.42;">
               <li style="margin-bottom: 0.4em;">
-                <span class="tag" style="font-size: 0.85em;">Ctrl + Z</span> ➔ <strong>Pausa</strong> a execução
+                <span class="tag" style="font-size: 1.15em;">Ctrl + Z</span> ➔ <strong>Pausa</strong> a execução
                 (<code>SIGTSTP</code>) e devolve o prompt.
               </li>
               <li style="margin-bottom: 0.4em;">
-                <span class="tag" style="font-size: 0.85em;">jobs</span> ➔ Lista tarefas gerenciadas pela sessão atual
+                <span class="tag" style="font-size: 1.15em;">jobs</span> ➔ Lista tarefas gerenciadas pela sessão atual
                 do shell.
               </li>
               <li style="margin-bottom: 0.4em;">
-                <span class="tag" style="font-size: 0.85em;">bg</span> ➔ Retoma a tarefa pausada em <strong>segundo
+                <span class="tag" style="font-size: 1.15em;">bg</span> ➔ Retoma a tarefa pausada em <strong>segundo
                   plano</strong> (background).
               </li>
               <li>
-                <span class="tag" style="font-size: 0.85em;">fg</span> ➔ Traz a tarefa de volta para o <strong>primeiro
+                <span class="tag" style="font-size: 1.15em;">fg</span> ➔ Traz a tarefa de volta para o <strong>primeiro
                   plano</strong> (foreground).
               </li>
             </ul>

@@ -293,7 +293,8 @@
               <li style="margin-bottom: 0.35em;"><strong>Falta contexto essencial:</strong> não traz data/hora,
                 severidade nem arquivo/linha.</li>
               <li style="margin-bottom: 0.35em;"><strong>Perda em falhas críticas:</strong> em crashes (como
-                <em>Segfault</em> em C), o buffer do <code>stdout</code> pode não descarregar a tempo.</li>
+                <em>Segfault</em> em C), o buffer do <code>stdout</code> pode não descarregar a tempo.
+              </li>
               <li><strong>Sem controle seletivo:</strong> impossível silenciar sem editar ou apagar o código antes de ir
                 para produção.</li>
             </ul>
@@ -355,7 +356,7 @@ def calcular_desconto(preco, percentual):
           </div>
 
           <div class="card" style="padding: 0.7rem 0.95rem;">
-            <h4 style="font-size: 0.75em; margin-bottom: 0.25em;">Uso e Filtragem no Terminal (Módulo 02)</h4>
+            <h4 style="font-size: 0.75em; margin-bottom: 0.25em;">Uso e Filtragem no Terminal<br>(Módulo 02)</h4>
             <pre style="margin: 0;"><code class="language-bash" style="font-size: 0.62em !important; line-height: 1.25 !important; padding: 0.45rem 0.7rem !important;"># 1. Executa direcionando logs (stderr) para arquivo
 python3 faturamento.py 2> app.log
 
@@ -406,8 +407,11 @@ grep -oE "\[(DEBUG|INFO|WARNING|ERROR|CRITICAL)" app.log \
 
           <div
             style="background: rgba(15, 23, 42, 0.6); padding: 0.5rem; border-radius: 12px; border: 1.5px solid var(--card-border); box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);">
-            <img src="img/linux-profiling-flamegraph.svg" alt="Conceito do Flame Graph"
-              style="width: 100%; max-height: 380px; object-fit: contain; display: block;">
+            <a href="img/linux-profiling-flamegraph.svg" target="_blank" title="Clique para abrir o SVG em nova aba"
+              style="display: block; text-decoration: none;">
+              <img src="img/linux-profiling-flamegraph.svg" alt="Conceito do Flame Graph"
+                style="width: 100%; max-height: 380px; object-fit: contain; display: block; cursor: pointer;">
+            </a>
           </div>
         </div>
 
@@ -442,7 +446,7 @@ py-spy record -o perfil_execucao.svg -- python3 analise_logs.py</code></pre>
               <li style="margin-bottom: 0.25em;">A função <code>verificar_blacklist</code> vira um <strong>platô gigante
                   de 34% de CPU</strong>!</li>
               <li style="color: var(--event-yellow); margin-top: 0.3em;">
-                <strong>A Causa:</strong> busca linear <code>ip in blacklist_lista</code> com complexidade
+                <strong>A Causa:</strong> busca linear em <code>blacklist_lista</code> com complexidade
                 <em>O(N)</em>.<br>
                 <strong>A Solução:</strong> trocar para <code>set</code> com complexidade <em>O(1)</em> reduz o tempo a
                 quase zero!
@@ -500,8 +504,11 @@ py-spy record -o perfil_execucao.svg -- python3 analise_logs.py</code></pre>
 
           <div
             style="background: rgba(15, 23, 42, 0.6); padding: 0.5rem; border-radius: 12px; border: 1.5px solid var(--card-border); box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);">
-            <img src="img/linux-kcachegrind.svg" alt="Grafo de Chamadas KCachegrind"
-              style="width: 100%; max-height: 380px; object-fit: contain; display: block;">
+            <a href="img/linux-kcachegrind.svg" target="_blank" title="Clique para abrir o SVG em nova aba"
+              style="display: block; text-decoration: none;">
+              <img src="img/linux-kcachegrind.svg" alt="Grafo de Chamadas KCachegrind"
+                style="width: 100%; max-height: 380px; object-fit: contain; display: block; cursor: pointer;">
+            </a>
           </div>
         </div>
 
